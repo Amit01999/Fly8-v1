@@ -1,0 +1,50 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface SignupData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phone: string;
+  country: string;
+}
+
+interface AuthState {
+  signupData?: SignupData | null;
+  loading: boolean;
+  token: string | null;
+}
+
+const initialState: AuthState = {
+  signupData: {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    phone: '',
+    country: '',
+  },
+  loading: false,
+  token: localStorage.getItem('token')
+    ? JSON.parse(localStorage.getItem('token') as string)
+    : null,
+};
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    setSignupData(state, action: PayloadAction<SignupData>) {
+      state.signupData = action.payload;
+    },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
+    },
+    setToken(state, action: PayloadAction<string | null>) {
+      state.token = action.payload;
+    },
+  },
+});
+
+export const { setSignupData, setLoading, setToken } = authSlice.actions;
+export default authSlice.reducer;

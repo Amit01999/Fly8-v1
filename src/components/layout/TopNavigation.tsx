@@ -5,6 +5,8 @@ import { ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import UserRoleToggle, { UserRole } from '../shared/UserRoleToggle';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 type NavItem = {
   title: string;
@@ -24,7 +26,7 @@ const navItems: Record<UserRole, NavItem> = {
       { label: 'Study Guide', href: '/study-guide' },
     ],
   },
-  agency: {
+  partners: {
     title: 'For Agents',
     links: [
       { label: 'Partner Dashboard', href: '/partner-dashboard' },
@@ -33,7 +35,7 @@ const navItems: Record<UserRole, NavItem> = {
       { label: 'Marketing Tools', href: '/marketing-tools' },
     ],
   },
-  university: {
+  institution: {
     title: 'For Universities',
     links: [
       { label: 'Student Applications', href: '/applications' },
@@ -51,9 +53,18 @@ type TopNavigationProps = {
 const TopNavigation = ({ isVisible }: TopNavigationProps) => {
   const [activeRole, setActiveRole] = useState<UserRole>('student');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const navigate = useNavigate();
   const closeMenu = () => setIsMenuOpen(false);
-
+  // 🔁 Redirect based on role (except for student)
+  // useEffect(() => {
+  //   if (activeRole === 'student') {
+  //     navigate('/'); // go to home
+  //   } else if (activeRole === 'partners') {
+  //     navigate('/partners');
+  //   } else if (activeRole === 'institution') {
+  //     navigate('/institution');
+  //   }
+  // }, [activeRole]);
   return (
     <AnimatePresence>
       {isVisible && (
@@ -67,11 +78,23 @@ const TopNavigation = ({ isVisible }: TopNavigationProps) => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
             <div className="flex justify-center ">
               <div className="w-full max-w-md">
+                {/* <UserRoleToggle
+                  activeRole={activeRole}
+                  onChange={role => {
+                    setActiveRole(role);
+                    setIsMenuOpen(true);
+                  }}
+                /> */}
                 <UserRoleToggle
                   activeRole={activeRole}
                   onChange={role => {
                     setActiveRole(role);
                     setIsMenuOpen(true);
+                  }}
+                  roleLinks={{
+                    student: '/',
+                    partners: '/partners',
+                    institution: '/institution',
                   }}
                 />
               </div>

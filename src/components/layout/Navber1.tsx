@@ -102,7 +102,7 @@ const Navber1 = () => {
             </nav>
 
             <div className="hidden md:flex items-center space-x-4">
-              <Link to="/signin">
+              <Link to="/signin/student">
                 <Button
                   variant="outline"
                   className="rounded-full px-6 border-primary/20 hover:border-primary hover:bg-primary/5"
@@ -110,7 +110,7 @@ const Navber1 = () => {
                   Log In
                 </Button>
               </Link>
-              <Link to="/signup">
+              <Link to="/signup/student">
                 <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-full px-6 shadow-md hover:shadow-lg transition-all">
                   Get Started
                 </Button>
@@ -151,7 +151,7 @@ const Navber1 = () => {
                 </Link>
               ))}
               <div className="flex flex-col space-y-3 px-5 pt-4">
-                <Link to="/signin">
+                <Link to="/signin/student">
                   <Button
                     variant="outline"
                     className="rounded-lg w-full border-primary/20"
@@ -159,7 +159,7 @@ const Navber1 = () => {
                     Log In
                   </Button>
                 </Link>
-                <Link to="/signup">
+                <Link to="/signup/student">
                   <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-lg w-full">
                     Get Started
                   </Button>
