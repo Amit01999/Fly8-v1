@@ -18,7 +18,9 @@ import {
 const StudentServicesDashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
   const menuItems = [
     {
       path: '/StudentDashboard/my-profile',
@@ -57,23 +59,11 @@ const StudentServicesDashboard = () => {
     },
   ];
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Mobile sidebar backdrop */}
-      {sidebarOpen && (
-        <div
-          className=" inset-0 z-20 bg-black  lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        ></div>
-      )}
-
+    <div className="flex lg:h-screen flex-1 relative bg-gray-50">
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-30 w-72 transform transition-transform duration-300 ease-in-out bg-gradient-to-b from-blue-700 to-indigo-800 text-white shadow-lg lg:translate-x-0 lg:static lg:inset-0 ${
+        className={`absolute top-0 left-0 z-30 w-64 h-full bg-gradient-to-b from-blue-700 to-indigo-800 text-white shadow-lg transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -164,8 +154,8 @@ const StudentServicesDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Top Bar */}
+      <div className="flex-1 flex flex-col min-h-screen">
+        {/* Top Bar inside content */}
         <header className="flex items-center justify-between h-20 px-6 bg-blue-100 border-b shadow-sm">
           <div className="flex items-center">
             <button
@@ -223,154 +213,22 @@ const StudentServicesDashboard = () => {
             </div>
           </div>
         </header>
-        <Outlet />
+
+        {/* Outlet */}
+        <main className="p-4 flex-1 bg-gray-50">
+          <Outlet />
+        </main>
       </div>
+
+      {/* Backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-20 bg-black bg-opacity-30 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
     </div>
   );
 };
 
 export default StudentServicesDashboard;
-
-// Layout.jsx or StudentServicesDashboard.jsx
-// import { useState } from 'react';
-// import { NavLink, Outlet } from 'react-router-dom';
-// import {
-//   FileText,
-//   Briefcase,
-//   Home,
-//   CreditCard,
-//   Heart,
-//   Plane,
-//   Menu,
-//   X,
-//   User,
-//   Bell,
-//   Settings,
-//   LogOut,
-// } from 'lucide-react';
-
-// const StudentServicesDashboard = () => {
-//   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-//   const menuItems = [
-//     {
-//       path: '/StudentDashboard/my-profile',
-//       title: 'Profile',
-//       icon: <User size={20} />,
-//     },
-//     {
-//       path: '/StudentDashboard/visa',
-//       title: 'Visa Assistance',
-//       icon: <FileText size={20} />,
-//     },
-//     {
-//       path: '/StudentDashboard/tickets',
-//       title: 'Ticket Booking',
-//       icon: <Plane size={20} />,
-//     },
-//     {
-//       path: '/StudentDashboard/accommodation',
-//       title: 'Accommodation Finder',
-//       icon: <Home size={20} />,
-//     },
-//     {
-//       path: '/StudentDashboard/jobs',
-//       title: 'Job Portal',
-//       icon: <Briefcase size={20} />,
-//     },
-//     {
-//       path: '/StudentDashboard/medical',
-//       title: 'Medical Support',
-//       icon: <Heart size={20} />,
-//     },
-//     {
-//       path: '/StudentDashboard/loans',
-//       title: 'Student Loan',
-//       icon: <CreditCard size={20} />,
-//     },
-//   ];
-
-//   return (
-//     <div className="flex flex-1 relative bg-gray-50">
-//       {/* Sidebar */}
-//       <div
-//         className={`absolute top-0 left-0 z-30 w-64 h-full bg-gradient-to-b from-blue-700 to-indigo-800 text-white shadow-lg transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 ${
-//           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-//         }`}
-//       >
-//         <div className="flex items-center justify-between h-16 px-4 border-b border-blue-600/30">
-//           <h1 className="text-xl font-bold">Student Hub</h1>
-//           <button
-//             className="lg:hidden text-white"
-//             onClick={() => setSidebarOpen(false)}
-//           >
-//             <X />
-//           </button>
-//         </div>
-//         <div className="px-4 py-6">
-//           <nav className="space-y-1">
-//             {menuItems.map(item => (
-//               <NavLink
-//                 key={item.path}
-//                 to={item.path}
-//                 onClick={() => setSidebarOpen(false)}
-//                 className={({ isActive }) =>
-//                   `flex items-center px-4 py-2 rounded-md transition ${
-//                     isActive
-//                       ? 'bg-white/10 text-white font-medium'
-//                       : 'text-blue-100 hover:bg-white/10'
-//                   }`
-//                 }
-//               >
-//                 <span className="mr-3">{item.icon}</span>
-//                 {item.title}
-//               </NavLink>
-//             ))}
-//           </nav>
-//           <div className="absolute bottom-4 left-4 right-4">
-//             <button className="w-full flex items-center justify-center bg-white/10 py-2 rounded-md text-white hover:bg-white/20">
-//               <LogOut size={16} className="mr-2" />
-//               Sign Out
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Main Content */}
-//       <div className="flex-1 flex flex-col min-h-screen">
-//         {/* Top Bar inside content */}
-//         <header className="flex items-center justify-between px-4 h-16 bg-white border-b shadow-sm">
-//           <button
-//             className="lg:hidden text-gray-700"
-//             onClick={() => setSidebarOpen(true)}
-//           >
-//             <Menu />
-//           </button>
-//           <div>
-//             <h2 className="text-lg font-semibold">Dashboard</h2>
-//             <p className="text-sm text-gray-500">Welcome back, John</p>
-//           </div>
-//           <div className="flex items-center space-x-4">
-//             <Bell size={20} className="text-gray-500" />
-//             <Settings size={20} className="text-gray-500" />
-//           </div>
-//         </header>
-
-//         {/* Outlet */}
-//         <main className="p-4 flex-1 bg-gray-50">
-//           <Outlet />
-//         </main>
-//       </div>
-
-//       {/* Backdrop */}
-//       {sidebarOpen && (
-//         <div
-//           className="fixed inset-0 z-20 bg-black bg-opacity-30 lg:hidden"
-//           onClick={() => setSidebarOpen(false)}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default StudentServicesDashboard;

@@ -137,3 +137,17 @@
 .clip-path-diagonal {
   clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 }
+
+@keyframes scroll-x {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-x {
+  animation: scroll-x 30s linear infinite;
+}

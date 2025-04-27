@@ -5,8 +5,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
 import CourseFinder from './pages/CourseFinder';
 import Countries from './pages/Countries';
 import CountryDetails from './pages/CountryDetails';
@@ -34,6 +32,12 @@ import JobPortal from './pages/student-dashboard/services/JobPortal';
 import MedicalSupport from './pages/student-dashboard/services/MedicalSupport';
 import StudentLoan from './pages/student-dashboard/services/StudentLoan';
 import StudentDashboardHomePage from './pages/student-dashboard/services/StudentDashboardHomePage';
+import ProfileAssessmentPage from './pages/StudentServicesPage/ProfileAssessmentPage';
+import FindProgram from './pages/StudentServicesPage/FindProgram';
+import FindUniversity from './pages/StudentServicesPage/FindUniversity';
+import ScholarshipFinder from './pages/StudentServicesPage/ScholarshipFinder';
+import LanguageTestPage from './pages/StudentServicesPage/LanguageTest';
+import EducationLoan from './pages/StudentServicesPage/EducationLoan';
 
 const queryClient = new QueryClient();
 
@@ -47,16 +51,36 @@ const App = () => (
           <Toaster />
           <Routes>
             <Route path="/" element={<Index />} />
-            {/* <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} /> */}
             <Route path="/course-finder" element={<CourseFinder />} />
             <Route path="/countries" element={<Countries />} />
             <Route path="/countries/:countryId" element={<CountryDetails />} />
-            <Route path="/courses" element={<Courses />} />
+            <Route path="/programs" element={<Courses />} />
             <Route path="/universities" element={<TopUniversities />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/partners" element={<AgencyPartners />} />
             <Route path="/institution" element={<InstitutionPartners />} />
+            {/* Student Services Routes*/}
+            <Route
+              path="/services/profile-assessment"
+              element={<ProfileAssessmentPage />}
+            />
+            <Route path="/services/find-program" element={<FindProgram />} />
+            <Route
+              path="/services/find-university"
+              element={<FindUniversity />}
+            />
+            <Route
+              path="/services/find-scholarship"
+              element={<ScholarshipFinder />}
+            />
+            <Route
+              path="/services/language-test"
+              element={<LanguageTestPage />}
+            />
+            <Route
+              path="/services/education-loan"
+              element={<EducationLoan />}
+            />
 
             {/* Auth Routes */}
             <Route path="/signin/student" element={<SignInStudent />} />

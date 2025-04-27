@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TopNavigation from './TopNavigation';
 import ServicesDrawer from './ServicesDrawe';
+import logo from '../../assets/logo/logo2.png';
 
 const Navber1 = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -37,10 +38,10 @@ const Navber1 = () => {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Countries', href: '/countries' },
-    { name: 'Courses', href: '/courses' },
-    { name: 'Universities', href: '/universities' },
+    { name: 'Programs', href: '/programs' },
     { name: 'Services', href: '#', onClick: () => setServicesOpen(true) },
     { name: 'Contact', href: '/contact' },
+    { name: 'AI Assistant', href: '/aiassistant', isHighlighted: true },
   ];
 
   // Calculate header top position based on TopNavigation visibility
@@ -53,7 +54,7 @@ const Navber1 = () => {
       <header
         className={`fixed left-0 right-0 z-40 transition-all duration-300 ${headerTopClass} ${
           isScrolled
-            ? 'bg-white dark:bg-gray-900 shadow-md py-2'
+            ? 'bg-white dark:bg-gray-900 shadow-md py-3'
             : 'bg-transparent py-4'
         }`}
       >
@@ -61,51 +62,53 @@ const Navber1 = () => {
         <Link to="/">
           <div className="max-container flex items-center justify-between">
             <div className="text-blue-600 font-bold text-2xl flex items-center gap-2">
-              <div className="relative w-10 h-10">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg transform rotate-45"></div>
-                <div className="absolute inset-1 bg-white rounded-lg transform rotate-45 flex items-center justify-center">
-                  <span className="transform -rotate-45 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-bold text-lg">
-                    F8
-                  </span>
-                </div>
-              </div>
-              <div>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-                  Fly8
-                </span>
-
-                <span className="block text-xs text-secondary 500 -mt-[2px]">
-                  Global Education
-                </span>
+              <div className="relative w-24">
+                <img src={logo} alt="Fly8" />
               </div>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden lg:flex items-center space-x-8">
               {navLinks.map(link => (
                 <Link
                   key={link.name}
                   to={link.href}
                   onClick={link.onClick}
                   className={`font-medium transition-colors duration-300 flex items-center ${
-                    isScrolled
-                      ? 'text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary'
-                      : 'text-gray-800 hover:text-primary dark:text-gray-200 dark:hover:text-primary'
+                    !link.isHighlighted
+                      ? isScrolled
+                        ? 'text-gray-700 hover:text-primary dark:text-gray-200 dark:hover:text-primary'
+                        : 'text-gray-800 hover:text-primary dark:text-gray-200 dark:hover:text-primary'
+                      : ''
                   }`}
                 >
-                  {link.name}
-                  {link.name === 'Services' && (
-                    <ChevronDown className="ml-1 h-4 w-4" />
+                  {link.isHighlighted ? (
+                    <div className="relative group">
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-blue-500 to-indigo-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition-all duration-500"></div>
+                      <div className="relative px-2 py-2 bg-white rounded-lg flex items-center space-x-2 border border-indigo-300/30 group-hover:border-emerald-300/50 transition-all duration-300">
+                        <Sparkles className="w-4 h-4 text-blue-600 group-hover:text-secondary transition-colors duration-300" />
+                        <span className="font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 via-violet-600 to-indigo-600 group-hover:from-primary group-hover:to-secondary transition-all duration-300">
+                          AI Assistant
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      {link.name}
+                      {link.name === 'Services' && (
+                        <ChevronDown className="ml-1 h-4 w-4" />
+                      )}
+                    </>
                   )}
                 </Link>
               ))}
             </nav>
 
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center space-x-4">
               <Link to="/signin/student">
                 <Button
                   variant="outline"
-                  className="rounded-full px-6 border-primary/20 hover:border-primary hover:bg-primary/5"
+                  className="rounded-full px-6 border-primary/20 hover:border-primary hover:bg-primary hover:text-white "
                 >
                   Log In
                 </Button>
@@ -119,7 +122,7 @@ const Navber1 = () => {
 
             {/* Mobile menu button */}
             <button
-              className="md:hidden text-gray-700 dark:text-gray-200"
+              className="lg:hidden text-gray-700 dark:text-gray-200"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -138,15 +141,28 @@ const Navber1 = () => {
                 <Link
                   key={link.name}
                   to={link.href}
-                  className="px-5 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg flex items-center justify-between"
                   onClick={() => {
                     if (link.onClick) link.onClick();
                     setIsMobileMenuOpen(false);
                   }}
                 >
-                  <span>{link.name}</span>
-                  {link.name === 'Services' && (
-                    <ChevronDown className="h-4 w-4" />
+                  {link.isHighlighted ? (
+                    <div className="relative group w-fit">
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-blue-500 to-indigo-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition-all duration-500"></div>
+                      <div className="relative px-2 py-2 bg-white rounded-lg flex items-center space-x-2 border border-indigo-300/30 group-hover:border-emerald-300/50 transition-all duration-300">
+                        <Sparkles className="w-4 h-4 text-blue-600 group-hover:text-secondary transition-colors duration-300" />
+                        <span className="font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 via-violet-600 to-indigo-600 group-hover:from-primary group-hover:to-secondary transition-all duration-300">
+                          AI Assistant
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="px-5 py-3 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg flex items-center justify-between">
+                      <span>{link.name}</span>
+                      {link.name === 'Services' && (
+                        <ChevronDown className="h-4 w-4" />
+                      )}
+                    </div>
                   )}
                 </Link>
               ))}
@@ -155,12 +171,20 @@ const Navber1 = () => {
                   <Button
                     variant="outline"
                     className="rounded-lg w-full border-primary/20"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                    }}
                   >
                     Log In
                   </Button>
                 </Link>
                 <Link to="/signup/student">
-                  <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-lg w-full">
+                  <Button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-lg w-full"
+                  >
                     Get Started
                   </Button>
                 </Link>

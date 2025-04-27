@@ -34,19 +34,19 @@ const serviceCategories: ServiceCategory[] = [
     title: 'Student Services',
     icon: <GraduationCap className="h-6 w-6 text-primary" />,
     services: [
-      { name: 'Education Loan', href: '/services/education-loan' },
-      { name: 'Accommodation', href: '/services/accommodation' },
-      { name: 'Virtual Internship', href: '/services/virtual-internship' },
+      { name: 'Profile Assessment', href: '/services/profile-assessment' },
+      { name: ' Find Program', href: '/services/find-program' },
       {
-        name: 'International Calling',
-        href: '/services/international-calling',
+        name: 'Find University',
+        href: '/services/find-university',
       },
-      { name: 'Money Transfer', href: '/services/money-transfer' },
-      { name: 'Health Insurance', href: '/services/health-insurance' },
+      { name: 'Find Scholarship', href: '/services/find-scholarship' },
+      { name: 'Language Test', href: '/services/language-test' },
+      { name: 'Education Loan', href: '/services/education-loan' },
     ],
   },
   {
-    title: 'Application Services',
+    title: 'Document Services',
     icon: <FileText className="h-6 w-6 text-amber-500" />,
     services: [
       {
@@ -56,6 +56,7 @@ const serviceCategories: ServiceCategory[] = [
       { name: 'Application Review', href: '/services/application-review' },
       { name: 'Visa Assistance', href: '/services/visa-assistance' },
       { name: 'SOP & LOR Help', href: '/services/sop-lor' },
+      { name: 'Medical Insurance', href: '/services/medical-insurance' },
     ],
   },
   {
@@ -63,9 +64,11 @@ const serviceCategories: ServiceCategory[] = [
     icon: <Plane className="h-6 w-6 text-blue-500" />,
     services: [
       { name: 'Flight Booking', href: '/services/flight-booking' },
+      { name: 'Hotel Booking', href: '/services/hotel-booking' },
       { name: 'Student Housing', href: '/services/student-housing' },
       { name: 'Airport Pickup', href: '/services/airport-pickup' },
       { name: 'Travel Insurance', href: '/services/travel-insurance' },
+      { name: 'Travel Package', href: '/services/travel-package' },
     ],
   },
   {
@@ -74,11 +77,13 @@ const serviceCategories: ServiceCategory[] = [
     services: [
       { name: 'Resume Building', href: '/services/resume-building' },
       {
-        name: 'Interview Preparation',
-        href: '/services/interview-preparation',
+        name: 'University Interview',
+        href: '/services/university-interview',
       },
       { name: 'Job Placement', href: '/services/job-placement' },
-      { name: 'Networking Events', href: '/services/networking-events' },
+      { name: 'Visa Interview', href: '/services/visa-interview' },
+      { name: 'Job Placement', href: '/services/job-placement' },
+      { name: 'Global Events', href: '/services/global-events' },
     ],
   },
 ];
