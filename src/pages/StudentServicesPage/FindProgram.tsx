@@ -15,8 +15,8 @@ import {
   ArrowUpRight,
   Search,
 } from 'lucide-react';
-import findproggtam from '../../assets/picture/StudentService/findcourse.png';
 import { Link } from 'react-router-dom';
+import heroimg from '@/assets/picture/DocumentServices/2.png';
 
 function FindProgram() {
   const programFeatures = [
@@ -145,8 +145,16 @@ function FindProgram() {
                 </span>
               </Link>
             </div>
-            <div className="w-full  md:w-1/2 relative">
-              <img src={findproggtam} alt="" />
+            <div className="w-full md:w-1/2 z-10">
+              <div className="relative">
+                <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-yellow-300 blur-lg opacity-60"></div>
+                <div className="absolute -right-6 -bottom-6 h-24 w-24 rounded-full bg-teal-300 blur-lg opacity-60"></div>
+                <img
+                  src={heroimg}
+                  alt="Students succeeding globally"
+                  className="relative z-10 rounded-3xl shadow-2xl w-full object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>

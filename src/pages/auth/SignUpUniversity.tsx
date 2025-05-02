@@ -46,8 +46,8 @@ const SignUpUniversity = () => {
 
   return (
     <AuthLayout>
-      <RoleToggle activeRole="university" />
-      <Card className="w-full max-w-md">
+      <RoleToggle activeRole="institution" />
+      <Card className="w-full">
         <CardHeader>
           <motion.div
             initial={{ opacity: 0, y: -20 }}

@@ -12,6 +12,7 @@ import {
   Compass,
   Medal,
 } from 'lucide-react';
+import heroimg from '@/assets/picture/StudentServices/1.png';
 
 export default function ProfileAssessmentPage() {
   const features = [

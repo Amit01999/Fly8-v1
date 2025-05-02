@@ -38,6 +38,22 @@ import FindUniversity from './pages/StudentServicesPage/FindUniversity';
 import ScholarshipFinder from './pages/StudentServicesPage/ScholarshipFinder';
 import LanguageTestPage from './pages/StudentServicesPage/LanguageTest';
 import EducationLoan from './pages/StudentServicesPage/EducationLoan';
+import DocumentVerification from './pages/DocumentServicesPage/DocumentVerification';
+import ApplicationReview from './pages/DocumentServicesPage/ApplicationReview';
+import VisaSupport from './pages/DocumentServicesPage/VisaSupportPage';
+import SOPLORSupport from './pages/DocumentServicesPage/SOPLORSupportPage';
+import MedicalInsurance from './pages/DocumentServicesPage/MedicalInsurancePage';
+import FlightBooking from './pages/TravelandAccommodationServices/FlightBookingPage';
+import StudentHousing from './pages/TravelandAccommodationServices/StudentHousing';
+import AirportPickup from './pages/TravelandAccommodationServices/AirportPickup';
+import TravelInsurance from './pages/TravelandAccommodationServices/TravelInsurance';
+import HotelBooking from './pages/TravelandAccommodationServices/HotelBookingPage';
+import TravelPackage from './pages/TravelandAccommodationServices/TravelPackage';
+import ResumeBuilding from './pages/CareerServices/ResumeBuilding';
+import UniversityInterview from './pages/CareerServices/UniversityInterview';
+import VisaInterview from './pages/CareerServices/VisaInterview';
+import JobPlacement from './pages/CareerServices/JobPlacement';
+import GlobalEvents from './pages/CareerServices/GlobalEvents';
 
 const queryClient = new QueryClient();
 
@@ -81,6 +97,61 @@ const App = () => (
               path="/services/education-loan"
               element={<EducationLoan />}
             />
+            {/* Document Services Routes*/}
+            <Route
+              path="/services/document-verification"
+              element={<DocumentVerification />}
+            />
+            <Route
+              path="/services/application-review"
+              element={<ApplicationReview />}
+            />
+            <Route path="/services/visa-assistance" element={<VisaSupport />} />
+            <Route path="/services/sop-lor" element={<SOPLORSupport />} />
+            <Route
+              path="/services/medical-insurance"
+              element={<MedicalInsurance />}
+            />
+            {/* Travel & Accommodation Services Routes*/}
+            <Route
+              path="/services/flight-booking"
+              element={<FlightBooking />}
+            />
+            <Route path="/services/hotel-booking" element={<HotelBooking />} />
+            <Route
+              path="/services/student-housing"
+              element={<StudentHousing />}
+            />
+            <Route
+              path="/services/airport-pickup"
+              element={<AirportPickup />}
+            />
+            <Route
+              path="/services/travel-insurance"
+              element={<TravelInsurance />}
+            />
+
+            <Route
+              path="/services/travel-package"
+              element={<TravelPackage />}
+            />
+
+            {/* Career Services Routes */}
+
+            <Route
+              path="/services/resume-building"
+              element={<ResumeBuilding />}
+            />
+            <Route
+              path="/services/university-interview"
+              element={<UniversityInterview />}
+            />
+            <Route
+              path="/services/visa-interview"
+              element={<VisaInterview />}
+            />
+            <Route path="/services/job-placement" element={<JobPlacement />} />
+            <Route path="/services/global-events" element={<GlobalEvents />} />
 
             {/* Auth Routes */}
             <Route path="/signin/student" element={<SignInStudent />} />
@@ -90,7 +161,6 @@ const App = () => (
             <Route path="/signup/partner" element={<SignUpAgency />} />
             <Route path="/signup/institution" element={<SignUpUniversity />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
-
             {/* Student Dashboard*/}
             <Route path="/StudentDashboard" element={<StudentDashboard />}>
               <Route

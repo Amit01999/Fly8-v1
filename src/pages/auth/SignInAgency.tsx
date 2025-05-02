@@ -37,8 +37,8 @@ const SignInAgency = () => {
 
   return (
     <AuthLayout>
-      <RoleToggle activeRole="agency" />
-      <Card className="w-full max-w-md">
+      <RoleToggle activeRole="partner" />
+      <Card className="w-full ">
         <CardHeader>
           <motion.div
             initial={{ opacity: 0, y: -20 }}

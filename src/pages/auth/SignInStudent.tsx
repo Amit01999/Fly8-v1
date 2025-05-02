@@ -36,7 +36,7 @@ const SignInStudent = () => {
   return (
     <AuthLayout>
       <RoleToggle activeRole="student" />
-      <Card className="w-full max-w-md">
+      <Card className="w-full ">
         <CardHeader>
           <motion.div
             initial={{ opacity: 0, y: -20 }}

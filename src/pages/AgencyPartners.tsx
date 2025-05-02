@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import {
   ArrowRight,
@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import PageContainer from '@/components/layout/PageContainer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Link } from 'react-router-dom';
 
 const AgencyPartners = () => {
   // References for scroll animations
@@ -36,57 +37,7 @@ const AgencyPartners = () => {
     amount: 0.2,
   });
 
-  const platformFeatures = [
-    {
-      id: 'dashboard',
-      title: 'Partner Dashboard',
-      short: 'Real-time analytics and insights',
-      description:
-        'Track all your applications, commissions, and performance metrics in one place',
-      icon: BarChart3,
-      image:
-        'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80',
-      bullets: [
-        'Real-time application tracking',
-        'Commission calculations',
-        'Performance analytics',
-        'Custom reporting',
-      ],
-    },
-    {
-      id: 'leads',
-      title: 'Lead Management',
-      short: 'Organize and track student inquiries',
-      description:
-        'Our advanced CRM helps you manage your student pipeline efficiently',
-      icon: Users,
-      image:
-        'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80',
-      bullets: [
-        'Student CRM',
-        'Automated follow-ups',
-        'Lead scoring',
-        'Conversion tracking',
-      ],
-    },
-    {
-      id: 'documents',
-      title: 'Document Portal',
-      short: 'Secure document submission',
-      description:
-        'Upload and manage all student documents in our secure portal',
-      icon: FileText,
-      image:
-        'https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80',
-      bullets: [
-        'Secure uploads',
-        'Document tracking',
-        'Automatic notifications',
-        'Version control',
-      ],
-    },
-  ];
-
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
       {/* Hero Section */}
@@ -104,27 +55,31 @@ const AgencyPartners = () => {
               </span>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Partner with Fly8 to Connect Students Globally
+                Partner with Fly8 Grow Globally
               </h1>
 
               <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-xl mx-auto lg:mx-0">
-                Join our global network of education consultants and help
-                transform the future of thousands of students while growing your
-                business.
+                Join our dynamic partner ecosystem to promote your services and
+                reach students worldwide. Whether you offer accommodation,
+                insurance, coaching, travel, or career services — we help you
+                grow.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-4">
-                <Button
-                  size="lg"
-                  className="px-8 rounded-full bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg transition-all"
-                >
-                  Become a Partner <ArrowRight className="ml-2" size={18} />
-                </Button>
+                <Link to={'/signin/partner'}>
+                  <Button
+                    size="lg"
+                    className="px-8 rounded-full bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg transition-all"
+                  >
+                    Become a Fly8 Partner
+                    <ArrowRight className="ml-2" size={18} />
+                  </Button>
+                </Link>
 
                 <Button
                   variant="outline"
                   size="lg"
-                  className="px-8 rounded-full border-primary/20 hover:border-primary hover:bg-primary/5"
+                  className="px-8 rounded-full border-primary/20 hover:border-primary hover:bg-primary"
                 >
                   Schedule a Demo
                 </Button>
@@ -200,60 +155,108 @@ const AgencyPartners = () => {
           </svg>
         </div>
       </section>
+      {/* Benefits Section */}
+      <section
+        className="py-16 w-full bg-gradient-to-br from-gray-50 to-slate-100  px-4 md:px-14 relative overflow-hidden "
+        ref={benefitsRef}
+      >
+        {/* Background decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+          <div className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-br from-purple-200/60 to-blue-200/60 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-br from-pink-200/60 to-orange-200/60 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-64 bg-gradient-to-r from-cyan-200/30 to-teal-200/30 rounded-full blur-3xl"></div>
+        </div>
+        <div className="text-center max-container mb-16">
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={benefitsInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5 }}
+            className="px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4 inline-block"
+          >
+            Partner Benefits
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={benefitsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-4xl md:text-5xl font-bold mb-4"
+          >
+            Why Partner With{' '}
+            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Fly8
+            </span>{' '}
+            ?
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={benefitsInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-gray-600 max-w-3xl mx-auto"
+          >
+            Leverage our brand, community, and digital reach to scale your
+            business, promote your products, and earn revenue through meaningful
+            student connections.
+          </motion.p>
+        </div>
+        <div className="max-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="relative group"
+              onMouseEnter={() => setHoveredCard(index)}
+              onMouseLeave={() => setHoveredCard(null)}
+              style={{
+                transition: 'transform 0.3s ease',
+                transform: hoveredCard === index ? 'translateY(-8px)' : 'none',
+              }}
+            >
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${feature.lightColor} opacity-0 group-hover:opacity-100 rounded-2xl transition-all duration-500 -z-10 scale-90 group-hover:scale-105`}
+              ></div>
+              <div className="bg-white backdrop-blur-sm rounded-2xl p-6 h-full transition-all duration-300 shadow-md group-hover:shadow-xl group-hover:shadow-gray-200/80 border border-gray-100">
+                <div className="flex flex-col items-start">
+                  <div
+                    className={`text-3xl mb-6 ${feature.iconBg} text-white w-16 h-16 flex items-center justify-center rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    {feature.icon}
+                  </div>
+                  <h3 className="font-bold text-xl text-gray-800 mb-3 group-hover:text-indigo-600 transition-colors duration-300">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600">{feature.description}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA Button */}
+        <div className="mt-16 text-center">
+          <button className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full blur opacity-70 group-hover:opacity-100 transition duration-200"></div>
+            <span className="relative flex items-center gap-2 bg-gradient-to-br from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 shadow-lg">
+              Start Partnering Now
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 transition-transform group-hover:translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </section>
 
       {/* Main Content */}
       <PageContainer>
-        {/* Benefits Section */}
-        <section className="py-20" ref={benefitsRef}>
-          <div className="text-center mb-16">
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={benefitsInView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.5 }}
-              className="px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4 inline-block"
-            >
-              Partner Benefits
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={benefitsInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-3xl md:text-4xl font-bold mb-4"
-            >
-              Why Partner With{' '}
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Fly8
-              </span>
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={benefitsInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-gray-600 max-w-2xl mx-auto"
-            >
-              Join thousands of successful education consultants who trust us to
-              help their students succeed
-            </motion.p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={benefit.title}
-                initial={{ opacity: 0, y: 30 }}
-                animate={benefitsInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                className="p-6 rounded-xl bg-white shadow-lg hover:shadow-xl border border-gray-100 transition-all hover:-translate-y-1"
-              >
-                <div className="w-12 h-12 flex items-center justify-center rounded-lg bg-gradient-to-r from-primary/20 to-secondary/20 mb-5">
-                  <benefit.icon className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
-                <p className="text-gray-600">{benefit.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
         {/*dasbord section */}
         <section className="py-12 sm:py-16 md:py-20 lg:py-28 relative overflow-hidden">
           {/* Background Elements */}
@@ -287,11 +290,12 @@ const AgencyPartners = () => {
                 transition={{ duration: 0.7, delay: 0.2 }}
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 sm:mb-4 lg:mb-6 leading-tight"
               >
-                Our{' '}
+                Why Promote on
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-blue-500 to-primary">
-                  Cutting-Edge
-                </span>{' '}
-                Platform
+                  {' '}
+                  Fly8{' '}
+                </span>
+                ?
               </motion.h2>
 
               <motion.p
@@ -300,8 +304,8 @@ const AgencyPartners = () => {
                 transition={{ duration: 0.7, delay: 0.3 }}
                 className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600"
               >
-                Designed specifically for education consultants to maximize
-                efficiency and deliver exceptional results
+                Our platform is built to amplify partner visibility and drive
+                conversions — organically and through paid placements.
               </motion.p>
             </div>
 
@@ -438,10 +442,10 @@ const AgencyPartners = () => {
             {/* Bottom Stats */}
             <div className="mt-12 sm:mt-16 md:mt-20 lg:mt-24 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
               {[
-                { number: '98%', label: 'Client Satisfaction' },
+                { number: '150+', label: 'Active Partners' },
                 { number: '24/7', label: 'Support Available' },
-                { number: '500+', label: 'Active Users' },
-                { number: '15+', label: 'Integration Options' },
+                { number: '100+', label: 'Student Transactions' },
+                { number: '8', label: 'Service Categories' },
               ].map((stat, idx) => (
                 <motion.div
                   key={idx}
@@ -462,7 +466,7 @@ const AgencyPartners = () => {
           </div>
 
           {/* Scrollbar hiding */}
-          <style tsx global>{`
+          <style>{`
             .scrollbar-hide::-webkit-scrollbar {
               display: none;
             }
@@ -482,9 +486,11 @@ const AgencyPartners = () => {
           >
             <div className="py-16 px-8">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold mb-4">Our Global Impact</h2>
+                <h2 className="text-3xl font-bold mb-4">
+                  Fly8 Around the World
+                </h2>
                 <p className="text-gray-600">
-                  Transforming education recruitment worldwide
+                  Trusted by students and service providers across the globe.
                 </p>
               </div>
 
@@ -662,12 +668,14 @@ const AgencyPartners = () => {
                 Join our network of successful education consultants and start
                 transforming students' lives today
               </p>
-              <Button
-                size="lg"
-                className="rounded-full bg-white text-primary hover:bg-white/90 px-8 shadow-lg"
-              >
-                Become a Partner <ArrowRight className="ml-2" size={18} />
-              </Button>
+              <Link to={'/signin/partner'}>
+                <Button
+                  size="lg"
+                  className="rounded-full bg-white text-primary hover:bg-white/90 px-8 shadow-lg"
+                >
+                  Become a Partner <ArrowRight className="ml-2" size={18} />
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </section>
@@ -675,51 +683,129 @@ const AgencyPartners = () => {
     </div>
   );
 };
-
-const benefits = [
+const platformFeatures = [
   {
-    icon: Globe,
-    title: 'Global Network',
+    id: 'dashboard',
+    title: 'Your Command Center for Growth',
+    short: 'Real-time analytics and insights',
     description:
-      'Access to 1500+ institutions across multiple countries with comprehensive program listings',
-  },
-  {
-    icon: Coins,
-    title: 'Competitive Commission',
-    description:
-      'Earn attractive commissions for successful student placements with timely payments',
-  },
-  {
-    icon: Users,
-    title: 'Dedicated Support',
-    description:
-      '24/7 support from our experienced team to help you and your students succeed',
-  },
-  {
-    icon: BadgeCheck,
-    title: 'Easy Processing',
-    description:
-      'Streamlined application process with real-time tracking and updates',
-  },
-  {
+      ' Our intuitive Partner Dashboard gives you everything you need to manage listings, track performance, and boost your sales',
     icon: BarChart3,
-    title: 'Performance Analytics',
-    description:
-      'Detailed insights and analytics to track your success and growth',
+    image:
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80',
+    bullets: [
+      'Monitor leads, traffic, and conversions',
+      'Launch promotions and offers easily',
+      'Direct access to student interest forms',
+      'Track every dollar earned transparently',
+      'Update offerings anytime from anywhere',
+      'Connect with our partner team instantly',
+    ],
   },
   {
-    icon: Handshake,
-    title: 'Training & Resources',
+    id: 'leads',
+    title: 'Lead Management',
+    short: 'Organize and track student inquiries',
     description:
-      'Comprehensive training and marketing resources to boost your business',
+      'Our advanced CRM helps you manage your student pipeline efficiently',
+    icon: Users,
+    image:
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80',
+    bullets: [
+      'Student CRM',
+      'Automated follow-ups',
+      'Lead scoring',
+      'Conversion tracking',
+    ],
+  },
+  {
+    id: 'documents',
+    title: 'Document Portal',
+    short: 'Secure document submission',
+    description: 'Upload and manage all student documents in our secure portal',
+    icon: FileText,
+    image:
+      'https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80',
+    bullets: [
+      'Secure uploads',
+      'Document tracking',
+      'Automatic notifications',
+      'Version control',
+    ],
+  },
+];
+const features = [
+  {
+    icon: '💼',
+    title: 'Sell Your Services',
+    description: 'Offer your product to global students.',
+    color: 'from-pink-500 to-rose-500',
+    lightColor: 'from-pink-100 to-rose-100',
+    iconBg: 'bg-pink-500',
+  },
+  {
+    icon: '🌎',
+    title: 'Expand Your Reach',
+    description: 'Promote to a worldwide student base.',
+    color: 'from-blue-500 to-cyan-500',
+    lightColor: 'from-blue-100 to-cyan-100',
+    iconBg: 'bg-blue-500',
+  },
+  {
+    icon: '🤝',
+    title: 'Brand Association',
+    description: 'Partner with a trusted study abroad platform.',
+    color: 'from-purple-500 to-indigo-500',
+    lightColor: 'from-purple-100 to-indigo-100',
+    iconBg: 'bg-purple-500',
+  },
+  {
+    icon: '🎯',
+    title: 'Targeted Promotions',
+    description: 'Feature your brand to relevant students.',
+    color: 'from-orange-500 to-amber-500',
+    lightColor: 'from-orange-100 to-amber-100',
+    iconBg: 'bg-orange-500',
+  },
+  {
+    icon: '📈',
+    title: 'Performance-Based Growth',
+    description: 'Scale as your success increases.',
+    color: 'from-emerald-500 to-teal-500',
+    lightColor: 'from-emerald-100 to-teal-100',
+    iconBg: 'bg-emerald-500',
+  },
+  {
+    icon: '💰',
+    title: 'Recurring Revenue',
+    description: 'Earn from long-term student needs.',
+    color: 'from-yellow-500 to-amber-500',
+    lightColor: 'from-yellow-100 to-amber-100',
+    iconBg: 'bg-yellow-500',
+  },
+  {
+    icon: '🔄',
+    title: 'Flexible Collaboration',
+    description: 'Tailored to fit your offerings.',
+    color: 'from-fuchsia-500 to-pink-500',
+    lightColor: 'from-fuchsia-100 to-pink-100',
+    iconBg: 'bg-fuchsia-500',
+  },
+  {
+    icon: '👥',
+    title: 'Dedicated Partner Support',
+    description: 'Always have a team to back you.',
+    color: 'from-sky-500 to-blue-500',
+    lightColor: 'from-sky-100 to-blue-100',
+    iconBg: 'bg-sky-500',
   },
 ];
 
 const stats = [
-  { value: '1,500+', label: 'Partner Institutions' },
-  { value: '50K+', label: 'Students Placed' },
-  { value: '100+', label: 'Countries' },
-  { value: '95%', label: 'Success Rate' },
+  { value: '25+', label: 'Study Destinations Served' },
+  { value: '10,000+', label: 'Students Reached' },
+  { value: '30+', label: ' Countries Offered' },
+  { value: '90%+', label: 'Success Rate' },
 ];
 
 const steps = [

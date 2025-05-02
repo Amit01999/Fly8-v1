@@ -11,7 +11,7 @@ import {
   Star,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
+import heroimg from '@/assets/picture/StudentServices/6.png';
 export default function EducationLoanPage() {
   const [hoverIndex, setHoverIndex] = useState(null);
 
@@ -136,7 +136,7 @@ export default function EducationLoanPage() {
               <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl transform perspective-1000 group">
                 <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-pink-500/10 z-10"></div>
                 <img
-                  src="https://bsmedia.business-standard.com/_media/bs/img/article/2024-09/17/thumb/featurecrop/1200X900/1726573667-858.jpg"
+                  src={heroimg}
                   alt="Global education opportunities"
                   className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
                 />
@@ -401,47 +401,30 @@ export default function EducationLoanPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="py-16 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative bg-gradient-to-r from-indigo-600 to-purple-700 rounded-3xl shadow-2xl overflow-hidden">
-            <div className="absolute inset-0">
-              <img
-                src="/api/placeholder/1200/400"
-                alt="Students on campus"
-                className="w-full h-full object-cover opacity-20"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/90 to-purple-700/90 mix-blend-multiply"></div>
+      <div className="relative max-w-6xl mx-auto rounded-3xl shadow-2xl backdrop-blur-sm mb-10">
+        {/* Background glow effects */}
+        <div className="relative bg-gradient-to-r from-indigo-500 to-blue-500 rounded-3xl overflow-hidden backdrop-blur-md">
+          {/* Overlay patterns */}
+
+          <div className="md:flex items-center justify-between p-10 md:p-16">
+            <div className="mb-10 md:mb-0 md:w-3/5 relative">
+              <div className="absolute -left-8 -top-8 w-16 h-16 rounded-full bg-white opacity-10"></div>
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                Sign up for loan consultation now!
+              </h3>
             </div>
 
-            <div className="relative px-6 py-16 sm:px-12 lg:px-16 flex flex-col md:flex-row items-center">
-              <div className="text-center md:text-left md:w-2/3">
-                <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-                  <span className="block text-indigo-200">
-                    Sign up for loan consultation now!
-                  </span>
-                </h2>
-              </div>
-              <div className="mt-8 md:mt-0 md:w-1/3 flex flex-col space-y-4 md:space-y-0 md:flex-row md:space-x-4 md:justify-end">
-                <Link
-                  to={'/signup/student'}
-                  className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-full text-indigo-700 bg-white hover:bg-indigo-50 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                >
-                  Apply Now
-                </Link>
-              </div>
-            </div>
-
-            {/* Curved bottom edge */}
-            <div className="absolute bottom-0 left-0 right-0">
-              <svg
-                viewBox="0 0 1440 80"
-                className="fill-current text-indigo-50"
-                preserveAspectRatio="none"
-                style={{ display: 'block' }}
-              >
-                <path d="M0,80 L1440,80 L1440,0 C1360,50 1120,80 720,80 C320,80 80,50 0,0 L0,80 Z"></path>
-              </svg>
-            </div>
+            {/* Modern animated button */}
+            <Link
+              to={'/signup/student'}
+              className="w-full md:w-auto bg-white hover:bg-indigo-50 text-indigo-700 rounded-full font-bold px-10 py-6 shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center gap-4 group relative overflow-hidden"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-50 to-transparent opacity-50 translate-x-full group-hover:animate-shimmer"></span>
+              <span className="text-lg"> Apply Now</span>
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white transition-all duration-300 group-hover:scale-110">
+                <ArrowRight className="h-5 w-5" />
+              </span>
+            </Link>
           </div>
         </div>
       </div>

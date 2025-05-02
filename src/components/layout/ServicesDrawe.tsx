@@ -80,7 +80,6 @@ const serviceCategories: ServiceCategory[] = [
         name: 'University Interview',
         href: '/services/university-interview',
       },
-      { name: 'Job Placement', href: '/services/job-placement' },
       { name: 'Visa Interview', href: '/services/visa-interview' },
       { name: 'Job Placement', href: '/services/job-placement' },
       { name: 'Global Events', href: '/services/global-events' },
