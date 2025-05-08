@@ -13,19 +13,18 @@ const Navber1 = () => {
   const [showTopNav, setShowTopNav] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [servicesOpen, setServicesOpen] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Set the header styling based on scroll position
+      // Apply scroll styling
       setIsScrolled(currentScrollY > 10);
 
-      // Hide top nav when scrolling down, show when scrolling up
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setShowTopNav(false);
-      } else if (currentScrollY < lastScrollY) {
+      // Only show TopNavigation if at the top (less than 50px for smooth experience)
+      if (currentScrollY < 50) {
         setShowTopNav(true);
+      } else {
+        setShowTopNav(false);
       }
 
       setLastScrollY(currentScrollY);
@@ -33,7 +32,7 @@ const Navber1 = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   const navLinks = [
     { name: 'Home', href: '/' },

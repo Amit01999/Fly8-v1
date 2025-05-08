@@ -1,22 +1,5 @@
 const mockCountries = [
   {
-    id: 'usa',
-    code: 'us',
-    name: 'United States',
-    flag: 'us',
-    summary:
-      'Home to world-renowned universities offering a wide range of programs with cutting-edge research facilities.',
-    backgroundImage:
-      'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&q=80&w=1200&h=800',
-    universities: 130,
-    ranking: '8 in Top 10',
-    stats: {
-      intlStudents: '1.1M+',
-      avgTuition: '$25,000/year',
-      workVisa: 'OPT up to 3 years',
-    },
-  },
-  {
     id: 'uk',
     code: 'gb',
     name: 'United Kingdom',
@@ -31,6 +14,23 @@ const mockCountries = [
       intlStudents: '600K+',
       avgTuition: '£20,000/year',
       workVisa: 'Graduate Route 2 years',
+    },
+  },
+  {
+    id: 'usa',
+    code: 'us',
+    name: 'United States',
+    flag: 'us',
+    summary:
+      'Home to world-renowned universities offering a wide range of programs with cutting-edge research facilities.',
+    backgroundImage:
+      'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&q=80&w=1200&h=800',
+    universities: 130,
+    ranking: '8 in Top 10',
+    stats: {
+      intlStudents: '1.1M+',
+      avgTuition: '$25,000/year',
+      workVisa: 'OPT up to 3 years',
     },
   },
   {
