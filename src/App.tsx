@@ -22,7 +22,7 @@ import SignUpAgency from './pages/auth/SignUpAgency';
 import SignUpUniversity from './pages/auth/SignUpUniversity';
 import VerifyEmail from './pages/auth/VerifyEmail';
 import { Toaster as HotToastToaster } from 'react-hot-toast';
-import StudentDeshboardHome from './components/StrudentDashbord/StudentDeshboardHome';
+import StudentDeshboardHome from './components/StrudentDashbord/DashboardSidebar';
 import StudentDashboard from './pages/student-dashboard/StudentDashboard';
 import VisaAssistance from './pages/student-dashboard/services/VisaAssistance';
 import TicketBooking from './pages/student-dashboard/services/TicketBooking';
@@ -53,6 +53,10 @@ import UniversityInterview from './pages/CareerServices/UniversityInterview';
 import VisaInterview from './pages/CareerServices/VisaInterview';
 import JobPlacement from './pages/CareerServices/JobPlacement';
 import GlobalEvents from './pages/CareerServices/GlobalEvents';
+import StudentDashboardHome from './pages/student-dashboard/StudentdashboadPage/StudentDashboardHome';
+import StudentAIAssistance from './pages/student-dashboard/StudentdashboadPage/StudentAIAssistance';
+import StudentBookAppointment from './pages/student-dashboard/StudentdashboadPage/StudentBookAppointment';
+import StudentUpdates from './pages/student-dashboard/StudentdashboadPage/StudentUpdates';
 
 const queryClient = new QueryClient();
 
@@ -62,9 +66,9 @@ const App = () => (
       <HotToastToaster />
       <Sonner />
       <BrowserRouter>
-        <Layout>
-          <Toaster />
-          <Routes>
+        <Toaster />
+        <Routes>
+          <Route element={<Layout />}>
             <Route path="/" element={<Index />} />
             <Route path="/course-finder" element={<CourseFinder />} />
             <Route path="/countries" element={<Countries />} />
@@ -160,35 +164,45 @@ const App = () => (
             <Route path="/signup/partner" element={<SignUpAgency />} />
             <Route path="/signup/institution" element={<SignUpUniversity />} />
             <Route path="/verify-email" element={<VerifyEmail />} />
-            {/* Student Dashboard*/}
-            <Route path="/StudentDashboard" element={<StudentDashboard />}>
-              <Route
-                path="/StudentDashboard/my-profile"
-                element={<StudentDashboardHomePage />}
-              />
-              <Route
-                path="/StudentDashboard/visa"
-                element={<VisaAssistance />}
-              />
-              <Route
-                path="/StudentDashboard/tickets"
-                element={<TicketBooking />}
-              />
-              <Route
-                path="/StudentDashboard/accommodation"
-                element={<AccommodationFinder />}
-              />
-              <Route path="/StudentDashboard/jobs" element={<JobPortal />} />
-              <Route
-                path="/StudentDashboard/medical"
-                element={<MedicalSupport />}
-              />
-              <Route path="/StudentDashboard/loans" element={<StudentLoan />} />
-            </Route>
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
+          </Route>
+          {/* Student Dashboard*/}
+          <Route path="/StudentDashboard" element={<StudentDashboard />}>
+            <Route
+              path="/StudentDashboard/my-profile"
+              element={<StudentDashboardHome />}
+            />
+            {/* Tab routes */}
+            <Route
+              path="/StudentDashboard/ai-assistance"
+              element={<StudentAIAssistance />}
+            />
+            <Route
+              path="/StudentDashboard/book-appointment"
+              element={<StudentBookAppointment />}
+            />
+            <Route
+              path="/StudentDashboard/updates"
+              element={<StudentUpdates />}
+            />
+            <Route path="/StudentDashboard/visa" element={<VisaAssistance />} />
+            <Route
+              path="/StudentDashboard/tickets"
+              element={<TicketBooking />}
+            />
+            <Route
+              path="/StudentDashboard/accommodation"
+              element={<AccommodationFinder />}
+            />
+            <Route path="/StudentDashboard/jobs" element={<JobPortal />} />
+            <Route
+              path="/StudentDashboard/medical"
+              element={<MedicalSupport />}
+            />
+            <Route path="/StudentDashboard/loans" element={<StudentLoan />} />
+          </Route>
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

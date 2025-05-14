@@ -57,7 +57,7 @@ export default function StudentSidebar() {
   // SidebarProvider must wrap this component in parent!
   return (
     <Sidebar variant="sidebar" collapsible="offcanvas">
-      <SidebarContent className="h-full bg-sky-800 p-0">
+      <SidebarContent className="h-full bg-gradient-to-b from-primary/90 via-secondary/70 to-background p-0">
         <SidebarGroup>
           <SidebarGroupLabel className="py-6 px-2 text-lg font-bold tracking-wide text-primary-foreground">
             Student Services

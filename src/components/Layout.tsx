@@ -26,6 +26,7 @@ import { motion, useScroll, useSpring } from 'framer-motion';
 import Navber1 from './layout/Navber1';
 import ModernFooter from '@/components/ModernFooter';
 import ChatbotButton from '@/components/ChatbotButton';
+import { Outlet } from 'react-router-dom';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -72,7 +73,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         style={{ scaleX }}
       />
       <Navber1 />
-      <main className="pt-32">{children}</main>
+      <main className="pt-32">
+        <Outlet />
+      </main>
       <ModernFooter />
       <ChatbotButton />
     </div>
