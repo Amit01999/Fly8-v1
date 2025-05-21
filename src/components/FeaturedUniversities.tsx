@@ -104,16 +104,16 @@ const UniversityPartnersSection = () => {
             {duplicatedUniversities.map((university, index) => (
               <div
                 key={`row1-${index}`}
-                className="bg-white rounded-lg shadow-lg p-4 w-48 h-32 flex flex-col items-center justify-center transition-transform duration-300 hover:shadow-xl hover:scale-105 hover:ring-2 hover:ring-blue-300 group"
+                className="bg-white mt-6 rounded-lg shadow-lg p-4 w-48 h-32 flex flex-col items-center justify-center transition-transform duration-300 hover:shadow-xl hover:scale-105 hover:ring-2 hover:ring-blue-300 group"
               >
                 <div className="flex items-center justify-center h-16 mb-2">
                   <img
                     src={university.logo}
                     alt={`${university.name} logo`}
-                    className="max-h-full max-w-full object-contain group-hover:opacity-100 opacity-80"
+                    className="max-h-12 max-w-[80px] object-contain transition-opacity duration-300 group-hover:opacity-100 opacity-80"
                   />
                 </div>
-                <p className="text-sm text-gray-800 font-medium text-center truncate w-full">
+                <p className="min-h-[1.5rem] text-center w-full truncate text-sm font-medium text-gray-800 antialiased">
                   {university.name}
                 </p>
               </div>
@@ -139,7 +139,7 @@ const UniversityPartnersSection = () => {
                   <img
                     src={university.logo}
                     alt={`${university.name} logo`}
-                    className="max-h-full max-w-full object-contain group-hover:opacity-100 opacity-80"
+                    className="max-h-12 max-w-[80px] object-contain transition-opacity duration-300 group-hover:opacity-100 opacity-80"
                   />
                 </div>
                 <p className="text-sm text-gray-800 font-medium text-center truncate w-full">

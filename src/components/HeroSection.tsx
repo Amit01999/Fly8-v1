@@ -321,7 +321,7 @@ const HeroSection = () => {
                   <GraduationCap className="h-4 w-4 text-white" />
                 </div>
                 <div>
-                  <p className="text-gray-900 font-bold">125K+</p>
+                  <p className="text-gray-900 font-bold">1.2K+</p>
                   <p className="text-gray-600 text-xs">Students</p>
                 </div>
               </motion.div>
@@ -338,8 +338,8 @@ const HeroSection = () => {
                   <Globe className="h-4 w-4 text-white" />
                 </div>
                 <div>
-                  <p className="text-gray-900 font-bold">1.5K+</p>
-                  <p className="text-gray-600 text-xs">Schools</p>
+                  <p className="text-gray-900 font-bold">4K+</p>
+                  <p className="text-gray-600 text-xs">Institutions</p>
                 </div>
               </motion.div>
 
@@ -355,7 +355,7 @@ const HeroSection = () => {
                   <Award className="h-4 w-4 text-white" />
                 </div>
                 <div>
-                  <p className="text-gray-900 font-bold">98%</p>
+                  <p className="text-gray-900 font-bold">92%</p>
                   <p className="text-gray-600 text-xs">Success Rate</p>
                 </div>
               </motion.div>

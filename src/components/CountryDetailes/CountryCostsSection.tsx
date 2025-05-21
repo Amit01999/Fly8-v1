@@ -89,7 +89,7 @@ export default function CountryCostsSection({
               <MapPin className="h-6 w-6 text-green-600" />
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-              Cost of Living in the UK
+              Cost of Living
             </h2>
           </div>
 

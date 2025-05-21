@@ -28,6 +28,7 @@ import CountryFAQs from '@/components/CountryDetailes/CountryFAQs';
 import CountryResourcesSection from '@/components/CountryDetailes/CountryResourcesSection';
 import SectionHeader from '@/components/CountryDetailes/CountrySectionHeader';
 import CountryQuickFacts from '@/components/CountryDetailes/CountryQuickFacts';
+import StudentForm from '@/components/Froms/StudentContactForm';
 // Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -304,6 +305,7 @@ const CountryDetails = () => {
           <SectionHeader>Student Life</SectionHeader>
           {/* Best Cities */}
           <CountryStudentLifeSection
+            containerVariants
             itemVariants
             bestCitiesData={country.bestCitiesData}
             studentLifeData={country.studentLifeData}
@@ -340,6 +342,17 @@ const CountryDetails = () => {
         >
           <SectionHeader>FAQs</SectionHeader>
           <CountryFAQs itemVariants faqs={country.faqs}></CountryFAQs>
+        </motion.div>
+        {/* Contact Us Section */}
+        <motion.div
+          ref={sectionRefs.faqs}
+          className="mb-16 pt-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <SectionHeader>Interested in studying abroad?</SectionHeader>
+          <StudentForm />
         </motion.div>
 
         {/* Back to Top Button */}
