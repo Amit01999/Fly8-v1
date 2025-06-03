@@ -117,7 +117,7 @@ export function login(
         throw new Error(response.data.message);
       }
       toast.success('Login Successful');
-      navigate('/StudentDashboard/my-profile');
+      navigate('/phantom/StudentDashboard/my-profile');
       // dispatch(setToken(response.data.token));
       // const userImage = response.data?.user?.image
       //   ? response.data.user.image

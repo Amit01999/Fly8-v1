@@ -239,7 +239,7 @@ function Countries() {
                       </div>
                     </div>
 
-                    <Link to={`/countries/${country.id}`}>
+                    <Link to={`/phantom/countries/${country.id}`}>
                       <motion.button
                         className="w-full bg-gradient-to-r from-indigo-500 to-blue-500 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-all duration-300 text-sm font-medium shadow-md shadow-indigo-200/50"
                         initial={false}

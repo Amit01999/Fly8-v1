@@ -223,7 +223,7 @@ const HeroSection = () => {
               >
                 <span className="relative z-10 flex items-center">
                   <Search className="mr-2 h-5 w-5" />
-                  <Link to={'/universities'}>Explore Universities</Link>
+                  <Link to={'/phantom/universities'}>Explore Universities</Link>
                   <motion.div
                     className="ml-2"
                     animate={{

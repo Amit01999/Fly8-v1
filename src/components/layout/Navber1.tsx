@@ -35,12 +35,17 @@ const Navber1 = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Countries', href: '/countries' },
-    { name: 'Programs', href: '/programs' },
+    { name: 'Home', href: '/phantom' },
+    { name: 'Countries', href: '/phantom/countries' },
+    { name: 'Universities', href: '/phantom/universities' },
+    { name: 'Programs', href: '/phantom/programs' },
     { name: 'Services', href: '#', onClick: () => setServicesOpen(true) },
-    { name: 'Contact', href: '/contact' },
-    { name: 'AI Assistant', href: '/aiassistant', isHighlighted: true },
+    { name: 'Contact', href: '/phantom/contact' },
+    {
+      name: 'AI Assistant',
+      href: '/phantom/aiassistant',
+      isHighlighted: true,
+    },
   ];
 
   // Calculate header top position based on TopNavigation visibility
@@ -58,7 +63,7 @@ const Navber1 = () => {
         }`}
       >
         {/* Logo and Navigation */}
-        <Link to="/">
+        <Link to="/phantom">
           <div className="max-container flex items-center justify-between">
             <div className="text-blue-600 font-bold text-2xl flex items-center gap-2">
               <div className="relative w-24">
@@ -104,7 +109,7 @@ const Navber1 = () => {
             </nav>
 
             <div className="hidden lg:flex items-center space-x-4">
-              <Link to="/signin/student">
+              <Link to="/phantom/signin/student">
                 <Button
                   variant="outline"
                   className="rounded-full px-6 border-primary/20 hover:border-primary hover:bg-primary hover:text-white "
@@ -112,7 +117,7 @@ const Navber1 = () => {
                   Log In
                 </Button>
               </Link>
-              <Link to="/signup/student">
+              <Link to="/phantom/signup/student">
                 <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-full px-6 shadow-md hover:shadow-lg transition-all">
                   Get Started
                 </Button>
@@ -166,7 +171,7 @@ const Navber1 = () => {
                 </Link>
               ))}
               <div className="flex flex-col space-y-3 px-5 pt-4">
-                <Link to="/signin/student">
+                <Link to="/phantom/signin/student">
                   <Button
                     variant="outline"
                     className="rounded-lg w-full border-primary/20"
@@ -177,7 +182,7 @@ const Navber1 = () => {
                     Log In
                   </Button>
                 </Link>
-                <Link to="/signup/student">
+                <Link to="/phantom/signup/student">
                   <Button
                     onClick={() => {
                       setIsMobileMenuOpen(false);
