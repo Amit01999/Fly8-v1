@@ -302,6 +302,11 @@ const Fly8Recruitment = () => {
       behavior: 'smooth',
     });
   };
+  const scrollToIntern = () => {
+    document.getElementById('scroll-ToIntern')?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  };
 
   return (
     <>
@@ -399,6 +404,7 @@ const Fly8Recruitment = () => {
               </Button>
 
               <Button
+                onClick={scrollToIntern}
                 variant="outline"
                 size="lg"
                 className="bg-white/10 border-white/30 text-white hover:bg-white/20 text-xl px-8 py-8 rounded-full backdrop-blur-sm transition-all duration-300"
@@ -454,11 +460,14 @@ const Fly8Recruitment = () => {
         </section>
 
         {/* Enhanced Responsibilities Section */}
-        <section className="relative py-20 px-4 bg-gradient-to-br from-gray-50 to-blue-50/30">
+        <section
+          id="scroll-ToIntern"
+          className="relative py-20 px-4 bg-gradient-to-br from-gray-50 to-blue-50/30"
+        >
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-5xl font-bold text-gray-800 mb-6 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
-                What You'll Do as a Fly8 Intern
+                What'll You Do As A Fly8 Intern
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                 Your exciting journey starts with these key responsibilities
