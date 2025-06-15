@@ -73,7 +73,7 @@ const App = () => (
         <Routes>
           {/* Coming Soon Page on Root */}
           <Route path="/" element={<ComingSoon />} />
-          <Route path="intern" element={<StudentInternFrom />} />
+          <Route path="/intern" element={<StudentInternFrom />} />
           {/* Full Website under /phantom */}
           <Route path="/phantom" element={<Layout />}>
             <Route index element={<Index />} />
