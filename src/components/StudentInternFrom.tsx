@@ -38,6 +38,7 @@ import {
   Star,
   ArrowRight,
   Sparkles,
+  Loader2,
 } from 'lucide-react';
 import ModernFooter from './ModernFooter';
 import Navber1 from './layout/Navber1';
@@ -86,7 +87,7 @@ const Fly8Recruitment = () => {
     twitter: '',
     tiktok: '',
   });
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const benefits = [
     {
       icon: Award,
@@ -244,7 +245,7 @@ const Fly8Recruitment = () => {
       });
       return;
     }
-
+    setIsSubmitting(true);
     try {
       const res = await fetch(
         'https://fly8-v1-server.vercel.app/api/v1/intern/apply',
@@ -266,6 +267,7 @@ const Fly8Recruitment = () => {
           result.message ||
           "Thank you for applying to Fly8. We'll contact you soon!",
       });
+      setIsSubmitting(false);
 
       // Reset
       setFormData({
@@ -993,7 +995,7 @@ const Fly8Recruitment = () => {
                     </div>
                   </div>
 
-                  <Button
+                  {/* <Button
                     type="submit"
                     className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white py-10 text-2xl font-bold rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
                   >
@@ -1001,7 +1003,38 @@ const Fly8Recruitment = () => {
                     <Sparkles className="mr-4 h-8 w-8" />
                     Submit Application
                     <ArrowRight className="ml-4 h-8 w-8" />
-                  </Button>
+                  </Button> */}
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    className={`relative w-full flex items-center justify-center gap-4 py-6 px-8 text-2xl font-semibold rounded-2xl shadow-lg transition-all duration-300 overflow-hidden
+    ${
+      isSubmitting
+        ? 'bg-gradient-to-r from-blue-400 to-purple-400 cursor-not-allowed'
+        : 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 hover:scale-105'
+    }
+    text-white group`}
+                  >
+                    {/* Sliding Shine Effect */}
+                    <span className="absolute inset-0 bg-white/20 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-[1200ms] ease-in-out z-0" />
+
+                    {/* Button Content */}
+                    <span className="relative z-10 flex items-center gap-3">
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="h-6 w-6 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="h-7 w-7" />
+                          Submit Application
+                          <ArrowRight className="h-7 w-7" />
+                        </>
+                      )}
+                    </span>
+                  </button>
                 </form>
               </CardContent>
             </Card>
