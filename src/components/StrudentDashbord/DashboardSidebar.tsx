@@ -32,51 +32,52 @@ import { useLocation } from 'react-router-dom';
 
 const services = [
   {
-    name: 'Preapplication Support',
-    icon: Shield,
-    to: '/dashboard/preparation-support',
-    color: 'bg-blue-500/20 text-blue-500',
-  },
-  {
     name: 'Profile Assessment',
     icon: UserRound,
-    to: '/dashboard/profile-assessment',
+    to: '/phantom/StudentDashboard/profile-assessment',
     color: 'bg-purple-500/20 text-purple-500',
   },
   {
+    name: 'Preapplication Support',
+    icon: Shield,
+    to: '/phantom/StudentDashboard/preparation-support',
+    color: 'bg-blue-500/20 text-blue-500',
+  },
+
+  {
     name: 'Apply University',
     icon: GraduationCap,
-    to: '/dashboard/apply-university',
+    to: '/phantom/StudentDashboard/apply-university',
     color: 'bg-green-500/20 text-green-500',
   },
   {
-    name: 'Document Support',
+    name: ' Visa & Interview Support',
     icon: PackageCheck,
-    to: '/dashboard/document-support',
+    to: '/phantom/StudentDashboard/document-support',
     color: 'bg-amber-500/20 text-amber-500',
   },
   {
-    name: 'VISA Support',
+    name: 'Ticket & Travel Support',
     icon: Ticket,
-    to: '/dashboard/visa-support',
+    to: '/phantom/StudentDashboard/visa-support',
     color: 'bg-red-500/20 text-red-500',
   },
   {
-    name: 'Find Accommodation',
+    name: 'Find Accomodation',
     icon: Building,
-    to: '/dashboard/accommodation-finder',
+    to: '/phantom/StudentDashboard/accommodation-finder',
     color: 'bg-cyan-500/20 text-cyan-500',
   },
   {
     name: 'Education Loan',
     icon: Wallet,
-    to: '/dashboard/student-loan',
+    to: '/phantom/StudentDashboard/student-loan',
     color: 'bg-emerald-500/20 text-emerald-500',
   },
   {
-    name: 'Find Jobs',
+    name: ' Find Jobs Abroad ',
     icon: Briefcase,
-    to: '/dashboard/job-portal',
+    to: '/phantom/StudentDashboard/job-portal',
     color: 'bg-indigo-500/20 text-indigo-500',
   },
 ];
@@ -85,31 +86,31 @@ const account = [
   {
     name: 'Subscriptions',
     icon: Receipt,
-    to: '/dashboard/subscriptions',
+    to: '/phantom/StudentDashboard/subscriptions',
     color: 'bg-fuchsia-500/20 text-fuchsia-500',
   },
   {
     name: 'Progress Report',
     icon: ListChecks,
-    to: '/dashboard/progress',
+    to: '/phantom/StudentDashboard/progress',
     color: 'bg-teal-500/20 text-teal-500',
   },
   {
     name: 'Payment History',
     icon: Wallet,
-    to: '/dashboard/payments',
+    to: '/phantom/StudentDashboard/payments',
     color: 'bg-rose-500/20 text-rose-500',
   },
   {
     name: 'Settings',
     icon: Cog,
-    to: '/dashboard/settings',
+    to: '/phantom/StudentDashboard/settings',
     color: 'bg-gray-500/20 text-gray-500',
   },
   {
     name: 'Help',
     icon: HelpCircle,
-    to: '/dashboard/help',
+    to: '/phantom/StudentDashboard/help',
     color: 'bg-orange-500/20 text-orange-500',
   },
 ];

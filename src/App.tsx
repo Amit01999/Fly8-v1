@@ -58,6 +58,8 @@ import VisaInterview from './pages/CareerServices/VisaInterview';
 import JobPlacement from './pages/CareerServices/JobPlacement';
 import GlobalEvents from './pages/CareerServices/GlobalEvents';
 import UniversityProfile from './pages/UniversityProfile';
+import ProfileAssessment from './pages/student-dashboard/services/PofileAssessment';
+import StudentInternFrom from './components/StudentInternFrom';
 
 const queryClient = new QueryClient();
 
@@ -71,7 +73,7 @@ const App = () => (
         <Routes>
           {/* Coming Soon Page on Root */}
           <Route path="/" element={<ComingSoon />} />
-
+          <Route path="intern" element={<StudentInternFrom />} />
           {/* Full Website under /phantom */}
           <Route path="/phantom" element={<Layout />}>
             <Route index element={<Index />} />
@@ -172,6 +174,7 @@ const App = () => (
               path="book-appointment"
               element={<StudentBookAppointment />}
             />
+            <Route path="profile-assessment" element={<ProfileAssessment />} />
             <Route path="updates" element={<StudentUpdates />} />
             <Route path="visa" element={<VisaAssistance />} />
             <Route path="tickets" element={<TicketBooking />} />
