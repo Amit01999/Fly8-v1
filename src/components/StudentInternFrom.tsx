@@ -166,10 +166,71 @@ const Fly8Recruitment = () => {
     }));
   };
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+  //   // Basic validation
+  //   if (
+  //     !formData.fullName ||
+  //     !formData.email ||
+  //     !formData.whatsappNumber ||
+  //     !formData.university
+  //   ) {
+  //     toast({
+  //       title: 'Error',
+  //       description: 'Please fill in all required fields',
+  //       variant: 'destructive',
+  //     });
+  //     return;
+  //   }
+
+  //   try {
+  //     // For now, we'll just log the data and show success
+  //     // In a real application with MongoDB, you would send this to your backend
+  //     console.log('Form Data:', formData);
+
+  //     // Simulate API call
+  //     setTimeout(() => {
+  //       toast({
+  //         title: 'Application Submitted Successfully! 🎉',
+  //         description:
+  //           "Thank you for applying to Fly8. We'll contact you soon!",
+  //       });
+
+  //       // Reset form
+  //       setFormData({
+  //         fullName: '',
+  //         whatsappNumber: '',
+  //         email: '',
+  //         gender: '',
+  //         presentAddress: '',
+  //         permanentAddress: '',
+  //         idNumber: '',
+  //         university: '',
+  //         department: '',
+  //         currentYear: '',
+  //         academicSession: '',
+  //         careerGoal: '',
+  //         studyRegions: '',
+  //         facebook: '',
+  //         linkedin: '',
+  //         instagram: '',
+  //         twitter: '',
+  //         tiktok: '',
+  //       });
+  //     }, 1000);
+  //   } catch (error) {
+  //     toast({
+  //       title: 'Error',
+  //       description: 'Failed to submit application. Please try again.',
+  //       variant: 'destructive',
+  //     });
+  //   }
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic validation
     if (
       !formData.fullName ||
       !formData.email ||
@@ -185,40 +246,48 @@ const Fly8Recruitment = () => {
     }
 
     try {
-      // For now, we'll just log the data and show success
-      // In a real application with MongoDB, you would send this to your backend
-      console.log('Form Data:', formData);
+      const res = await fetch(
+        'https://fly8-v1-server.vercel.app/api/v1/intern/apply',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-      // Simulate API call
-      setTimeout(() => {
-        toast({
-          title: 'Application Submitted Successfully! 🎉',
-          description:
-            "Thank you for applying to Fly8. We'll contact you soon!",
-        });
+      if (!res.ok) throw new Error('Failed to submit');
 
-        // Reset form
-        setFormData({
-          fullName: '',
-          whatsappNumber: '',
-          email: '',
-          gender: '',
-          presentAddress: '',
-          permanentAddress: '',
-          idNumber: '',
-          university: '',
-          department: '',
-          currentYear: '',
-          academicSession: '',
-          careerGoal: '',
-          studyRegions: '',
-          facebook: '',
-          linkedin: '',
-          instagram: '',
-          twitter: '',
-          tiktok: '',
-        });
-      }, 1000);
+      const result = await res.json();
+      toast({
+        title: 'Application Submitted Successfully! 🎉',
+        description:
+          result.message ||
+          "Thank you for applying to Fly8. We'll contact you soon!",
+      });
+
+      // Reset
+      setFormData({
+        fullName: '',
+        whatsappNumber: '',
+        email: '',
+        gender: '',
+        presentAddress: '',
+        permanentAddress: '',
+        idNumber: '',
+        university: '',
+        department: '',
+        currentYear: '',
+        academicSession: '',
+        careerGoal: '',
+        studyRegions: '',
+        facebook: '',
+        linkedin: '',
+        instagram: '',
+        twitter: '',
+        tiktok: '',
+      });
     } catch (error) {
       toast({
         title: 'Error',
