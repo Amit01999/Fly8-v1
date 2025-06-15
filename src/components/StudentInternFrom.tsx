@@ -491,7 +491,7 @@ const Fly8Recruitment = () => {
                       <div className="group">
                         <Label
                           htmlFor="fullName"
-                          className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2"
+                          className="text-sm font-semibold text-gray-700 mb-3 items-center gap-2"
                         >
                           <User className="w-4 h-4" />
                           Full Name *
@@ -510,7 +510,7 @@ const Fly8Recruitment = () => {
                       <div className="group">
                         <Label
                           htmlFor="whatsappNumber"
-                          className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2"
+                          className="text-sm font-semibold text-gray-700 mb-3  items-center gap-2"
                         >
                           <Phone className="w-4 h-4" />
                           WhatsApp Number *
@@ -532,7 +532,7 @@ const Fly8Recruitment = () => {
                       <div className="group">
                         <Label
                           htmlFor="email"
-                          className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2"
+                          className="text-sm font-semibold text-gray-700 mb-3  items-center gap-2"
                         >
                           <Mail className="w-4 h-4" />
                           Email Address *
@@ -579,7 +579,7 @@ const Fly8Recruitment = () => {
                       <div className="group">
                         <Label
                           htmlFor="presentAddress"
-                          className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2"
+                          className="text-sm font-semibold text-gray-700 mb-3  items-center gap-2"
                         >
                           <MapPin className="w-4 h-4" />
                           Present Address *
@@ -598,7 +598,7 @@ const Fly8Recruitment = () => {
                       <div className="group">
                         <Label
                           htmlFor="permanentAddress"
-                          className="text-sm font-semibold text-gray-700 mb-3 block flex items-center gap-2"
+                          className="text-sm font-semibold text-gray-700 mb-3  items-center gap-2"
                         >
                           <MapPin className="w-4 h-4" />
                           Permanent Address *
