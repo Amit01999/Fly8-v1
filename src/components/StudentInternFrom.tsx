@@ -154,8 +154,8 @@ const Fly8Recruitment = () => {
     },
     {
       icon: Globe,
-      title: 'Visa Processing Support',
-      description: 'Assist with visa applications under supervision',
+      title: 'Product testing and quality assurance',
+      description: 'Test features for smooth performance',
       color: 'from-teal-500 to-blue-500',
     },
   ];
