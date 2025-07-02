@@ -53,13 +53,13 @@ const services = [
   {
     name: ' Visa & Interview Support',
     icon: PackageCheck,
-    to: '/phantom/StudentDashboard/document-support',
+    to: '/phantom/StudentDashboard/visa-interview-support',
     color: 'bg-amber-500/20 text-amber-500',
   },
   {
     name: 'Ticket & Travel Support',
     icon: Ticket,
-    to: '/phantom/StudentDashboard/visa-support',
+    to: '/phantom/StudentDashboard/ticket-travel-support',
     color: 'bg-red-500/20 text-red-500',
   },
   {
@@ -171,7 +171,7 @@ const DashboardSidebar = () => {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <NavLink
-                  to="/StudentDashboard/my-profile"
+                  to="/phantom/StudentDashboard/my-profile"
                   className={({ isActive }) =>
                     cn(
                       'flex items-center px-3 rounded-lg transition-colors',

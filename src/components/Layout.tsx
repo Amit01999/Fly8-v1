@@ -1,25 +1,3 @@
-// import React from 'react';
-// import Header from '@/components/Header';
-// import ModernFooter from '@/components/ModernFooter';
-// import ChatbotButton from '@/components/ChatbotButton';
-
-// interface LayoutProps {
-//   children: React.ReactNode;
-// }
-
-// const Layout: React.FC<LayoutProps> = ({ children }) => {
-//   return (
-//     <div className="min-h-screen flex flex-col">
-//       <Header />
-//       <main className="flex-grow ">{children}</main>
-//       <ModernFooter />
-//       <ChatbotButton />
-//     </div>
-//   );
-// };
-
-// export default Layout;
-
 import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import { motion, useScroll, useSpring } from 'framer-motion';

@@ -1,44 +1,153 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Harverd from '../assets/picture/UniversityLogo/Harvard_University.png';
-import Stanford from '../assets/picture/UniversityLogo/Stanford University.png';
-import MIT from '../assets/picture/UniversityLogo/MIT.png';
-import Oxford from '../assets/picture/UniversityLogo/Oxford University.png';
-import Cambridge from '../assets/picture/UniversityLogo/Cambridge University.png';
-import Yale from '../assets/picture/UniversityLogo/Yale University.png';
-import Princeton from '../assets/picture/UniversityLogo/Princeton University.png';
-import Columbia from '../assets/picture/UniversityLogo/Columbia University.png';
+import Buffalo from '@/assets/PartnerUniversities/Buffalo State University.png';
+import City from '@/assets/PartnerUniversities/City, University of London.png';
+import david from '@/assets/PartnerUniversities/david game college.jfif';
+import Duquesne from '@/assets/PartnerUniversities/Duquesne University.png';
+import Kaplan from '@/assets/PartnerUniversities/Kaplan Singapore.png';
+import Kingston from '@/assets/PartnerUniversities/Kingston University.png';
+import Kyoto from '@/assets/PartnerUniversities/Kyoto University of Advanced Science.png';
+import McGill from '@/assets/PartnerUniversities/McGill University.png';
+import Monash from '@/assets/PartnerUniversities/Monash University.png';
+import North from '@/assets/PartnerUniversities/North Dakota State University.png';
+import SEGi from '@/assets/PartnerUniversities/SEGi University.png';
+import SOAS from '@/assets/PartnerUniversities/SOAS University of London.png';
+import State from '@/assets/PartnerUniversities/State University of New York.png';
+import Taylors from '@/assets/PartnerUniversities/Taylors University.png';
+import TIO from '@/assets/PartnerUniversities/TIO University of Applied Sciences.png';
+import Tsinghua from '@/assets/PartnerUniversities/Tsinghua University.png';
+import Alberta from '@/assets/PartnerUniversities/University of Alberta.png';
+import Auckland from '@/assets/PartnerUniversities/University of Auckland.png';
+import Columbia from '@/assets/PartnerUniversities/University of British Columbia.png';
+import Essex from '@/assets/PartnerUniversities/University of Essex.png';
+import Melbourne from '@/assets/PartnerUniversities/University of Melbourne.png';
+import Wales from '@/assets/PartnerUniversities/University of New South Wales.png';
+import texas from '@/assets/PartnerUniversities/university of north texas.png';
+import Queensland from '@/assets/PartnerUniversities/University of Queensland.png';
+import Beijing from '@/assets/PartnerUniversities/University of Science & Technology Beijing.png';
+import Sydney from '@/assets/PartnerUniversities/University of Sydney.png';
+import Toronto from '@/assets/PartnerUniversities/University of Toronto.png';
+import Waterloo from '@/assets/PartnerUniversities/University of Waterloo.png';
+import Wittenborg from '@/assets/PartnerUniversities/Wittenborg University of Applied Sciences.png';
 const universities = [
   {
-    name: 'Harvard University',
-    logo: Harverd,
+    name: 'Buffalo State University',
+    logo: Buffalo,
   },
   {
-    name: 'Stanford University',
-    logo: Stanford,
+    name: 'City, University of London',
+    logo: City,
   },
   {
-    name: 'MIT',
-    logo: MIT,
+    name: 'David Game College',
+    logo: david,
   },
   {
-    name: 'Oxford University',
-    logo: Oxford,
+    name: 'Duquesne University',
+    logo: Duquesne,
   },
   {
-    name: 'Cambridge University',
-    logo: Cambridge,
+    name: 'Kaplan Singapore',
+    logo: Kaplan,
   },
   {
-    name: 'Yale University',
-    logo: Yale,
+    name: 'Kingston University',
+    logo: Kingston,
+  },
+
+  {
+    name: 'Kyoto University of Advanced Science',
+    logo: Kyoto,
   },
   {
-    name: 'Princeton University',
-    logo: Princeton,
+    name: 'McGill University',
+    logo: McGill,
   },
   {
-    name: 'Columbia University',
+    name: 'Monash University',
+    logo: Monash,
+  },
+  {
+    name: 'North Dakota State University',
+    logo: North,
+  },
+  {
+    name: 'SEGi University',
+    logo: SEGi,
+  },
+
+  {
+    name: 'SOAS University of London',
+    logo: SOAS,
+  },
+  {
+    name: 'State University of New York',
+    logo: State,
+  },
+  {
+    name: 'Taylors University',
+    logo: Taylors,
+  },
+  {
+    name: 'TIO University of Applied Sciences',
+    logo: TIO,
+  },
+
+  {
+    name: 'Tsinghua University',
+    logo: Tsinghua,
+  },
+  {
+    name: 'University of Alberta',
+    logo: Alberta,
+  },
+  {
+    name: 'University of Auckland',
+    logo: Auckland,
+  },
+  {
+    name: 'University of British Columbia',
     logo: Columbia,
+  },
+  {
+    name: 'University of Essex',
+    logo: Essex,
+  },
+  {
+    name: 'University of Melbourne',
+    logo: Melbourne,
+  },
+  {
+    name: 'University of New South Wales',
+    logo: Wales,
+  },
+  {
+    name: 'university of north texas',
+    logo: texas,
+  },
+  {
+    name: 'University of Queensland',
+    logo: Queensland,
+  },
+
+  {
+    name: 'University of Science & Technology Beijing',
+    logo: Beijing,
+  },
+  {
+    name: 'University of Sydney',
+    logo: Sydney,
+  },
+  {
+    name: 'University of Toronto',
+    logo: Toronto,
+  },
+  {
+    name: 'University of Waterloo',
+    logo: Waterloo,
+  },
+  {
+    name: 'Wittenborg University of Applied Sciences',
+    logo: Wittenborg,
   },
 ];
 
@@ -104,7 +213,7 @@ const UniversityPartnersSection = () => {
             {duplicatedUniversities.map((university, index) => (
               <div
                 key={`row1-${index}`}
-                className="bg-white mt-6 rounded-lg shadow-lg p-4 w-48 h-32 flex flex-col items-center justify-center transition-transform duration-300 hover:shadow-xl hover:scale-105 hover:ring-2 hover:ring-blue-300 group"
+                className="bg-white mt-6 rounded-lg shadow-xl p-4 w-48 h-32 flex flex-col items-center justify-center transition-transform duration-300 hover:shadow-xl hover:scale-105 hover:ring-2 hover:ring-blue-300 group"
               >
                 <div className="flex items-center justify-center h-16 mb-2">
                   <img
@@ -133,7 +242,7 @@ const UniversityPartnersSection = () => {
             {duplicatedUniversities.map((university, index) => (
               <div
                 key={`row2-${index}`}
-                className="bg-white rounded-lg shadow-lg p-4 w-48 h-32 flex flex-col items-center justify-center transition-transform duration-300 hover:shadow-xl hover:scale-105 hover:ring-2 hover:ring-blue-300 group"
+                className="bg-white rounded-lg shadow-xl p-4 w-48 h-32 flex flex-col items-center justify-center transition-transform duration-300 hover:shadow-xl hover:scale-105 hover:ring-2 hover:ring-blue-300 group"
               >
                 <div className="flex items-center justify-center h-16 mb-2">
                   <img

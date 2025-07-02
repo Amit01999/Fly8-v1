@@ -12,6 +12,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import logo from '@/assets/logo/logo.png';
 
 const ModernFooter = () => {
   return (
@@ -47,9 +48,9 @@ const ModernFooter = () => {
         <div className="max-container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
             <div className="lg:col-span-2">
-              <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                Fly8
-              </h2>
+              <div className="relative w-20 h-14 mb-4">
+                <img src={logo} alt="Fly8" />
+              </div>
               <p className="text-gray-400 mb-6 pr-4">
                 Fly8 is revolutionizing global education access by connecting
                 ambitious students with world-class educational institutions and

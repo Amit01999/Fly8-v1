@@ -37,7 +37,7 @@ const authSlice = createSlice({
     setSignupData(state, action: PayloadAction<SignupData>) {
       state.signupData = action.payload;
     },
-    setLoading(state, action: PayloadAction<boolean>) {
+    setAuthLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;
     },
     setToken(state, action: PayloadAction<string | null>) {
@@ -46,5 +46,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setSignupData, setLoading, setToken } = authSlice.actions;
+export const { setSignupData, setAuthLoading, setToken } = authSlice.actions;
 export default authSlice.reducer;

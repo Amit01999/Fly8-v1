@@ -26,11 +26,27 @@ const SignInStudent = () => {
 
   const navigate = useNavigate();
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setIsSubmitting(true);
+  //   const { email, password } = formData;
+  //   dispatch(login(email, password, navigate));
+  // };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    const { email, password } = formData;
-    dispatch(login(email, password, navigate));
+
+    try {
+      const { email, password } = formData;
+
+      // Wait for dispatch (if login returns a promise)
+      await dispatch(login(email, password, navigate));
+    } catch (error) {
+      console.error('Login failed in handleSubmit:', error);
+    } finally {
+      setIsSubmitting(false); // ✅ Always reset, success or failure
+    }
   };
 
   return (

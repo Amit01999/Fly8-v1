@@ -14,13 +14,14 @@ const Index = () => {
   return (
     <>
       <HeroSection />
-      <StatsCounter />
+      <FeaturedUniversities />
+      {/* <StatsCounter /> */}
       <FeatureGrid />
       <HowItWorks />
       <JoinOurPlatfrom />
       <TopDestinations />
       <TestimonialsSection />
-      <FeaturedUniversities />
+      {/* <FeaturedUniversities /> */}
       <BlogNewsletter />
       <FinalCTA />
     </>

@@ -60,6 +60,15 @@ import GlobalEvents from './pages/CareerServices/GlobalEvents';
 import UniversityProfile from './pages/UniversityProfile';
 import ProfileAssessment from './pages/student-dashboard/services/PofileAssessment';
 import StudentInternFrom from './components/StudentInternFrom';
+import PrivateRoute from './components/auth/PrivateRoute';
+import PreparationSupport from './pages/student-dashboard/StudentdashboadPage/PreparationSupport';
+import ApplyUniversity from './pages/student-dashboard/StudentdashboadPage/ApplyUniversity';
+import VisaInterviewSupport from './pages/student-dashboard/StudentdashboadPage/VisaInterviewSupport';
+import TicketTravel from './pages/student-dashboard/StudentdashboadPage/TicketTravel';
+import Accommodation from './pages/student-dashboard/StudentdashboadPage/Accommodation';
+import EducationLoanPage from './pages/StudentServicesPage/EducationLoan';
+import EducationLoanSupport from './pages/student-dashboard/StudentdashboadPage/EducationLoanSupport';
+import JobsAbroad from './pages/student-dashboard/StudentdashboadPage/JobsAbroad';
 
 const queryClient = new QueryClient();
 
@@ -73,9 +82,9 @@ const App = () => (
         <Routes>
           {/* Coming Soon Page on Root */}
           <Route path="/" element={<ComingSoon />} />
-          <Route path="/intern" element={<StudentInternFrom />} />
+          {/* <Route path="/intern" element={<StudentInternFrom />} /> */}
           {/* Full Website under /phantom */}
-          <Route path="/phantom" element={<Layout />}>
+          <Route path="/phantom" element={<Layout children={''} />}>
             <Route index element={<Index />} />
             <Route path="course-finder" element={<CourseFinder />} />
             <Route path="countries" element={<Countries />} />
@@ -166,7 +175,11 @@ const App = () => (
           {/* Student Dashboard inside /phantom */}
           <Route
             path="/phantom/StudentDashboard"
-            element={<StudentDashboard />}
+            element={
+              <PrivateRoute>
+                <StudentDashboard />
+              </PrivateRoute>
+            }
           >
             <Route path="my-profile" element={<StudentDashboardHome />} />
             <Route path="ai-assistance" element={<StudentAIAssistance />} />
@@ -175,6 +188,19 @@ const App = () => (
               element={<StudentBookAppointment />}
             />
             <Route path="profile-assessment" element={<ProfileAssessment />} />
+            <Route
+              path="preparation-support"
+              element={<PreparationSupport />}
+            />
+            <Route path="apply-university" element={<ApplyUniversity />} />
+            <Route
+              path="visa-interview-support"
+              element={<VisaInterviewSupport />}
+            />
+            <Route path="ticket-travel-support" element={<TicketTravel />} />
+            <Route path="accommodation-finder" element={<Accommodation />} />
+            <Route path="student-loan" element={<EducationLoanSupport />} />
+            <Route path="job-portal" element={<JobsAbroad />} />
             <Route path="updates" element={<StudentUpdates />} />
             <Route path="visa" element={<VisaAssistance />} />
             <Route path="tickets" element={<TicketBooking />} />

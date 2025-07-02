@@ -5,9 +5,14 @@ import { Menu, X, ChevronDown, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TopNavigation from './TopNavigation';
 import ServicesDrawer from './ServicesDrawe';
-import logo from '../../assets/logo/logo2.png';
+import logo from '../../../public/logo.png';
+import { useAppSelector } from '@/hooks/redux/SelectorAndDispatchHooks';
+import ProfileDropdown from './ProfileDropdown';
 
 const Navber1 = () => {
+  //get token from localStorage
+  const token = useAppSelector(state => state.auth.token);
+  const user = useAppSelector(state => state.profile.user);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showTopNav, setShowTopNav] = useState(true);
@@ -66,7 +71,7 @@ const Navber1 = () => {
         <Link to="/phantom">
           <div className="max-container flex items-center justify-between">
             <div className="text-blue-600 font-bold text-2xl flex items-center gap-2">
-              <div className="relative w-24">
+              <div className="relative w-20 h-14">
                 <img src={logo} alt="Fly8" />
               </div>
             </div>
@@ -108,22 +113,24 @@ const Navber1 = () => {
               ))}
             </nav>
 
-            <div className="hidden lg:flex items-center space-x-4">
-              <Link to="/phantom/signin/student">
-                <Button
-                  variant="outline"
-                  className="rounded-full px-6 border-primary/20 hover:border-primary hover:bg-primary hover:text-white "
-                >
-                  Log In
-                </Button>
-              </Link>
-              <Link to="/phantom/signup/student">
-                <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-full px-6 shadow-md hover:shadow-lg transition-all">
-                  Get Started
-                </Button>
-              </Link>
-            </div>
-
+            {token === null && (
+              <div className="hidden lg:flex items-center space-x-4">
+                <Link to="/phantom/signin/student">
+                  <Button
+                    variant="outline"
+                    className="rounded-full px-6 border-primary/20 hover:border-primary hover:bg-primary hover:text-white "
+                  >
+                    Log In
+                  </Button>
+                </Link>
+                <Link to="/phantom/signup/student">
+                  <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-full px-6 shadow-md hover:shadow-lg transition-all">
+                    Get Started
+                  </Button>
+                </Link>
+              </div>
+            )}
+            {token !== null && <ProfileDropdown />}
             {/* Mobile menu button */}
             <button
               className="lg:hidden text-gray-700 dark:text-gray-200"
@@ -170,29 +177,32 @@ const Navber1 = () => {
                   )}
                 </Link>
               ))}
-              <div className="flex flex-col space-y-3 px-5 pt-4">
-                <Link to="/phantom/signin/student">
-                  <Button
-                    variant="outline"
-                    className="rounded-lg w-full border-primary/20"
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    Log In
-                  </Button>
-                </Link>
-                <Link to="/phantom/signup/student">
-                  <Button
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-lg w-full"
-                  >
-                    Get Started
-                  </Button>
-                </Link>
-              </div>
+              {token === null && (
+                <div className="flex flex-col space-y-3 px-5 pt-4">
+                  <Link to="/phantom/signin/student">
+                    <Button
+                      variant="outline"
+                      className="rounded-lg w-full border-primary/20"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Log In
+                    </Button>
+                  </Link>
+                  <Link to="/phantom/signup/student">
+                    <Button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-lg w-full"
+                    >
+                      Get Started
+                    </Button>
+                  </Link>
+                </div>
+              )}
+              {token !== null && <ProfileDropdown />}
             </div>
           </motion.div>
         )}

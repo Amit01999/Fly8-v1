@@ -1,521 +1,1009 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+// import React, { useState, useEffect } from 'react';
+// import { Button } from './ui/button';
+// import plane from '../assets/picture/plane.png';
+
+// const HowItWork: React.FC = () => {
+//   const [currentStep, setCurrentStep] = useState(0);
+//   const [visibleSteps, setVisibleSteps] = useState<boolean[]>(
+//     new Array(7).fill(false)
+//   );
+
+//   const steps = [
+//     {
+//       id: 1,
+//       title: 'Research',
+//       subtitle: 'Explore 750+ Courses across 14 Universities',
+//       description:
+//         'Discover the perfect program for your academic journey with our comprehensive course database.',
+//       buttonText: 'Try Course Finder',
+//       icon: 'research',
+//       color: 'bg-blue-500',
+//     },
+//     {
+//       id: 2,
+//       title: 'Discuss',
+//       subtitle: 'Get 1-on-1 Counselling from our experts',
+//       description:
+//         'Connect with experienced counselors who will guide you through every step of your application.',
+//       buttonText: 'Book Free Counselling',
+//       icon: 'discuss',
+//       color: 'bg-green-500',
+//     },
+//     {
+//       id: 3,
+//       title: 'Allocate',
+//       subtitle: 'Find the perfect Universities for you',
+//       description:
+//         'Match with universities that align with your academic goals and career aspirations.',
+//       buttonText: 'Get University Shortlist',
+//       icon: 'allocate',
+//       color: 'bg-purple-500',
+//     },
+//     {
+//       id: 4,
+//       title: 'Track',
+//       subtitle: 'Track your Application real-time',
+//       description:
+//         'Stay updated with your application status through our comprehensive tracking system.',
+//       buttonText: 'Log Into Dashboard',
+//       icon: 'track',
+//       color: 'bg-orange-500',
+//     },
+//     {
+//       id: 5,
+//       title: 'Finance',
+//       subtitle: 'Secure your Education loan seamlessly & fast.',
+//       description:
+//         'Get access to education loans with competitive rates and flexible repayment options.',
+//       buttonText: 'Apply For Loan',
+//       icon: 'finance',
+//       color: 'bg-teal-500',
+//     },
+//     {
+//       id: 6,
+//       title: 'Visa',
+//       subtitle: 'Get complete Visa Assistance',
+//       description:
+//         'Navigate the visa process with expert guidance and comprehensive support.',
+//       buttonText: 'Get Visa Help',
+//       icon: 'visa',
+//       color: 'bg-indigo-500',
+//     },
+//     {
+//       id: 7,
+//       title: 'Accommodation',
+//       subtitle: 'Find your ideal Home abroad',
+//       description:
+//         'Discover comfortable and affordable housing options near your university.',
+//       buttonText: 'Enquire Now',
+//       icon: 'accommodation',
+//       color: 'bg-rose-500',
+//     },
+//   ];
+
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       const scrollY = window.scrollY;
+//       const windowHeight = window.innerHeight;
+//       const sectionTop =
+//         document.getElementById('journey-section')?.offsetTop || 0;
+//       const sectionHeight =
+//         document.getElementById('journey-section')?.offsetHeight || 0;
+
+//       // Calculate progress through the section
+//       const progress = Math.max(
+//         0,
+//         Math.min(1, (scrollY - sectionTop + windowHeight / 2) / sectionHeight)
+//       );
+//       const newCurrentStep = Math.floor(progress * steps.length);
+
+//       setCurrentStep(Math.min(newCurrentStep, steps.length - 1));
+
+//       // Show steps progressively
+//       const newVisibleSteps = steps.map((_, index) => {
+//         return index <= newCurrentStep;
+//       });
+//       setVisibleSteps(newVisibleSteps);
+//     };
+
+//     window.addEventListener('scroll', handleScroll);
+//     handleScroll(); // Initial call
+
+//     return () => window.removeEventListener('scroll', handleScroll);
+//   }, [steps.length]);
+
+//   return (
+//     <section
+//       id="journey-section"
+//       className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20 px-4"
+//     >
+//       <div className="max-w-6xl mx-auto">
+//         {/* Header */}
+//         <div className="text-center mb-16">
+//           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+//             Your Study Abroad Journey
+//           </h2>
+//           <p className="text-xl text-gray-600 font-medium">With Us</p>
+//         </div>
+
+//         {/* Journey Timeline */}
+//         <div className="relative">
+//           {/* Central Timeline Line */}
+//           <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-blue-200 to-blue-400 h-full"></div>
+
+//           {/* Animated Plane */}
+//           <div
+//             className="absolute left-1/2 transform -translate-x-1/2 transition-all duration-700 ease-out z-20"
+//             style={{
+//               top: `${(currentStep / (steps.length - 1)) * 85}%`,
+//             }}
+//           >
+//             <PlaneIcon isActive={true} />
+//           </div>
+
+//           {/* Steps */}
+//           <div className="space-y-32">
+//             {steps.map((step, index) => (
+//               <div key={step.id} className="relative">
+//                 {/* Step Number Circle */}
+//                 <div className="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-4 border-blue-300 rounded-full flex items-center justify-center z-10 shadow-lg">
+//                   <span className="text-blue-600 font-bold text-lg">
+//                     {step.id}
+//                   </span>
+//                 </div>
+
+//                 {/* Step Card */}
+//                 <div
+//                   className={`flex ${
+//                     index % 2 === 0 ? 'justify-end' : 'justify-start'
+//                   } w-full`}
+//                 >
+//                   <div className="w-1/2">
+//                     <StepCard
+//                       step={step}
+//                       isVisible={visibleSteps[index]}
+//                       side={index % 2 === 0 ? 'left' : 'right'}
+//                     />
+//                   </div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Progress Indicator */}
+//         <div className="mt-16 text-center">
+//           <div className="inline-flex space-x-2">
+//             {steps.map((_, index) => (
+//               <div
+//                 key={index}
+//                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
+//                   index <= currentStep ? 'bg-blue-500' : 'bg-gray-300'
+//                 }`}
+//               />
+//             ))}
+//           </div>
+//           <p className="mt-4 text-gray-600">
+//             Step {currentStep + 1} of {steps.length}
+//           </p>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default HowItWork;
+
+// interface StepCardProps {
+//   step: {
+//     id: number;
+//     title: string;
+//     subtitle: string;
+//     description: string;
+//     buttonText: string;
+//     icon: string;
+//     color: string;
+//   };
+//   isVisible: boolean;
+//   side: 'left' | 'right';
+// }
+
+// const StepCard: React.FC<StepCardProps> = ({ step, isVisible, side }) => {
+//   const iconEmojis: { [key: string]: string } = {
+//     research: '🔍',
+//     discuss: '💬',
+//     allocate: '🏫',
+//     track: '📋',
+//     finance: '💰',
+//     visa: '📄',
+//     accommodation: '🏠',
+//   };
+
+//   return (
+//     <div
+//       className={`transition-all duration-700 transform ${
+//         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+//       } ${side === 'left' ? 'text-right' : 'text-left'}`}
+//     >
+//       <div
+//         className={`inline-block bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-100 hover:shadow-xl transition-shadow duration-300 max-w-sm ${
+//           side === 'left' ? 'mr-8' : 'ml-8'
+//         }`}
+//       >
+//         <div
+//           className={`flex items-center gap-3 mb-3 ${
+//             side === 'left' ? 'justify-end' : 'justify-start'
+//           }`}
+//         >
+//           <div
+//             className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-lg font-bold ${step.color}`}
+//           >
+//             {iconEmojis[step.icon] || step.id}
+//           </div>
+//           <div>
+//             <h3 className="font-bold text-gray-800 text-lg">{step.title}</h3>
+//             <p className="text-sm text-blue-600 font-medium">{step.subtitle}</p>
+//           </div>
+//         </div>
+//         <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+//           {step.description}
+//         </p>
+//         <Button
+//           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200"
+//           size="sm"
+//         >
+//           {step.buttonText}
+//         </Button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// interface PlaneIconProps {
+//   className?: string;
+//   isActive?: boolean;
+// }
+
+// const PlaneIcon: React.FC<PlaneIconProps> = ({
+//   className = '',
+//   isActive = false,
+// }) => {
+//   return (
+//     <div
+//       className={`transition-all duration-500 ${
+//         isActive ? 'animate-float' : ''
+//       } ${className}`}
+//     >
+//       <img
+//         src={plane}
+//         alt="Plane Icon"
+//         className="w-14 h-14 drop-shadow-xl transform rotate-180 scale-y-[-1]"
+//       />
+//     </div>
+//   );
+// };
+
+// import React, { useState, useEffect } from 'react';
+// import { Button } from './ui/button';
+// import plane from '../assets/picture/plane.png';
+
+// interface PlaneIconProps {
+//   className?: string;
+//   isActive?: boolean;
+// }
+
+// const PlaneIcon: React.FC<PlaneIconProps> = ({
+//   className = '',
+//   isActive = false,
+// }) => {
+//   return (
+//     <div
+//       className={`transition-all duration-500 ${
+//         isActive ? 'animate-float' : ''
+//       } ${className}`}
+//     >
+//       <img
+//         src={plane}
+//         alt="Plane Icon"
+//         className="w-14 h-14 drop-shadow-xl transform rotate-180 scale-y-[-1]"
+//       />
+//     </div>
+//   );
+// };
+
+// const HowItWork: React.FC = () => {
+//   const [currentStep, setCurrentStep] = useState(0);
+//   const [visibleSteps, setVisibleSteps] = useState<boolean[]>(
+//     new Array(7).fill(false)
+//   );
+
+//   const steps = [
+//     {
+//       id: 1,
+//       title: 'Research',
+//       subtitle: 'Explore 750+ Courses across 14 Universities',
+//       description:
+//         'Discover the perfect program for your academic journey with our comprehensive course database.',
+//       buttonText: 'Try Course Finder',
+//       icon: 'research',
+//       color: 'bg-blue-500',
+//     },
+//     {
+//       id: 2,
+//       title: 'Discuss',
+//       subtitle: 'Get 1-on-1 Counselling from our experts',
+//       description:
+//         'Connect with experienced counselors who will guide you through every step of your application.',
+//       buttonText: 'Book Free Counselling',
+//       icon: 'discuss',
+//       color: 'bg-green-500',
+//     },
+//     {
+//       id: 3,
+//       title: 'Allocate',
+//       subtitle: 'Find the perfect Universities for you',
+//       description:
+//         'Match with universities that align with your academic goals and career aspirations.',
+//       buttonText: 'Get University Shortlist',
+//       icon: 'allocate',
+//       color: 'bg-purple-500',
+//     },
+//     {
+//       id: 4,
+//       title: 'Track',
+//       subtitle: 'Track your Application real-time',
+//       description:
+//         'Stay updated with your application status through our comprehensive tracking system.',
+//       buttonText: 'Log Into Dashboard',
+//       icon: 'track',
+//       color: 'bg-orange-500',
+//     },
+//     {
+//       id: 5,
+//       title: 'Finance',
+//       subtitle: 'Secure your Education loan seamlessly & fast.',
+//       description:
+//         'Get access to education loans with competitive rates and flexible repayment options.',
+//       buttonText: 'Apply For Loan',
+//       icon: 'finance',
+//       color: 'bg-teal-500',
+//     },
+//     {
+//       id: 6,
+//       title: 'Visa',
+//       subtitle: 'Get complete Visa Assistance',
+//       description:
+//         'Navigate the visa process with expert guidance and comprehensive support.',
+//       buttonText: 'Get Visa Help',
+//       icon: 'visa',
+//       color: 'bg-indigo-500',
+//     },
+//     {
+//       id: 7,
+//       title: 'Accommodation',
+//       subtitle: 'Find your ideal Home abroad',
+//       description:
+//         'Discover comfortable and affordable housing options near your university.',
+//       buttonText: 'Enquire Now',
+//       icon: 'accommodation',
+//       color: 'bg-rose-500',
+//     },
+//   ];
+
+//   useEffect(() => {
+//     const handleScroll = () => {
+//       const scrollY = window.scrollY;
+//       const windowHeight = window.innerHeight;
+//       const sectionTop =
+//         document.getElementById('journey-section')?.offsetTop || 0;
+//       const sectionHeight =
+//         document.getElementById('journey-section')?.offsetHeight || 0;
+
+//       // Calculate progress through the section
+//       const progress = Math.max(
+//         0,
+//         Math.min(1, (scrollY - sectionTop + windowHeight / 2) / sectionHeight)
+//       );
+//       const newCurrentStep = Math.floor(progress * steps.length);
+
+//       setCurrentStep(Math.min(newCurrentStep, steps.length - 1));
+
+//       // Show steps progressively
+//       const newVisibleSteps = steps.map((_, index) => {
+//         return index <= newCurrentStep;
+//       });
+//       setVisibleSteps(newVisibleSteps);
+//     };
+
+//     window.addEventListener('scroll', handleScroll);
+//     handleScroll(); // Initial call
+
+//     return () => window.removeEventListener('scroll', handleScroll);
+//   }, [steps.length]);
+
+//   return (
+//     <section
+//       id="journey-section"
+//       className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20 px-4"
+//     >
+//       <div className="max-w-6xl mx-auto">
+//         {/* Header */}
+//         <div className="text-center mb-16">
+//           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+//             Your Study Abroad Journey
+//           </h2>
+//           <p className="text-xl text-gray-600 font-medium">With Us</p>
+//         </div>
+
+//         {/* Journey Timeline */}
+//         <div className="relative">
+//           {/* Central Timeline Line */}
+//           <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-blue-200 to-blue-400 h-full"></div>
+
+//           {/* Animated Plane */}
+//           <div
+//             className="absolute left-1/2 transform -translate-x-1/2 transition-all duration-700 ease-out z-20"
+//             style={{
+//               top: `${(currentStep / (steps.length - 1)) * 85}%`,
+//             }}
+//           >
+//             <PlaneIcon isActive={true} />
+//           </div>
+
+//           {/* Steps */}
+//           <div className="space-y-16">
+//             {steps.map((step, index) => (
+//               <div key={step.id} className="relative">
+//                 {/* Connection Line from Circle to Card */}
+//                 <div
+//                   className={`absolute top-6 w-16 h-0.5 bg-blue-300 z-5 ${
+//                     index % 2 === 0 ? 'left-1/2 ml-6' : 'right-1/2 mr-6'
+//                   }`}
+//                 ></div>
+
+//                 {/* Step Number Circle */}
+//                 <div className="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-4 border-blue-300 rounded-full flex items-center justify-center z-10 shadow-lg">
+//                   <span className="text-blue-600 font-bold text-lg">
+//                     {step.id}
+//                   </span>
+//                 </div>
+
+//                 {/* Step Card */}
+//                 <div
+//                   className={`flex ${
+//                     index % 2 === 0 ? 'justify-end' : 'justify-start'
+//                   } w-full`}
+//                 >
+//                   <div className="w-1/2">
+//                     <StepCard
+//                       step={step}
+//                       isVisible={visibleSteps[index]}
+//                       side={index % 2 === 0 ? 'left' : 'right'}
+//                     />
+//                   </div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+
+//         {/* Progress Indicator */}
+//         <div className="mt-16 text-center">
+//           <div className="inline-flex space-x-2">
+//             {steps.map((_, index) => (
+//               <div
+//                 key={index}
+//                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
+//                   index <= currentStep ? 'bg-blue-500' : 'bg-gray-300'
+//                 }`}
+//               />
+//             ))}
+//           </div>
+//           <p className="mt-4 text-gray-600">
+//             Step {currentStep + 1} of {steps.length}
+//           </p>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// interface StepCardProps {
+//   step: {
+//     id: number;
+//     title: string;
+//     subtitle: string;
+//     description: string;
+//     buttonText: string;
+//     icon: string;
+//     color: string;
+//   };
+//   isVisible: boolean;
+//   side: 'left' | 'right';
+// }
+
+// const StepCard: React.FC<StepCardProps> = ({ step, isVisible, side }) => {
+//   const iconEmojis: { [key: string]: string } = {
+//     research: '🔍',
+//     discuss: '💬',
+//     allocate: '🏫',
+//     track: '📋',
+//     finance: '💰',
+//     visa: '📄',
+//     accommodation: '🏠',
+//   };
+
+//   return (
+//     <div
+//       className={`transition-all duration-700 transform ${
+//         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+//       } ${side === 'left' ? 'text-right' : 'text-left'}`}
+//     >
+//       <div
+//         className={`inline-block bg-white rounded-2xl p-5 shadow-lg border-2 border-gray-100 hover:shadow-xl transition-shadow duration-300 max-w-sm ${
+//           side === 'left' ? 'mr-4' : 'ml-4'
+//         }`}
+//       >
+//         <div
+//           className={`flex items-center gap-3 mb-3 ${
+//             side === 'left' ? 'justify-end' : 'justify-start'
+//           }`}
+//         >
+//           <div
+//             className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-lg font-bold ${step.color}`}
+//           >
+//             {iconEmojis[step.icon] || step.id}
+//           </div>
+//           <div>
+//             <h3 className="font-bold text-gray-800 text-lg">{step.title}</h3>
+//             <p className="text-sm text-blue-600 font-medium">{step.subtitle}</p>
+//           </div>
+//         </div>
+//         <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+//           {step.description}
+//         </p>
+//         <Button
+//           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200"
+//           size="sm"
+//         >
+//           {step.buttonText}
+//         </Button>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default HowItWork;
+
+import React, { useState, useEffect } from 'react';
 import {
-  UserPlus,
-  Search,
-  FileCheck,
+  User,
+  BookOpen,
+  GraduationCap,
+  FileText,
   Plane,
+  Home,
+  DollarSign,
   Briefcase,
-  ArrowRight,
-  ChevronDown,
 } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import plane from '../assets/picture/plane.png';
 
-const steps = [
-  {
-    id: 1,
-    icon: UserPlus,
-    title: 'Sign Up',
-    description:
-      'Create your free profile and tell us about your academic goals and preferences.',
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-50',
-    borderColor: 'border-blue-200',
-    glowColor: 'from-blue-400/30 to-transparent',
-  },
-  {
-    id: 2,
-    icon: Search,
-    title: 'Search',
-    description:
-      'Explore programs that match your profile with our AI-powered recommendation engine.',
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-50',
-    borderColor: 'border-purple-200',
-    glowColor: 'from-purple-400/30 to-transparent',
-  },
-  {
-    id: 3,
-    icon: FileCheck,
-    title: 'Apply',
-    description:
-      'Submit applications with expert guidance and track status in real-time.',
-    color: 'text-emerald-600',
-    bgColor: 'bg-emerald-50',
-    borderColor: 'border-emerald-200',
-    glowColor: 'from-emerald-400/30 to-transparent',
-  },
-  {
-    id: 4,
-    icon: Plane,
-    title: 'Travel',
-    description:
-      'Prepare for your journey with visa support, housing options, and travel arrangements.',
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-50',
-    borderColor: 'border-orange-200',
-    glowColor: 'from-orange-400/30 to-transparent',
-  },
-  {
-    id: 5,
-    icon: Briefcase,
-    title: 'Work Abroad',
-    description:
-      'Access career opportunities and networking events to launch your global career.',
-    color: 'text-pink-600',
-    bgColor: 'bg-pink-50',
-    borderColor: 'border-pink-200',
-    glowColor: 'from-pink-400/30 to-transparent',
-  },
-];
+interface PlaneIconProps {
+  className?: string;
+  isActive?: boolean;
+}
 
-const HowItWorks = () => {
-  const isMobile = useIsMobile();
-  const containerRef = useRef(null);
-  const timelineRef = useRef(null);
-  const [activeStep, setActiveStep] = useState(0);
-  const [progressHeight, setProgressHeight] = useState(0);
+const PlaneIcon: React.FC<PlaneIconProps> = ({
+  className = '',
+  isActive = false,
+}) => {
+  return (
+    <div
+      className={`transition-all duration-500 ${
+        isActive ? 'animate-float' : ''
+      } ${className}`}
+    >
+      <img
+        src={plane}
+        alt="Plane Icon"
+        className="w-14 h-14 drop-shadow-xl transform rotate-180 scale-y-[-1]"
+      />
+    </div>
+  );
+};
 
-  // References for each step
-  const stepRefs = useRef(steps.map(() => React.createRef()));
+const HowItWork: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [visibleSteps, setVisibleSteps] = useState<boolean[]>(
+    new Array(8).fill(false)
+  );
 
-  // Track scroll position and update timeline accordingly
+  const steps = [
+    {
+      id: 1,
+      title: 'Profile Assessment',
+      subtitle: 'Complete evaluation of your profile',
+      description:
+        'Submit your forms and documents for comprehensive assessment with real-time progress tracking.',
+      buttonText: 'Start Assessment',
+      icon: User,
+      color: 'bg-blue-500',
+      border: 'border-blue-500',
+      text: 'text-blue-600',
+    },
+    {
+      id: 2,
+      title: 'Preparation Support',
+      subtitle: 'Complete test and application prep',
+      description:
+        'Book language tests, classes, and get expert support for SOP, personal statements, and research proposals.',
+      buttonText: 'Get Support',
+      icon: BookOpen,
+      color: 'bg-green-500',
+      border: 'border-green-500',
+      text: 'text-green-600',
+    },
+    {
+      id: 3,
+      title: 'Apply University',
+      subtitle: 'Streamlined university applications',
+      description:
+        'Browse programs and submit applications with real-time tracking and comprehensive support.',
+      buttonText: 'Apply Now',
+      icon: GraduationCap,
+      color: 'bg-purple-500',
+      border: 'border-purple-500',
+      text: 'text-purple-600',
+    },
+    {
+      id: 4,
+      title: 'Visa & Interview Support',
+      subtitle: 'Complete visa assistance',
+      description:
+        'Get comprehensive support for visa applications, document preparation, interview training, and legal assistance.',
+      buttonText: 'Get Visa Help',
+      icon: FileText,
+      color: 'bg-orange-500',
+      border: 'border-orange-500',
+      text: 'text-orange-600',
+    },
+    {
+      id: 5,
+      title: 'Ticket & Travel Support',
+      subtitle: 'Complete travel arrangements',
+      description:
+        'Book air tickets, arrange airport pickup, get travel checklists, guide support, and complete travel packages.',
+      buttonText: 'Book Travel',
+      icon: Plane,
+      color: 'bg-teal-500',
+      border: 'border-teal-500',
+      text: 'text-teal-600',
+    },
+    {
+      id: 6,
+      title: 'Find Accommodation',
+      subtitle: 'Secure your ideal housing',
+      description:
+        'Browse property listings and apply for accommodation with real-time communication and tracking support.',
+      buttonText: 'Find Housing',
+      icon: Home,
+      color: 'bg-indigo-500',
+      border: 'border-indigo-500',
+      text: 'text-indigo-600',
+    },
+    {
+      id: 7,
+      title: 'Education Loan',
+      subtitle: 'Secure funding for education',
+      description:
+        'Explore loan opportunities and apply with comprehensive support and real-time application tracking.',
+      buttonText: 'Apply For Loan',
+      icon: DollarSign,
+      color: 'bg-rose-500',
+      border: 'border-rose-500',
+      text: 'text-rose-600',
+    },
+    {
+      id: 8,
+      title: 'Find Jobs Abroad',
+      subtitle: 'Launch your international career',
+      description:
+        'Discover job opportunities and apply with expert guidance and comprehensive application support.',
+      buttonText: 'Find Jobs',
+      icon: Briefcase,
+      color: 'bg-emerald-500',
+      border: 'border-emerald-500',
+      text: 'text-emerald-600',
+    },
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
-      if (!timelineRef.current) return;
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const headerHeight = 80; // Account for 80px header
+      const sectionTop =
+        (document.getElementById('journey-section')?.offsetTop || 0) -
+        headerHeight;
+      const sectionHeight =
+        document.getElementById('journey-section')?.offsetHeight || 0;
 
-      const timelineRect = timelineRef.current.getBoundingClientRect();
-      const timelineTop = timelineRect.top;
-      const timelineBottom = timelineRect.bottom;
-      const timelineHeight = timelineRect.height;
-      const viewportHeight = window.innerHeight;
-
-      // If timeline is completely above viewport
-      if (timelineBottom < 0) {
-        setProgressHeight(100); // 100% filled
-      }
-      // If timeline is completely below viewport
-      else if (timelineTop > viewportHeight) {
-        setProgressHeight(0); // 0% filled
-      }
-      // If timeline is partially in viewport
-      else {
-        // Calculate the visible portion based on the distance from the top of the viewport
-        // This is the key part for up/down responsiveness
-        const visibleRatio =
-          (viewportHeight - timelineTop) / (timelineHeight + viewportHeight);
-        const height = Math.max(0, Math.min(100, visibleRatio * 100));
-        setProgressHeight(height);
-      }
-
-      // Also update active step for other animations
-      // Map progress to step index (0 to steps.length-1)
-      const stepProgress = progressHeight / 100;
-      const newActiveStep = Math.min(
-        steps.length - 1,
-        Math.max(0, Math.floor(stepProgress * steps.length))
+      // Calculate progress through the section
+      const progress = Math.max(
+        0,
+        Math.min(1, (scrollY - sectionTop + windowHeight / 2) / sectionHeight)
       );
+      const newCurrentStep = Math.floor(progress * steps.length);
 
-      setActiveStep(newActiveStep);
+      setCurrentStep(Math.min(newCurrentStep, steps.length - 1));
+
+      // Show steps progressively
+      const newVisibleSteps = steps.map((_, index) => {
+        return index <= newCurrentStep;
+      });
+      setVisibleSteps(newVisibleSteps);
     };
 
     window.addEventListener('scroll', handleScroll);
-    // Trigger once on mount to initialize
-    handleScroll();
+    handleScroll(); // Initial call
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [progressHeight]);
+  }, [steps.length]);
 
   return (
     <section
-      className="py-10 bg-gradient-to-b from-white to-gray-50 overflow-hidden"
-      ref={containerRef}
+      id="journey-section"
+      className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-25 to-pink-50 py-16 px-4"
+      style={{ paddingTop: '100px' }} // Account for 80px header
     >
-      <div className="container px-4 mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
-          viewport={{ once: true }}
-          className="text-center mb-10"
-        >
-          <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            How Fly8 Works
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            Your Study Abroad Journey
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            A simple, guided process to help you achieve your international
-            education goals
+          <p className="text-lg text-gray-600 font-medium">
+            Complete Your Dream Education Path
           </p>
-        </motion.div>
+        </div>
 
-        {/* Desktop Timeline */}
-        <div className="hidden md:block relative" ref={timelineRef}>
-          {/* Timeline color progress bar - now directly tied to scroll position */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full w-1.5 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className="w-full bg-gradient-to-b from-blue-400 via-purple-400 to-pink-500 rounded-full origin-top"
-              style={{
-                height: `${progressHeight}%`,
-                transition: 'height 0.05s linear', // Even smoother transitions
-              }}
-            />
+        {/* Journey Timeline - Desktop */}
+        <div className="hidden md:block relative">
+          {/* Central Timeline Line */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-indigo-300 via-purple-400 to-pink-400 h-full shadow-sm"></div>
+
+          {/* Animated Plane */}
+          <div
+            className="absolute left-1/2 transform -translate-x-1/2 transition-all duration-700 ease-out z-20"
+            style={{
+              top: `${(currentStep / (steps.length - 1)) * 85}%`,
+            }}
+          >
+            <PlaneIcon isActive={true} />
           </div>
 
-          <div className="space-y-28">
+          {/* Steps */}
+          <div className="space-y-8">
             {steps.map((step, index) => (
-              <motion.div
-                key={step.id}
-                className="relative"
-                ref={stepRefs.current[index]}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true, margin: '-80px' }}
-              >
+              <div key={step.id} className="relative">
+                {/* Connection Line from Circle to Card */}
                 <div
-                  className={`flex items-center ${
-                    index % 2 === 0 ? 'flex-row-reverse' : 'flex-row'
+                  className={`absolute top-6 w-20 h-0.5 bg-gradient-to-r from-indigo-300 to-purple-300 z-5 ${
+                    index % 2 === 0 ? 'left-1/2 ml-6' : 'right-1/2 mr-6'
                   }`}
-                >
-                  {/* Timeline node */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
-                    <motion.div
-                      className={`flex items-center justify-center w-16 h-16 rounded-full bg-white border-4 ${
-                        activeStep >= index
-                          ? step.borderColor
-                          : 'border-gray-300'
-                      } shadow-lg transition-all duration-300`}
-                      animate={{
-                        scale: activeStep === index ? [1, 1.1, 1] : 1,
-                        boxShadow:
-                          activeStep === index
-                            ? '0 0 20px rgba(66, 153, 225, 0.6)'
-                            : '0 4px 6px rgba(0, 0, 0, 0.1)',
-                      }}
-                      transition={{
-                        scale: {
-                          repeat: activeStep === index ? Infinity : 0,
-                          duration: 2,
-                        },
-                        boxShadow: { duration: 0.5 },
-                      }}
-                    >
-                      <span
-                        className={`font-bold text-xl ${
-                          activeStep >= index ? step.color : 'text-gray-400'
-                        } transition-colors duration-300`}
-                      >
-                        {step.id}
-                      </span>
-                    </motion.div>
+                ></div>
 
-                    {/* Connection line to content */}
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: '40px' }}
-                      transition={{ duration: 0.3, delay: 0.2 }}
-                      className={`absolute top-1/2 -mt-0.5 h-1.5 ${
-                        activeStep >= index
-                          ? 'bg-gradient-to-r ' +
-                            (index % 2 === 0
-                              ? 'from-transparent to-blue-500'
-                              : 'from-blue-500 to-transparent')
-                          : 'bg-gray-300'
-                      } ${
-                        index % 2 === 0 ? '-right-[40px]' : '-left-[40px]'
-                      } transition-colors duration-300`}
+                {/* Step Icon Circle */}
+                <div
+                  className={`absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-white border-4 ${
+                    currentStep >= index ? `${step.border} ` : 'border-gray-300'
+                  } rounded-full flex items-center justify-center z-10 shadow-lg transition-all duration-500`}
+                >
+                  <step.icon
+                    className={`w-6 h-6 transition-colors duration-500 ${
+                      currentStep >= index ? `${step.text}` : 'text-gray-400'
+                    }`}
+                  />
+                </div>
+
+                {/* Step Card */}
+                <div
+                  className={`flex ${
+                    index % 2 === 0 ? 'justify-end' : 'justify-start'
+                  } w-full`}
+                >
+                  <div className="w-1/2">
+                    <StepCard
+                      step={step}
+                      isVisible={visibleSteps[index]}
+                      side={index % 2 === 0 ? 'left' : 'right'}
                     />
                   </div>
-
-                  {/* Content box */}
-                  <div
-                    className={`w-5/12 ${index % 2 === 0 ? 'pr-16' : 'pl-16'}`}
-                  >
-                    <motion.div
-                      className={`relative bg-white p-7 rounded-xl shadow-lg border ${
-                        activeStep >= index
-                          ? step.borderColor
-                          : 'border-gray-200'
-                      } backdrop-blur-sm bg-opacity-95 transition-all duration-300`}
-                      whileInView={{
-                        y: [10, 0],
-                        opacity: [0, 1],
-                      }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                      whileHover={{
-                        y: -5,
-                        boxShadow: '0 15px 30px -10px rgba(66, 153, 225, 0.4)',
-                      }}
-                    >
-                      {/* Arrow pointing to timeline */}
-                      <motion.div
-                        className={`absolute top-1/2 -mt-3 ${
-                          index % 2 === 0
-                            ? 'left-full -ml-3'
-                            : 'right-full -mr-3'
-                        }`}
-                        animate={{
-                          x: index % 2 === 0 ? [-5, 0, -5] : [5, 0, 5],
-                          opacity: activeStep >= index ? 1 : 0.4,
-                        }}
-                        transition={{
-                          x: { repeat: Infinity, duration: 1.5 },
-                          opacity: { duration: 0.3 },
-                        }}
-                      >
-                        <ArrowRight
-                          size={28}
-                          className={`${
-                            activeStep >= index ? step.color : 'text-gray-300'
-                          } transition-colors duration-300 ${
-                            index % 2 === 0 ? 'rotate-180' : ''
-                          }`}
-                        />
-                      </motion.div>
-
-                      <div className="flex items-center mb-4">
-                        <motion.div
-                          className={`${
-                            activeStep >= index ? step.bgColor : 'bg-gray-100'
-                          } p-3.5 rounded-lg mr-5 shadow-md transition-colors duration-300`}
-                          whileHover={{
-                            rotate: [0, 5, -5, 0],
-                            transition: { duration: 0.5 },
-                          }}
-                        >
-                          <step.icon
-                            size={28}
-                            className={
-                              activeStep >= index ? step.color : 'text-gray-400'
-                            }
-                          />
-                        </motion.div>
-                        <h3
-                          className={`text-2xl font-bold ${
-                            activeStep >= index ? step.color : 'text-gray-400'
-                          } transition-colors duration-300`}
-                        >
-                          {step.title}
-                        </h3>
-                      </div>
-                      <p
-                        className={`text-lg ${
-                          activeStep >= index
-                            ? 'text-gray-700'
-                            : 'text-gray-400'
-                        } transition-colors duration-300`}
-                      >
-                        {step.description}
-                      </p>
-
-                      {/* Subtle glow effect at the bottom */}
-                      <div
-                        className={`absolute bottom-0 left-0 w-full h-1/2 bg-gradient-radial ${
-                          activeStep >= index
-                            ? step.glowColor
-                            : 'from-gray-200/30 to-transparent'
-                        } opacity-40 rounded-b-xl pointer-events-none transition-colors duration-300`}
-                      ></div>
-                    </motion.div>
-                  </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Mobile Timeline - Vertical Flow - Optimized */}
-        <div className="md:hidden relative" ref={timelineRef}>
-          <ScrollArea className="h-[calc(100vh-200px)] pb-20 overflow-auto pr-4">
-            {/* Mobile vertical timeline line - now using direct scroll position */}
-            <div className="absolute left-8 top-0 bottom-0 w-1.5 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className="w-full bg-gradient-to-b from-blue-400 via-purple-500 to-pink-500 rounded-full origin-top"
-                style={{
-                  height: `${progressHeight}%`,
-                  transition: 'height 0.05s linear', // Even smoother transitions
-                }}
-              />
-            </div>
+        {/* Journey Timeline - Mobile */}
+        <div className="md:hidden relative">
+          {/* Left Timeline Line */}
+          <div className="absolute left-6 top-0 w-0.5 bg-gradient-to-b from-indigo-300 via-purple-400 to-pink-400 h-full shadow-sm"></div>
 
-            <div className="space-y-16 relative pb-10">
-              {steps.map((step, index) => (
-                <motion.div
-                  key={step.id}
-                  ref={stepRefs.current[index]}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true, margin: '-10px' }}
-                  className="relative pl-20"
+          {/* Animated Plane */}
+          {/* Animated Plane */}
+          <div
+            className="absolute left-6 transform -translate-x-1/2 transition-all duration-700 ease-out z-20"
+            style={{
+              top: `${(currentStep / (steps.length - 1)) * 85}%`,
+            }}
+          >
+            <PlaneIcon isActive={true} />
+          </div>
+
+          {/* Steps */}
+          <div className="space-y-6">
+            {steps.map((step, index) => (
+              <div key={step.id} className="relative flex items-start">
+                {/* Step Icon Circle */}
+                <div
+                  className={`w-12 h-12 bg-white border-4 ${
+                    currentStep >= index ? `${step.border}` : 'border-gray-300'
+                  } rounded-full flex items-center justify-center shadow-lg z-10 flex-shrink-0 transition-all duration-500`}
                 >
-                  {/* Timeline node */}
-                  <div className="absolute left-0 top-4 z-10 transform -translate-x-1/2">
-                    <motion.div
-                      className={`flex items-center justify-center w-14 h-14 rounded-full bg-white border-4 ${
-                        activeStep >= index
-                          ? step.borderColor
-                          : 'border-gray-300'
-                      } shadow-md transition-all duration-300`}
-                      animate={{
-                        scale: activeStep === index ? [1, 1.1, 1] : 1,
-                        boxShadow:
-                          activeStep === index
-                            ? '0 0 15px rgba(66, 153, 225, 0.5)'
-                            : '0 4px 6px rgba(0, 0, 0, 0.1)',
-                      }}
-                      transition={{
-                        scale: {
-                          repeat: activeStep === index ? Infinity : 0,
-                          duration: 2,
-                        },
-                        boxShadow: { duration: 0.5 },
-                      }}
-                    >
-                      <span
-                        className={`font-bold text-lg ${
-                          activeStep >= index ? step.color : 'text-gray-400'
-                        } transition-colors duration-300`}
-                      >
-                        {step.id}
-                      </span>
-                    </motion.div>
+                  <step.icon
+                    className={`w-6 h-6 transition-colors duration-500 ${
+                      currentStep >= index ? `${step.text}` : 'text-gray-400'
+                    }`}
+                  />
+                </div>
 
-                    {/* Connection line to content */}
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: '16px' }}
-                      transition={{ duration: 0.3, delay: 0.2 }}
-                      className={`absolute top-1/2 -mt-0.5 h-1.5 ${
-                        activeStep >= index
-                          ? 'bg-gradient-to-r from-blue-500 to-transparent'
-                          : 'bg-gray-300'
-                      } left-full transition-colors duration-300`}
-                    />
-                  </div>
-
-                  {/* Content box */}
-                  <motion.div
-                    className={`relative bg-white p-5 rounded-xl shadow-md border ${
-                      activeStep >= index ? step.borderColor : 'border-gray-200'
-                    } backdrop-blur-sm bg-opacity-95 transition-all duration-300`}
-                    whileInView={{ scale: [0.95, 1], opacity: [0, 1] }}
-                    transition={{ duration: 0.4 }}
-                    whileHover={{ x: 5 }}
-                  >
-                    {/* Arrow pointing to node */}
-                    <motion.div
-                      className="absolute -left-4 top-8 transform -translate-y-1/2"
-                      animate={{
-                        x: [-3, 0, -3],
-                        opacity: activeStep >= index ? 1 : 0.4,
-                      }}
-                      transition={{
-                        x: { repeat: Infinity, duration: 1.5 },
-                        opacity: { duration: 0.3 },
-                      }}
-                    >
-                      <ArrowRight
-                        size={20}
-                        className={
-                          activeStep >= index ? step.color : 'text-gray-300'
-                        }
-                      />
-                    </motion.div>
-
-                    <div className="flex items-center mb-3">
-                      <motion.div
-                        className={`${
-                          activeStep >= index ? step.bgColor : 'bg-gray-100'
-                        } p-3 rounded-lg mr-3 shadow-sm transition-colors duration-300`}
-                        whileHover={{
-                          rotate: [0, 10, -10, 0],
-                          transition: { duration: 0.5 },
-                        }}
-                      >
-                        <step.icon
-                          size={22}
-                          className={
-                            activeStep >= index ? step.color : 'text-gray-400'
-                          }
-                        />
-                      </motion.div>
-                      <h3
-                        className={`text-xl font-bold ${
-                          activeStep >= index ? step.color : 'text-gray-400'
-                        } transition-colors duration-300`}
-                      >
-                        {step.title}
-                      </h3>
-                    </div>
-                    <p
-                      className={`text-sm ${
-                        activeStep >= index ? 'text-gray-700' : 'text-gray-400'
-                      } transition-colors duration-300`}
-                    >
-                      {step.description}
-                    </p>
-
-                    {/* Show arrow for all steps except the last one */}
-                    {index < steps.length - 1 && (
-                      <motion.div
-                        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-8"
-                        animate={{
-                          y: [0, 5, 0],
-                          opacity: activeStep === index ? 1 : 0.5,
-                        }}
-                        transition={{
-                          y: { repeat: Infinity, duration: 1.2 },
-                          opacity: { duration: 0.3 },
-                        }}
-                      >
-                        <ChevronDown
-                          size={24}
-                          className={
-                            activeStep >= index ? step.color : 'text-gray-300'
-                          }
-                        />
-                      </motion.div>
-                    )}
-
-                    {/* Subtle glow effect */}
-                    <div
-                      className={`absolute bottom-0 left-0 w-full h-1/2 bg-gradient-radial ${
-                        activeStep >= index
-                          ? step.glowColor
-                          : 'from-gray-200/30 to-transparent'
-                      } opacity-40 rounded-b-xl pointer-events-none transition-colors duration-300`}
-                    ></div>
-                  </motion.div>
-                </motion.div>
-              ))}
-            </div>
-          </ScrollArea>
+                {/* Step Card */}
+                <div className="ml-4 flex-1">
+                  <MobileStepCard step={step} isVisible={visibleSteps[index]} />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          viewport={{ once: true }}
-          className="mt-16 text-center"
-        >
-          <motion.button
-            className="px-10 py-4 text-white font-medium rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-xl transition-all duration-300"
-            whileHover={{
-              y: -5,
-              boxShadow: '0 15px 30px -10px rgba(66, 153, 225, 0.5)',
-            }}
-            whileTap={{ y: 0, scale: 0.98 }}
-          >
-            Get Started Today
-          </motion.button>
-        </motion.div>
+        {/* Progress Indicator */}
+        <div className="mt-12 text-center">
+          {currentStep >= steps.length - 1 ? (
+            <div className="inline-flex flex-col items-center">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-sky-400 rounded-full flex items-center justify-center mb-4 animate-bounce shadow-lg">
+                <GraduationCap className="w-8 h-8 text-white animate-pulse" />
+              </div>
+              <p className="text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text font-bold text-lg">
+                Journey Complete! 🎉
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="inline-flex space-x-2 mb-4">
+                {steps.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      index <= currentStep
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 scale-110 shadow-md'
+                        : 'bg-gray-300'
+                    }`}
+                  />
+                ))}
+              </div>
+              <p className="text-gray-600">
+                Step {currentStep + 1} of {steps.length}
+              </p>
+            </>
+          )}
+        </div>
       </div>
     </section>
   );
 };
 
-export default HowItWorks;
+interface StepCardProps {
+  step: {
+    id: number;
+    title: string;
+    subtitle: string;
+    description: string;
+    buttonText: string;
+    icon: React.ComponentType<any>;
+    color: string;
+  };
+  isVisible: boolean;
+  side: 'left' | 'right';
+}
+
+const StepCard: React.FC<StepCardProps> = ({ step, isVisible, side }) => {
+  return (
+    <div
+      className={`transition-all duration-700 transform ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      } ${side === 'left' ? 'text-right' : 'text-left'}`}
+    >
+      <div
+        className={`inline-block bg-white/80 backdrop-blur-sm rounded-2xl p-5 shadow-xl border border-white/50 hover:shadow-2xl transition-all duration-300 max-w-sm ${
+          side === 'left' ? 'mr-20' : 'ml-20'
+        } hover:scale-105`}
+      >
+        <div
+          className={`flex items-center gap-3 mb-3 ${
+            side === 'left' ? 'justify-end' : 'justify-start'
+          }`}
+        >
+          <div
+            className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-lg font-bold ${step.color} shadow-lg`}
+          >
+            <step.icon className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="font-bold text-gray-800 text-lg">{step.title}</h3>
+            <p className="text-sm text-purple-600 font-medium">
+              {step.subtitle}
+            </p>
+          </div>
+        </div>
+        <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+          {step.description}
+        </p>
+        <button
+          className={`${step.color} text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-md hover:shadow-lg`}
+        >
+          {step.buttonText}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+interface MobileStepCardProps {
+  step: {
+    id: number;
+    title: string;
+    subtitle: string;
+    description: string;
+    buttonText: string;
+    icon: React.ComponentType<any>;
+    color: string;
+  };
+  isVisible: boolean;
+}
+
+const MobileStepCard: React.FC<MobileStepCardProps> = ({ step, isVisible }) => {
+  return (
+    <div
+      className={`transition-all duration-700 transform ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      }`}
+    >
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-white/50 hover:shadow-2xl transition-all duration-300 hover:scale-105">
+        <div className="flex items-center gap-3 mb-3">
+          <div
+            className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-lg font-bold ${step.color} shadow-lg`}
+          >
+            <step.icon className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="font-bold text-gray-800 text-base">{step.title}</h3>
+            <p className="text-xs text-purple-600 font-medium">
+              {step.subtitle}
+            </p>
+          </div>
+        </div>
+        <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+          {step.description}
+        </p>
+        <button
+          className={`${step.color} text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 w-full sm:w-auto shadow-md hover:shadow-lg`}
+        >
+          {step.buttonText}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default HowItWork;

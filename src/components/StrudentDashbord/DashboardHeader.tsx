@@ -11,17 +11,21 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useSidebar } from '@/components/ui/sidebar';
 import { Link } from 'react-router-dom';
-import logo from '@/assets/logo/logo2.png';
+import logo from '@/assets/logo/logo.png';
+import { useAppSelector } from '@/hooks/redux/SelectorAndDispatchHooks';
+import { checkDomainOfScale } from 'recharts/types/util/ChartUtils';
 
 const DashboardHeader = () => {
+  const user = useAppSelector(state => state.profile.user);
+  console.log('User in DashboardHeader:', user);
   const { toggleSidebar } = useSidebar();
 
   return (
     <header className=" px-10 sticky top-0 z-30 flex h-16 items-center justify-between bg-indigo-100">
       {/* Left: Brand logo */}
       <div className="flex items-center gap-2">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="relative w-24">
+        <Link to="/phantom" className="flex items-center gap-2">
+          <div className="relative w-16">
             <img src={logo} alt="Fly8" />
           </div>
         </Link>
@@ -88,19 +92,29 @@ const DashboardHeader = () => {
                   src="@/assets/picture/StudentServices/4.png"
                   alt="Profile"
                 />
-                <AvatarFallback className="bg-sky-500 p-3">AS</AvatarFallback>
+                <AvatarFallback className="bg-sky-500 p-3">
+                  {`${user.firstName?.[0] ?? ''}${
+                    user.lastName?.[0] ?? ''
+                  }`.toUpperCase()}
+                </AvatarFallback>
               </Avatar>
               <div className="hidden md:flex flex-col items-start text-sm">
-                <span className="font-medium">Amy Smith</span>
-                <span className="text-xs text-muted-foreground">@amy12345</span>
+                <span className="font-medium">
+                  {user.firstName} {''} {user.lastName}
+                </span>
+                <span className="text-xs text-muted-foreground">
+                  {user.email}
+                </span>
               </div>
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>
               <div className="flex flex-col">
-                <p>Amy Smith</p>
-                <p className="text-xs text-muted-foreground">@amy12345</p>
+                <p>
+                  {user.firstName} {''} {user.lastName}
+                </p>
+                <p className="text-xs text-muted-foreground"> {user.email}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
