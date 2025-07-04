@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import FeaturedUniversities from '@/components/FeaturedUniversities';
 import {
   ArrowRight,
   GraduationCap,
@@ -372,58 +373,7 @@ const InstitutionPartners = () => {
 
         {/* Partner Universities */}
         <section className="py-16 my-10" ref={universitiesRef}>
-          <div className="text-center mb-16">
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={universitiesInView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.5 }}
-              className="px-4 py-1.5 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4 inline-flex items-center gap-2"
-            >
-              <UserCheck size={16} /> Join Leading Institutions
-            </motion.span>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={universitiesInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-3xl md:text-4xl font-bold mb-4"
-            >
-              Our University Partners
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={universitiesInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-gray-600 max-w-2xl mx-auto"
-            >
-              Join a network of prestigious institutions from around the globe
-            </motion.p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {universities.map((university, index) => (
-              <motion.div
-                key={university.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={universitiesInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                className="flex flex-col items-center hover:-translate-y-2 transition-transform"
-              >
-                <div className="w-20 h-20 bg-white rounded-full shadow-md flex items-center justify-center p-2 mb-4 hover:shadow-lg transition-all">
-                  <div className="w-full h-full rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-white transition-colors">
-                    <span className="text-lg font-bold text-gray-500">
-                      {university.initials}
-                    </span>
-                  </div>
-                </div>
-                <h4 className="text-center font-medium text-gray-800">
-                  {university.name}
-                </h4>
-                <p className="text-sm text-gray-500 text-center">
-                  {university.country}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+          <FeaturedUniversities />
         </section>
 
         {/* CTA Section */}

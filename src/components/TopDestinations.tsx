@@ -245,7 +245,7 @@ export default function TopDestinations() {
               animate={{ opacity: 1, y: 0 }}
               transition={staggerDelay.button}
             >
-              <Link to={`/countries`}>
+              <Link to={`/phantom/countries`}>
                 <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-full hover:shadow-lg hover:shadow-blue-500/30 transition-all flex items-center justify-center gap-2 group">
                   Explore countries
                   <ArrowRight
@@ -254,9 +254,9 @@ export default function TopDestinations() {
                   />
                 </button>
               </Link>
-              <button className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-full hover:border-blue-500 hover:text-blue-600 transition-all">
+              {/* <button className="px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-full hover:border-blue-500 hover:text-blue-600 transition-all">
                 Compare destinations
-              </button>
+              </button> */}
             </motion.div>
           </div>
         </div>

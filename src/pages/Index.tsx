@@ -16,14 +16,14 @@ const Index = () => {
       <HeroSection />
       <FeaturedUniversities />
       {/* <StatsCounter /> */}
-      <FeatureGrid />
+      {/* <FeatureGrid /> */}
       <HowItWorks />
       <JoinOurPlatfrom />
       <TopDestinations />
-      <TestimonialsSection />
       {/* <FeaturedUniversities /> */}
       <BlogNewsletter />
       <FinalCTA />
+      <TestimonialsSection />
     </>
   );
 };

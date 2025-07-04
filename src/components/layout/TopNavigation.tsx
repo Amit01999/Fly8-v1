@@ -92,9 +92,9 @@ const TopNavigation = ({ isVisible }: TopNavigationProps) => {
                     setIsMenuOpen(true);
                   }}
                   roleLinks={{
-                    student: '/',
-                    partners: '/partners',
-                    institution: '/institution',
+                    student: '/phantom',
+                    partners: '/phantom/partners',
+                    institution: '/phantom/institution',
                   }}
                 />
               </div>
