@@ -379,16 +379,6 @@ const HeroSection = () => {
               </div>
             </div>
 
-            {/* <div className="relative scale-125 lg:ml-16  hover:scale-[1.02] transition-transform duration-500">
-              <div className="relative">
-                <img
-                  src={heobg}
-                  alt="Hero Image"
-                  className="w-96 h-96 object-cover  transform group-hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-            </div> */}
-
             {/* AI Matching Section */}
             <div className="relative overflow-hidden rounded-2xl mt-6 p-5 bg-white/80 backdrop-blur-xl shadow-md ring-1 ring-gray-200">
               {/* Background Blobs */}

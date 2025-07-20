@@ -88,7 +88,7 @@ const App = () => (
             <Route index element={<Index />} />
             <Route path="course-finder" element={<CourseFinder />} />
             <Route path="countries" element={<Countries />} />
-            <Route path="countries/:countryId" element={<CountryDetails />} />
+            <Route path="countries/:countryname" element={<CountryDetails />} />
             <Route path="programs" element={<Courses />} />
             <Route path="universities" element={<TopUniversities />} />
             <Route

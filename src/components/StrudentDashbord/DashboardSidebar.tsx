@@ -228,11 +228,11 @@ const DashboardSidebar = () => {
 
         <div className="p-3 mt-auto">
           <NavLink
-            to="/dashboard/new-request"
+            to="phantom/dashboard/new-request"
             className="flex justify-center items-center gap-2 w-full p-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg hover:shadow-md transition-all font-medium"
           >
             <CirclePlus className="h-5 w-5" />
-            <span>New Request</span>
+            <span>Add your feedback</span>
           </NavLink>
         </div>
       </SidebarContent>

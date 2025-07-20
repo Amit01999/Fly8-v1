@@ -201,12 +201,12 @@ function Countries() {
                         <h2 className="text-xl font-bold text-white">
                           {country.name}
                         </h2>
-                        <div className="flex items-center text-indigo-100">
+                        {/* <div className="flex items-center text-indigo-100">
                           <MapPin className="w-3 h-3 mr-1" />
                           <span className="text-xs">
                             {country.continent || 'International'}
                           </span>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

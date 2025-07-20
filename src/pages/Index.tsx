@@ -22,8 +22,8 @@ const Index = () => {
       <TopDestinations />
       {/* <FeaturedUniversities /> */}
       <BlogNewsletter />
-      <FinalCTA />
       <TestimonialsSection />
+      <FinalCTA />
     </>
   );
 };

@@ -1,36 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-  Upload,
-  FileText,
-  MessageSquare,
-  Bell,
-  CheckCircle,
-  AlertCircle,
-  User,
-  GraduationCap,
-  Globe,
-  Target,
-} from 'lucide-react';
+import { Upload, MessageSquare, Bell, User, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AssessmentForm from '@/components/StrudentDashbord/profile-assessmen/AssessmentForm';
@@ -40,7 +12,7 @@ import AssessmentChat from '@/components/StrudentDashbord/profile-assessmen/Asse
 
 export default function ProfileAssessment() {
   const [activeTab, setActiveTab] = useState('form');
-  const [assessmentProgress, setAssessmentProgress] = useState(75);
+  const [assessmentProgress, setAssessmentProgress] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleFormSubmit = () => {
@@ -83,7 +55,10 @@ export default function ProfileAssessment() {
                   {assessmentProgress}%
                 </span>
               </div>
-              <Progress value={assessmentProgress} className="h-2" />
+              <Progress
+                value={assessmentProgress}
+                className="h-2 bg-slate-300"
+              />
             </CardContent>
           </Card>
         </div>

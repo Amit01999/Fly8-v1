@@ -4,8 +4,6 @@ import {
   Building,
   GraduationCap,
   Plane,
-  Ticket,
-  Wallet,
   Globe,
   FileText,
   Users,
@@ -20,29 +18,44 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { useAppSelector } from '@/hooks/redux/SelectorAndDispatchHooks';
+import { Link } from 'react-router-dom';
 
 const StudentDashboardHome = () => {
+  const user = useAppSelector(state => state.profile.user);
   return (
     <div className="space-y-6 ">
       {/* Welcome Banner */}
       <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary via-secondary to-accent p-6 text-white shadow-md">
-        <div className="relative z-10">
-          <h1 className="text-2xl font-bold">Welcome back, Amy!</h1>
-          <p className="mt-1 text-white/80">
+        <div className="relative z-10 text-center py-8 px-4">
+          <h1 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent animate-fade-in">
+            Welcome, {`${user.firstName} ${user.lastName}`}
+          </h1>
+          <p className="mt-2 text-white/80 text-sm md:text-base animate-fade-in delay-100">
             Track your application progress and manage your student journey
+            efficiently
           </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <div className="rounded-full bg-white/20 px-3 py-1 text-sm backdrop-blur-sm">
-              <span className="font-medium">3</span> Active Applications
+          {/* 
+          <div className="mt-6 flex flex-wrap justify-center gap-3 animate-fade-in delay-200">
+            <div className="rounded-full bg-white/20 px-4 py-1.5 text-sm text-white backdrop-blur-md shadow-sm">
+              <span className="font-semibold">3</span> Active Applications
             </div>
-            <div className="rounded-full bg-white/20 px-3 py-1 text-sm backdrop-blur-sm">
-              <span className="font-medium">2</span> Pending Tasks
+            <div className="rounded-full bg-white/20 px-4 py-1.5 text-sm text-white backdrop-blur-md shadow-sm">
+              <span className="font-semibold">2</span> Pending Tasks
             </div>
-            <div className="rounded-full bg-white/20 px-3 py-1 text-sm backdrop-blur-sm">
-              <span className="font-medium">1</span> New Message
+            <div className="rounded-full bg-white/20 px-4 py-1.5 text-sm text-white backdrop-blur-md shadow-sm">
+              <span className="font-semibold">1</span> New Message
             </div>
-          </div>
+          </div> */}
+
+          <Link
+            to={'/phantom/StudentDashboard/profile-assessment'}
+            className="mt-6 inline-block rounded-lg bg-gradient-to-r from-emerald-400 to-teal-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg  hover:scale-105 transition-transform duration-200"
+          >
+            Complete Your Profile
+          </Link>
         </div>
+
         <div className="absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-white/10 blur-3xl"></div>
         <div className="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-white/10 blur-3xl"></div>
       </div>
