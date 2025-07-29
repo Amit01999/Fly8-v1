@@ -72,7 +72,6 @@ import JobsAbroad from './pages/student-dashboard/StudentdashboadPage/JobsAbroad
 import UploadUniversity from './components/UploadUniversity';
 import FindCourses from './pages/FindCourse';
 import AIMatch from './components/AImatch';
-
 const queryClient = new QueryClient();
 
 const App = () => (
