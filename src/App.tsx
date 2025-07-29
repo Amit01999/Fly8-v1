@@ -71,7 +71,7 @@ import EducationLoanSupport from './pages/student-dashboard/StudentdashboadPage/
 import JobsAbroad from './pages/student-dashboard/StudentdashboadPage/JobsAbroad';
 import UploadUniversity from './components/UploadUniversity';
 import FindCourses from './pages/FindCourse';
-import AiMatch from './components/AiMatch';
+import AMatch from './components/AMatch';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -89,7 +89,7 @@ const App = () => (
           <Route path="/phantom" element={<Layout children={''} />}>
             <Route index element={<Index />} />
             <Route path="course-finder" element={<CourseFinder />} />
-            <Route path="AiMatch" element={<AiMatch />} />
+            <Route path="AiMatch" element={<AMatch />} />
             <Route path="countries" element={<Countries />} />
             <Route path="countries/:countryname" element={<CountryDetails />} />
             {/* <Route path="programs" element={<Courses />} /> */}

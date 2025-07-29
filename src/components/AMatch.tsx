@@ -9,7 +9,7 @@ import {
   Star,
 } from 'lucide-react';
 
-const AiMatch = () => {
+const AMatch = () => {
   const [email, setEmail] = useState('');
   const [scrollY, setScrollY] = useState(0);
 
@@ -262,4 +262,4 @@ const AiMatch = () => {
   );
 };
 
-export default AiMatch;
+export default AMatch;
