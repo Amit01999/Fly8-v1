@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import heobg from '../assets/picture/hero-bg.png';
 import { Link } from 'react-router-dom';
+import heroImage from '../assets/picture/heroImage.jpg';
 const HeroSection = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -372,7 +373,7 @@ const HeroSection = () => {
             <div className="relative rounded-3xl shadow-2xl backdrop-blur-md bg-white/70 p-3 ring-1 ring-white/20 hover:scale-[1.02] transition-transform duration-500">
               <div className="relative overflow-hidden rounded-2xl shadow-lg group">
                 <img
-                  src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                  src={heroImage}
                   alt="Students studying together"
                   className="w-full h-auto object-cover rounded-2xl transform group-hover:scale-105 transition-transform duration-700"
                 />
@@ -405,13 +406,15 @@ const HeroSection = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full text-primary border border-indigo-300 bg-white/70 backdrop-blur-md shadow-sm hover:bg-indigo-500 hover:shadow-md transition-all"
-                  >
-                    Start Matching <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                  <Link to="/phantom/AImatch">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full text-primary border border-indigo-300 bg-white/70 backdrop-blur-md shadow-sm hover:bg-indigo-500 hover:shadow-md transition-all"
+                    >
+                      Start Matching <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
                 </motion.div>
               </div>
             </div>

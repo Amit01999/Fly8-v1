@@ -69,6 +69,9 @@ import Accommodation from './pages/student-dashboard/StudentdashboadPage/Accommo
 import EducationLoanPage from './pages/StudentServicesPage/EducationLoan';
 import EducationLoanSupport from './pages/student-dashboard/StudentdashboadPage/EducationLoanSupport';
 import JobsAbroad from './pages/student-dashboard/StudentdashboadPage/JobsAbroad';
+import UploadUniversity from './components/UploadUniversity';
+import FindCourses from './pages/FindCourse';
+import AIMatch from './components/AImatch';
 
 const queryClient = new QueryClient();
 
@@ -87,14 +90,17 @@ const App = () => (
           <Route path="/phantom" element={<Layout children={''} />}>
             <Route index element={<Index />} />
             <Route path="course-finder" element={<CourseFinder />} />
+            <Route path="AImatch" element={<AIMatch />} />
             <Route path="countries" element={<Countries />} />
             <Route path="countries/:countryname" element={<CountryDetails />} />
-            <Route path="programs" element={<Courses />} />
+            {/* <Route path="programs" element={<Courses />} /> */}
+            <Route path="programs" element={<FindCourses />} />
             <Route path="universities" element={<TopUniversities />} />
             <Route
-              path="universities/:universityname"
+              path="universities/:universitycode"
               element={<UniversityProfile />}
             />
+            <Route path="universities/upload" element={<UploadUniversity />} />
             <Route path="contact" element={<Contact />} />
             <Route path="partners" element={<AgencyPartners />} />
             <Route path="institution" element={<InstitutionPartners />} />

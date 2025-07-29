@@ -3,14 +3,30 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { MapPin, Calendar, Award } from 'lucide-react';
 
-export function UniversityHero() {
+type UniversityHeroProps = {
+  universityName: string;
+  campusName: string;
+  location: string;
+  imageUrl: string;
+  tagline: string;
+  stats: [string, string, string]; // [established, accreditation, locations]
+};
+
+export function UniversityHero({
+  universityName,
+  campusName,
+  location,
+  imageUrl,
+  tagline,
+  stats,
+}: UniversityHeroProps) {
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gray-900">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2000&q=80"
-          alt="Berkeley College NYC Campus"
+          src={imageUrl}
+          alt={universityName}
           className="w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 via-slate-900/60 to-sky-800/70 mix-blend-multiply" />
@@ -26,45 +42,38 @@ export function UniversityHero() {
           {/* Location */}
           <div className="flex items-center justify-center gap-2 mb-4 text-sm text-blue-200">
             <MapPin className="w-5 h-5" />
-            New York City, USA
+            {location}
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold leading-tight tracking-tight drop-shadow-lg">
             <span className="bg-gradient-to-r from-blue-300 via-white to-sky-300 bg-clip-text text-transparent">
-              Berkeley College
+              {universityName}
             </span>
             <span className="block text-xl sm:text-2xl md:text-4xl font-light text-blue-100 mt-2">
-              NYC Campus
+              {campusName}
             </span>
           </h1>
 
           {/* Subheading */}
           <p className="text-lg sm:text-xl md:text-2xl mt-6 mb-8 max-w-3xl mx-auto text-blue-100">
-            Career-Focused Education in the Heart of New York City
+            {tagline}
           </p>
 
           {/* Stats */}
           <div className="flex flex-wrap justify-center gap-4 md:gap-6 mb-10">
-            {[
-              { icon: <Calendar className="w-4 h-4" />, label: 'Est. 1931' },
-              {
-                icon: <Award className="w-4 h-4" />,
-                label: 'MSCHE Accredited',
-              },
-              {
-                icon: <MapPin className="w-4 h-4" />,
-                label: 'NYC, NJ, Online',
-              },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 text-sm text-white backdrop-blur-sm border border-white/20 shadow-sm hover:shadow-md transition"
-              >
-                {stat.icon}
-                {stat.label}
-              </div>
-            ))}
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 text-sm text-white backdrop-blur-sm border border-white/20 shadow-sm hover:shadow-md transition">
+              <Calendar className="w-4 h-4" />
+              {stats[0]}
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 text-sm text-white backdrop-blur-sm border border-white/20 shadow-sm hover:shadow-md transition">
+              <Award className="w-4 h-4" />
+              {stats[1]}
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 text-sm text-white backdrop-blur-sm border border-white/20 shadow-sm hover:shadow-md transition">
+              <MapPin className="w-4 h-4" />
+              {stats[2]}
+            </div>
           </div>
 
           {/* Call to Action Buttons */}
@@ -78,7 +87,7 @@ export function UniversityHero() {
             <Button
               size="lg"
               variant="outline"
-              className=" bg-gradient-to-r from-blue-300  to-sky-300  text-black hover:bg-white hover:text-gray-900 px-8 py-4 text-lg font-semibold transition-transform hover:scale-105"
+              className="bg-gradient-to-r from-blue-300 to-sky-300 text-black hover:bg-white hover:text-gray-900 px-8 py-4 text-lg font-semibold transition-transform hover:scale-105"
             >
               Explore Programs
             </Button>

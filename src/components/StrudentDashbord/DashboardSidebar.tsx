@@ -140,10 +140,10 @@ const DashboardSidebar = () => {
             to={item.to}
             className={({ isActive }) =>
               cn(
-                'flex items-center gap-3 px-3 py-2 rounded-lg transition-colors',
+                'group hover-slide-bg flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-primary',
                 isActive
-                  ? 'bg-primary/10 text-primary font-medium'
-                  : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'
+                  ? 'bg-blue-900 text-white font-semibold'
+                  : 'text-muted-foreground hover:text-white'
               )
             }
           >
@@ -155,7 +155,7 @@ const DashboardSidebar = () => {
             >
               <Icon className="h-5 w-5" />
             </span>
-            <span>{item.name}</span>
+            <span className="relative z-10 text-secondary">{item.name}</span>
           </NavLink>
         </SidebarMenuButton>
       </SidebarMenuItem>

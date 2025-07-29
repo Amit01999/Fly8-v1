@@ -2,48 +2,19 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Calendar, Briefcase, Globe, Users } from 'lucide-react';
+import { FileText, Calendar, Briefcase, Users } from 'lucide-react';
 
-export function VisaSupport() {
-  const visaSteps = [
-    {
-      step: 1,
-      title: 'I-20 Form',
-      description: 'Receive your I-20 after admission and deposit payment',
-    },
-    {
-      step: 2,
-      title: 'SEVIS Payment',
-      description: 'Pay the SEVIS I-901 fee online',
-    },
-    {
-      step: 3,
-      title: 'DS-160 Form',
-      description: 'Complete the online DS-160 application',
-    },
-    {
-      step: 4,
-      title: 'Embassy Interview',
-      description: 'Schedule and attend your visa interview',
-    },
-  ];
+export function VisaSupport({ visaInfo }) {
+  const { visaSteps, workOpportunities } = visaInfo || {};
 
-  const workOpportunities = [
-    {
-      type: 'CPT (Curricular Practical Training)',
-      description:
-        'Work authorization for internships and co-op programs related to your field of study',
-      timing: 'During studies (after 1 year)',
-      icon: Briefcase,
-    },
-    {
-      type: 'OPT (Optional Practical Training)',
-      description:
-        '12-month work authorization after graduation (36 months for STEM programs)',
-      timing: 'After graduation',
-      icon: Calendar,
-    },
-  ];
+  // Use provided data or fall back to defaults
+  const visaStepsToRender = visaSteps;
+  const workOpportunitiesToRender = workOpportunities;
+
+  // Hardcode icons for work opportunities based on index
+  const getWorkOpportunityIcon = index => {
+    return index === 0 ? Briefcase : Calendar;
+  };
 
   return (
     <section className="py-20 bg-gradient-to-br from-blue-50 to-purple-50 relative">
@@ -81,7 +52,7 @@ export function VisaSupport() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {visaSteps.map((step, index) => (
+                  {visaStepsToRender.map((step, index) => (
                     <motion.div
                       key={step.step}
                       initial={{ opacity: 0, y: 10 }}
@@ -167,7 +138,7 @@ export function VisaSupport() {
             Work Opportunities
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {workOpportunities.map((opportunity, index) => (
+            {workOpportunitiesToRender.map((opportunity, index) => (
               <Card
                 key={opportunity.type}
                 className="bg-white/80 backdrop-blur-sm border border-white/20 shadow-lg"
@@ -175,7 +146,9 @@ export function VisaSupport() {
                 <CardHeader>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
-                      <opportunity.icon className="w-5 h-5 text-white" />
+                      {React.createElement(getWorkOpportunityIcon(index), {
+                        className: 'w-5 h-5 text-white',
+                      })}
                     </div>
                     <div>
                       <CardTitle className="text-lg">

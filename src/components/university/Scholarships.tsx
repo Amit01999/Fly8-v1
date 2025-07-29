@@ -4,33 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Award, Star, DollarSign, CheckCircle } from 'lucide-react';
 
-export function Scholarships() {
-  const scholarships = [
-    {
-      name: 'International Student Scholarship',
-      amount: '10% - 25%',
-      type: 'Tuition Reduction',
-      eligibility: 'Minimum 3.0 GPA',
-      renewable: true,
-      popular: true,
-    },
-    {
-      name: 'Academic Excellence Award',
-      amount: 'Up to $5,000',
-      type: 'Merit-Based',
-      eligibility: '3.5+ GPA, Leadership',
-      renewable: true,
-      popular: false,
-    },
-    {
-      name: 'International Transfer Scholarship',
-      amount: '15% - 20%',
-      type: 'Transfer Students',
-      eligibility: '3.2+ GPA, 24+ Credits',
-      renewable: false,
-      popular: false,
-    },
-  ];
+export function Scholarships({ scholarshipInfo }) {
+  const scholarships = scholarshipInfo?.scholarships || [];
+  const scholarshipsToRender = scholarships;
+  const universityName = scholarshipInfo?.universityName || 'This';
 
   return (
     <section className="py-20 bg-white relative">
@@ -46,13 +23,13 @@ export function Scholarships() {
             Scholarships & Financial Aid
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Berkeley College offers various scholarship opportunities to help
+            {universityName} offers various scholarship opportunities to help
             international students achieve their educational goals.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {scholarships.map((scholarship, index) => (
+          {scholarshipsToRender.map((scholarship, index) => (
             <motion.div
               key={scholarship.name}
               initial={{ opacity: 0, y: 20 }}
@@ -60,7 +37,7 @@ export function Scholarships() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="h-full bg-gradient-to-br from-white to-gray-50 border-0 shadow-lg hover:shadow-xl transition-all duration-300 group">
+              <Card className="h-full bg.gradient-to-br from-white to-gray-50 border-0 shadow-lg hover:shadow-xl transition-all duration-300 group">
                 <CardHeader>
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">

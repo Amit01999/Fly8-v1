@@ -16,100 +16,102 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import UniversityCard1 from './UniversityCard1';
+import universities from '../Data/universitydetailes';
 
 // Mock data for demo
-const mockUniversities = [
-  {
-    id: '1',
-    name: 'Harvard University',
-    logo: 'https://via.placeholder.com/150',
-    country: 'USA',
-    rank: 1,
-    feeRange: { min: 45000, max: 60000 },
-    isFeatured: true,
-    students: '23,000',
-    acceptanceRate: '3.4%',
-  },
-  {
-    id: '2',
-    name: 'Massachusetts Institute of Technology (MIT)',
-    logo: 'https://via.placeholder.com/150',
-    country: 'USA',
-    rank: 2,
-    feeRange: { min: 47000, max: 62000 },
-    isFeatured: false,
-    students: '11,500',
-    acceptanceRate: '6.7%',
-  },
-  {
-    id: '3',
-    name: 'Stanford University',
-    logo: 'https://via.placeholder.com/150',
-    country: 'USA',
-    rank: 3,
-    feeRange: { min: 48000, max: 63000 },
-    isFeatured: true,
-    students: '17,200',
-    acceptanceRate: '4.3%',
-  },
-  {
-    id: '4',
-    name: 'University of Oxford',
-    logo: 'https://via.placeholder.com/150',
-    country: 'UK',
-    rank: 4,
-    feeRange: { min: 35000, max: 50000 },
-    isFeatured: true,
-    students: '24,500',
-    acceptanceRate: '17.5%',
-  },
-  {
-    id: '5',
-    name: 'University of Cambridge',
-    logo: 'https://via.placeholder.com/150',
-    country: 'UK',
-    rank: 5,
-    feeRange: { min: 34000, max: 48000 },
-    isFeatured: false,
-    students: '23,200',
-    acceptanceRate: '21%',
-  },
-  {
-    id: '6',
-    name: 'California Institute of Technology (Caltech)',
-    logo: 'https://via.placeholder.com/150',
-    country: 'USA',
-    rank: 6,
-    feeRange: { min: 49000, max: 64000 },
-    isFeatured: false,
-    students: '2,200',
-    acceptanceRate: '6.4%',
-  },
-  {
-    id: '7',
-    name: 'University College London (UCL)',
-    logo: 'https://via.placeholder.com/150',
-    country: 'UK',
-    rank: 7,
-    feeRange: { min: 32000, max: 45000 },
-    isFeatured: false,
-    students: '42,000',
-    acceptanceRate: '63%',
-  },
-  {
-    id: '8',
-    name: 'Imperial College London',
-    logo: 'https://via.placeholder.com/150',
-    country: 'UK',
-    rank: 8,
-    feeRange: { min: 33000, max: 47000 },
-    isFeatured: true,
-    students: '17,500',
-    acceptanceRate: '14.3%',
-  },
-];
+// const mockUniversities = [
+//   {
+//     id: '1',
+//     name: 'Harvard University',
+//     logo: 'https://via.placeholder.com/150',
+//     country: 'USA',
+//     rank: 1,
+//     feeRange: { min: 45000, max: 60000 },
+//     isFeatured: true,
+//     students: '23,000',
+//     acceptanceRate: '3.4%',
+//   },
+//   {
+//     id: '2',
+//     name: 'Massachusetts Institute of Technology (MIT)',
+//     logo: 'https://via.placeholder.com/150',
+//     country: 'USA',
+//     rank: 2,
+//     feeRange: { min: 47000, max: 62000 },
+//     isFeatured: false,
+//     students: '11,500',
+//     acceptanceRate: '6.7%',
+//   },
+//   {
+//     id: '3',
+//     name: 'Stanford University',
+//     logo: 'https://via.placeholder.com/150',
+//     country: 'USA',
+//     rank: 3,
+//     feeRange: { min: 48000, max: 63000 },
+//     isFeatured: true,
+//     students: '17,200',
+//     acceptanceRate: '4.3%',
+//   },
+//   {
+//     id: '4',
+//     name: 'University of Oxford',
+//     logo: 'https://via.placeholder.com/150',
+//     country: 'UK',
+//     rank: 4,
+//     feeRange: { min: 35000, max: 50000 },
+//     isFeatured: true,
+//     students: '24,500',
+//     acceptanceRate: '17.5%',
+//   },
+//   {
+//     id: '5',
+//     name: 'University of Cambridge',
+//     logo: 'https://via.placeholder.com/150',
+//     country: 'UK',
+//     rank: 5,
+//     feeRange: { min: 34000, max: 48000 },
+//     isFeatured: false,
+//     students: '23,200',
+//     acceptanceRate: '21%',
+//   },
+//   {
+//     id: '6',
+//     name: 'California Institute of Technology (Caltech)',
+//     logo: 'https://via.placeholder.com/150',
+//     country: 'USA',
+//     rank: 6,
+//     feeRange: { min: 49000, max: 64000 },
+//     isFeatured: false,
+//     students: '2,200',
+//     acceptanceRate: '6.4%',
+//   },
+//   {
+//     id: '7',
+//     name: 'University College London (UCL)',
+//     logo: 'https://via.placeholder.com/150',
+//     country: 'UK',
+//     rank: 7,
+//     feeRange: { min: 32000, max: 45000 },
+//     isFeatured: false,
+//     students: '42,000',
+//     acceptanceRate: '63%',
+//   },
+//   {
+//     id: '8',
+//     name: 'Imperial College London',
+//     logo: 'https://via.placeholder.com/150',
+//     country: 'UK',
+//     rank: 8,
+//     feeRange: { min: 33000, max: 47000 },
+//     isFeatured: true,
+//     students: '17,500',
+//     acceptanceRate: '14.3%',
+//   },
+// ];
 
-const countries = Array.from(new Set(mockUniversities.map(uni => uni.country)));
+const countries = Array.from(new Set(universities.map(uni => uni.country)));
 
 const UniversityCard = ({
   university,
@@ -171,7 +173,7 @@ const UniversityCard = ({
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-bold text-xl text-gray-900 leading-tight group-hover:text-sky-700 transition-colors duration-300 mb-3">
-                {university.name}
+                {university.universityName}
               </h3>
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-xl bg-gradient-to-r from-gray-100 to-gray-50 shadow-sm">
@@ -232,7 +234,7 @@ const UniversityCard = ({
           {/* CTA Button */}
           <div className="mt-auto">
             <Link
-              to={`/phantom/universities/${university.name
+              to={`/phantom/universities/${university.universityName
                 .toLowerCase()
                 .replace(/ /g, '-')}`}
             >
@@ -263,19 +265,21 @@ const TopUniversities = () => {
   const universitiesPerPage = 6;
 
   // Filter universities based on filters
-  const filteredUniversities = mockUniversities.filter(university => {
+  const filteredUniversities = universities.filter(university => {
     if (
       searchTerm &&
-      !university.name.toLowerCase().includes(searchTerm.toLowerCase())
+      !university.universityName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
     ) {
       return false;
     }
     if (selectedCountry && university.country !== selectedCountry) {
       return false;
     }
-    if (viewMode === 'featured' && !university.isFeatured) {
-      return false;
-    }
+    // if (viewMode === 'featured' && !university.isFeatured) {
+    //   return false;
+    // }
     return true;
   });
 
@@ -550,8 +554,13 @@ const TopUniversities = () => {
           {currentUniversities.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-20">
               {currentUniversities.map((university, index) => (
-                <UniversityCard
-                  key={university.id}
+                // <UniversityCard
+                //   key={university.id}
+                //   university={university}
+                //   index={index}
+                // />
+                <UniversityCard1
+                  key={university.universitycode}
                   university={university}
                   index={index}
                 />
