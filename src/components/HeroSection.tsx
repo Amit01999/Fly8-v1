@@ -406,7 +406,7 @@ const HeroSection = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  <Link to="/phantom/AImatch">
+                  <Link to="/phantom/AiMatch">
                     <Button
                       variant="ghost"
                       size="sm"
