@@ -49,7 +49,7 @@ const StudentDashboardHome = () => {
           </div> */}
 
           <Link
-            to={'/phantom/StudentDashboard/profile-assessment'}
+            to={'/StudentDashboard/profile-assessment'}
             className="mt-6 inline-block rounded-lg bg-gradient-to-r from-emerald-400 to-teal-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg  hover:scale-105 transition-transform duration-200"
           >
             Complete Your Profile

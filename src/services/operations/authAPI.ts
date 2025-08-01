@@ -45,7 +45,7 @@ export function sendOtp({ email, navigate }: SendOtpParams) {
         throw new Error(response.data.message);
       }
       toast.success('OTP Sent Successfully');
-      navigate('/phantom/verify-email');
+      navigate('/verify-email');
     } catch (error) {
       console.log('SENDOTP API ERROR............', error);
       toast.error('Could Not Send OTP');
@@ -87,11 +87,11 @@ export function signUp(
       }
 
       toast.success('Signup Successful');
-      navigate('/phantom/signin/student');
+      navigate('/signin/student');
     } catch (error: any) {
       console.log('SIGNUP API ERROR............', error);
       toast.error(error?.response?.data?.message || 'Signup Failed');
-      navigate('/phantom/signup');
+      navigate('/signup');
     }
 
     dispatch(setAuthLoading(false));
@@ -118,7 +118,7 @@ export function login(
       }
       toast.success('Login Successful');
       console.log('Login dattt:', response.data.student);
-      // navigate('/phantom/StudentDashboard/my-profile');
+      // navigate('/StudentDashboard/my-profile');
       dispatch(setToken(response.data.student.token));
       const userImage = `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.student.firstName} ${response.data.student.lastName}`;
       dispatch(setUser({ ...response.data.student, image: userImage }));
@@ -128,7 +128,7 @@ export function login(
         JSON.stringify(response.data.student.token)
       );
       localStorage.setItem('user', JSON.stringify(response.data.student));
-      navigate('/phantom/StudentDashboard/my-profile');
+      navigate('/StudentDashboard/my-profile');
     } catch (error) {
       console.log('LOGIN API ERROR............', error);
       toast.error('Login Failed');
@@ -146,7 +146,7 @@ export function logout(navigate) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     toast.success('Logged Out');
-    navigate('/phantom');
+    navigate('');
   };
 }
 

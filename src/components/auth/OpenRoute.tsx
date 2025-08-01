@@ -9,7 +9,7 @@ function OpenRoute({ children }) {
   if (token === null) {
     return children;
   } else {
-    return <Navigate to="/phantom/StudentDashboard/my-profile" />;
+    return <Navigate to="/StudentDashboard/my-profile" />;
   }
 }
 

@@ -72,6 +72,7 @@ import JobsAbroad from './pages/student-dashboard/StudentdashboadPage/JobsAbroad
 import UploadUniversity from './components/UploadUniversity';
 import FindCourses from './pages/FindCourse';
 import AMatch from './components/AMatch';
+import ProfileDetailes from './components/StrudentDashbord/profile-assessmen/ProfileDetailes';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -83,11 +84,12 @@ const App = () => (
         <Toaster />
         <Routes>
           {/* Coming Soon Page on Root */}
-          <Route path="/" element={<ComingSoon />} />
+          {/* <Route path="/phantom " element={<ComingSoon />} /> */}
           {/* <Route path="/intern" element={<StudentInternFrom />} /> */}
           {/* Full Website under /phantom */}
-          <Route path="/phantom" element={<Layout children={''} />}>
+          <Route path="/" element={<Layout children={''} />}>
             <Route index element={<Index />} />
+            <Route path="phantom" element={<Index />} />
             <Route path="course-finder" element={<CourseFinder />} />
             <Route path="AiMatch" element={<AMatch />} />
             <Route path="countries" element={<Countries />} />
@@ -177,9 +179,9 @@ const App = () => (
             <Route path="verify-email" element={<VerifyEmail />} />
           </Route>
 
-          {/* Student Dashboard inside /phantom */}
+          {/* Student Dashboard inside  */}
           <Route
-            path="/phantom/StudentDashboard"
+            path="/StudentDashboard"
             element={
               <PrivateRoute>
                 <StudentDashboard />
@@ -193,6 +195,7 @@ const App = () => (
               element={<StudentBookAppointment />}
             />
             <Route path="profile-assessment" element={<ProfileAssessment />} />
+            {/* <Route path="profile-assessment" element={<ProfileDetailes />} /> */}
             <Route
               path="preparation-support"
               element={<PreparationSupport />}

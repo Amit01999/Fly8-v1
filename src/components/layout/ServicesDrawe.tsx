@@ -36,16 +36,16 @@ const serviceCategories: ServiceCategory[] = [
     services: [
       {
         name: 'Profile Assessment',
-        href: '/phantom/services/profile-assessment',
+        href: '/services/profile-assessment',
       },
-      { name: ' Find Program', href: '/phantom/services/find-program' },
+      { name: ' Find Program', href: '/services/find-program' },
       {
         name: 'Find University',
-        href: '/phantom/services/find-university',
+        href: '/services/find-university',
       },
-      { name: 'Find Scholarship', href: '/phantom/services/find-scholarship' },
-      { name: 'Language Test', href: '/phantom/services/language-test' },
-      { name: 'Education Loan', href: '/phantom/services/education-loan' },
+      { name: 'Find Scholarship', href: '/services/find-scholarship' },
+      { name: 'Language Test', href: '/services/language-test' },
+      { name: 'Education Loan', href: '/services/education-loan' },
     ],
   },
   {
@@ -54,17 +54,17 @@ const serviceCategories: ServiceCategory[] = [
     services: [
       {
         name: 'Document Verification',
-        href: '/phantom/services/document-verification',
+        href: '/services/document-verification',
       },
       {
         name: 'Application Review',
-        href: '/phantom/services/application-review',
+        href: '/services/application-review',
       },
-      { name: 'Visa Assistance', href: '/phantom/services/visa-assistance' },
-      { name: 'SOP & LOR Help', href: '/phantom/services/sop-lor' },
+      { name: 'Visa Assistance', href: '/services/visa-assistance' },
+      { name: 'SOP & LOR Help', href: '/services/sop-lor' },
       {
         name: 'Medical Insurance',
-        href: '/phantom/services/medical-insurance',
+        href: '/services/medical-insurance',
       },
     ],
   },
@@ -72,26 +72,26 @@ const serviceCategories: ServiceCategory[] = [
     title: 'Travel & Accommodation',
     icon: <Plane className="h-6 w-6 text-blue-500" />,
     services: [
-      { name: 'Flight Booking', href: '/phantom/services/flight-booking' },
-      { name: 'Hotel Booking', href: '/phantom/services/hotel-booking' },
-      { name: 'Student Housing', href: '/phantom/services/student-housing' },
-      { name: 'Airport Pickup', href: '/phantom/services/airport-pickup' },
-      { name: 'Travel Insurance', href: '/phantom/services/travel-insurance' },
-      { name: 'Travel Package', href: '/phantom/services/travel-package' },
+      { name: 'Flight Booking', href: '/services/flight-booking' },
+      { name: 'Hotel Booking', href: '/services/hotel-booking' },
+      { name: 'Student Housing', href: '/services/student-housing' },
+      { name: 'Airport Pickup', href: '/services/airport-pickup' },
+      { name: 'Travel Insurance', href: '/services/travel-insurance' },
+      { name: 'Travel Package', href: '/services/travel-package' },
     ],
   },
   {
     title: 'Career Services',
     icon: <Briefcase className="h-6 w-6 text-emerald-500" />,
     services: [
-      { name: 'Resume Building', href: '/phantom/services/resume-building' },
+      { name: 'Resume Building', href: '/services/resume-building' },
       {
         name: 'University Interview',
-        href: '/phantom/services/university-interview',
+        href: '/services/university-interview',
       },
-      { name: 'Visa Interview', href: '/phantom/services/visa-interview' },
-      { name: 'Job Placement', href: '/phantom/services/job-placement' },
-      { name: 'Global Events', href: '/phantom/services/global-events' },
+      { name: 'Visa Interview', href: '/services/visa-interview' },
+      { name: 'Job Placement', href: '/services/job-placement' },
+      { name: 'Global Events', href: '/services/global-events' },
     ],
   },
 ];
@@ -145,14 +145,14 @@ const ServicesDrawer = ({ isOpen, onClose }: ServicesDrawerProps) => {
                   </motion.a>
                 ))}
 
-                {category.title === 'Student Services' && (
+                {/* {category.title === 'Student Services' && (
                   <a
                     href="/services/student"
                     className="inline-flex items-center mt-4 px-6 py-2 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors"
                   >
                     <span>Explore all student services</span>
                   </a>
-                )}
+                )} */}
               </div>
             </div>
           ))}

@@ -545,13 +545,13 @@ const DashboardModern: React.FC = () => {
               />
             </CardContent>
             <CardFooter className="px-6 pt-0 pb-4">
-              <Button
+              {/* <Button
                 variant="ghost"
                 size="sm"
                 className="w-full text-xs text-fuchsia-600 dark:text-fuchsia-400 hover:text-fuchsia-700 dark:hover:text-fuchsia-300 border border-slate-200 dark:border-slate-700 rounded-lg"
               >
                 View All Updates
-              </Button>
+              </Button> */}
             </CardFooter>
           </Card>
 

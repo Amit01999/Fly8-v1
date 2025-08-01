@@ -224,7 +224,7 @@ const HeroSection = () => {
               >
                 <span className="relative z-10 flex items-center">
                   <Search className="mr-2 h-5 w-5" />
-                  <Link to={'/phantom/universities'}>Explore Universities</Link>
+                  <Link to={'/universities'}>Explore Universities</Link>
                   <motion.div
                     className="ml-2"
                     animate={{
@@ -406,7 +406,7 @@ const HeroSection = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  <Link to="/phantom/AiMatch">
+                  <Link to="/AiMatch">
                     <Button
                       variant="ghost"
                       size="sm"

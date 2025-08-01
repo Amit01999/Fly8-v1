@@ -245,7 +245,7 @@ export default function TopDestinations() {
               animate={{ opacity: 1, y: 0 }}
               transition={staggerDelay.button}
             >
-              <Link to={`/phantom/countries`}>
+              <Link to={`/countries`}>
                 <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-full hover:shadow-lg hover:shadow-blue-500/30 transition-all flex items-center justify-center gap-2 group">
                   Explore countries
                   <ArrowRight

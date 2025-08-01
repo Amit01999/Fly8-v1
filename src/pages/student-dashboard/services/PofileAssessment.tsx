@@ -45,7 +45,7 @@ export default function ProfileAssessment() {
           </div>
 
           {/* Progress Indicator */}
-          <Card className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-200">
+          {/* <Card className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-200">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-gray-700">
@@ -60,7 +60,7 @@ export default function ProfileAssessment() {
                 className="h-2 bg-slate-300"
               />
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
 
         {/* Main Content Tabs */}
@@ -116,22 +116,6 @@ export default function ProfileAssessment() {
             <AssessmentChat />
           </TabsContent>
         </Tabs>
-
-        {/* Floating Action Buttons */}
-        <div className="fixed bottom-6 right-6 flex flex-col gap-3">
-          <Button
-            size="icon"
-            className="h-12 w-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg"
-          >
-            <Bell className="h-5 w-5" />
-          </Button>
-          <Button
-            size="icon"
-            className="h-12 w-12 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-lg"
-          >
-            <MessageSquare className="h-5 w-5" />
-          </Button>
-        </div>
       </motion.div>
     </div>
   );

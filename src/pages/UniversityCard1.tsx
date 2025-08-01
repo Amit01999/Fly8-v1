@@ -115,7 +115,7 @@ const UniversityCard1 = ({ university, index }) => {
 
         {/* CTA */}
         <div className="mt-auto">
-          <Link to={`/phantom/universities/${university.universitycode}`}>
+          <Link to={`/universities/${university.universitycode}`}>
             <button className="w-full px-5 py-3 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white rounded-xl font-semibold flex items-center justify-center gap-2 shadow-md hover:from-sky-600 hover:to-blue-600 transition-all">
               <span>View Details</span>
               <ArrowRight

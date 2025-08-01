@@ -24,7 +24,7 @@ const DashboardHeader = () => {
     <header className=" px-10 sticky top-0 z-30 flex h-16 items-center justify-between bg-indigo-100">
       {/* Left: Brand logo */}
       <div className="flex items-center gap-2">
-        <Link to="/phantom" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div className="relative w-16">
             <img src={logo} alt="Fly8" />
           </div>

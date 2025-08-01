@@ -35,7 +35,7 @@ export default function ProfileDropdown() {
           className="absolute top-[118%] right-0 z-[1000] w-[180px] divide-y-[1px] divide-sky-400 overflow-hidden rounded-md border border-sky-400 bg-sky-100 shadow-lg"
         >
           <Link
-            to="/phantom/StudentDashboard/my-profile"
+            to="/StudentDashboard/my-profile"
             onClick={() => setOpen(false)}
           >
             <div className="flex w-full items-center gap-x-2 py-2 px-4 text-sm text-sky-800 hover:bg-sky-200 transition-colors duration-150">

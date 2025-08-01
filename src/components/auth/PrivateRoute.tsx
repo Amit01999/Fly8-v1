@@ -7,7 +7,7 @@ const PrivateRoute = ({ children }) => {
   const token = useAppSelector(state => state.auth.token);
 
   if (token !== null) return children;
-  else return <Navigate to="/phantom/signin/student" />;
+  else return <Navigate to="/signin/student" />;
 };
 
 export default PrivateRoute;

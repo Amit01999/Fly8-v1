@@ -234,7 +234,7 @@ const UniversityCard = ({
           {/* CTA Button */}
           <div className="mt-auto">
             <Link
-              to={`/phantom/universities/${university.universityName
+              to={`/universities/${university.universityName
                 .toLowerCase()
                 .replace(/ /g, '-')}`}
             >

@@ -34,50 +34,50 @@ const services = [
   {
     name: 'Profile Assessment',
     icon: UserRound,
-    to: '/phantom/StudentDashboard/profile-assessment',
+    to: '/StudentDashboard/profile-assessment',
     color: 'bg-purple-500/20 text-purple-500',
   },
   {
     name: 'Preapplication Support',
     icon: Shield,
-    to: '/phantom/StudentDashboard/preparation-support',
+    to: '/StudentDashboard/preparation-support',
     color: 'bg-blue-500/20 text-blue-500',
   },
 
   {
     name: 'Apply University',
     icon: GraduationCap,
-    to: '/phantom/StudentDashboard/apply-university',
+    to: '/StudentDashboard/apply-university',
     color: 'bg-green-500/20 text-green-500',
   },
   {
     name: ' Visa & Interview Support',
     icon: PackageCheck,
-    to: '/phantom/StudentDashboard/visa-interview-support',
+    to: '/StudentDashboard/visa-interview-support',
     color: 'bg-amber-500/20 text-amber-500',
   },
   {
     name: 'Ticket & Travel Support',
     icon: Ticket,
-    to: '/phantom/StudentDashboard/ticket-travel-support',
+    to: '/StudentDashboard/ticket-travel-support',
     color: 'bg-red-500/20 text-red-500',
   },
   {
     name: 'Find Accomodation',
     icon: Building,
-    to: '/phantom/StudentDashboard/accommodation-finder',
+    to: '/StudentDashboard/accommodation-finder',
     color: 'bg-cyan-500/20 text-cyan-500',
   },
   {
     name: 'Education Loan',
     icon: Wallet,
-    to: '/phantom/StudentDashboard/student-loan',
+    to: '/StudentDashboard/student-loan',
     color: 'bg-emerald-500/20 text-emerald-500',
   },
   {
     name: ' Find Jobs Abroad ',
     icon: Briefcase,
-    to: '/phantom/StudentDashboard/job-portal',
+    to: '/StudentDashboard/job-portal',
     color: 'bg-indigo-500/20 text-indigo-500',
   },
 ];
@@ -86,31 +86,31 @@ const account = [
   {
     name: 'Subscriptions',
     icon: Receipt,
-    to: '/phantom/StudentDashboard/subscriptions',
+    to: '/StudentDashboard/subscriptions',
     color: 'bg-fuchsia-500/20 text-fuchsia-500',
   },
   {
     name: 'Progress Report',
     icon: ListChecks,
-    to: '/phantom/StudentDashboard/progress',
+    to: '/StudentDashboard/progress',
     color: 'bg-teal-500/20 text-teal-500',
   },
   {
     name: 'Payment History',
     icon: Wallet,
-    to: '/phantom/StudentDashboard/payments',
+    to: '/StudentDashboard/payments',
     color: 'bg-rose-500/20 text-rose-500',
   },
   {
     name: 'Settings',
     icon: Cog,
-    to: '/phantom/StudentDashboard/settings',
+    to: '/StudentDashboard/settings',
     color: 'bg-gray-500/20 text-gray-500',
   },
   {
     name: 'Help',
     icon: HelpCircle,
-    to: '/phantom/StudentDashboard/help',
+    to: '/StudentDashboard/help',
     color: 'bg-orange-500/20 text-orange-500',
   },
 ];
@@ -171,7 +171,7 @@ const DashboardSidebar = () => {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <NavLink
-                  to="/phantom/StudentDashboard/my-profile"
+                  to="/StudentDashboard/my-profile"
                   className={({ isActive }) =>
                     cn(
                       'flex items-center px-3 rounded-lg transition-colors',
