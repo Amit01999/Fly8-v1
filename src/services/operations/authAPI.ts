@@ -48,7 +48,10 @@ export function sendOtp({ email, navigate }: SendOtpParams) {
       navigate('/verify-email');
     } catch (error) {
       console.log('SENDOTP API ERROR............', error);
-      toast.error('Could Not Send OTP');
+      const errorMessage =
+        error.response?.data?.message || error.message || 'Could Not Send OTP';
+      toast.error(errorMessage);
+      // toast.error('Could Not Send OTP');
     }
     dispatch(setAuthLoading(false));
     toast.dismiss(toastId);

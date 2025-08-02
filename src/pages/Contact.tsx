@@ -76,13 +76,13 @@ const Contact = () => {
             {
               icon: <Mail className="text-primary" />,
               title: 'Email Us',
-              content: 'support@fly8education.com',
+              content: 'contact@fly8.global',
               details: "We'll respond within 24 hours",
             },
             {
               icon: <Phone className="text-primary" />,
               title: 'Call Us',
-              content: '+1 (800) 123-4567',
+              content: '+8801686395927',
               details: 'Mon-Fri from 9am to 6pm',
             },
             {

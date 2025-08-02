@@ -23,6 +23,7 @@ import { AppDispatch } from '@/reducer/store';
 const SignUpStudent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -31,23 +32,121 @@ const SignUpStudent = () => {
     phone: '',
     country: '',
   });
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    phone: '',
+    country: '',
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    dispatch(setSignupData(formData));
-    dispatch(sendOtp({ email: formData.email, navigate }));
-
-    setFormData({
+  const validateForm = () => {
+    const newErrors = {
       firstName: '',
       lastName: '',
       email: '',
       password: '',
       phone: '',
       country: '',
-    });
+    };
+    let isValid = true;
+
+    // Validate firstName
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required';
+      isValid = false;
+    }
+
+    // Validate lastName
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last name is required';
+      isValid = false;
+    }
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+      isValid = false;
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email';
+      isValid = false;
+    }
+
+    // Validate password
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+      isValid = false;
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+      isValid = false;
+    }
+
+    // Validate phone
+    const phoneRegex = /^\+?\d{10,14}$/;
+    if (!formData.phone) {
+      newErrors.phone = 'Phone number is required';
+      isValid = false;
+    } else if (!phoneRegex.test(formData.phone)) {
+      newErrors.phone = 'Please enter a valid phone number';
+      isValid = false;
+    }
+
+    // Validate country
+    if (!formData.country.trim()) {
+      newErrors.country = 'Country is required';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      toast({
+        variant: 'destructive',
+        title: 'Form Error',
+        description: 'Please fill in all required fields correctly',
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      dispatch(setSignupData(formData));
+      await dispatch(sendOtp({ email: formData.email, navigate }));
+
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        phone: '',
+        country: '',
+      });
+      setErrors({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        phone: '',
+        country: '',
+      });
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: error.message || 'Something went wrong. Please try again.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -81,11 +180,16 @@ const SignUpStudent = () => {
                     onChange={e =>
                       setFormData({ ...formData, firstName: e.target.value })
                     }
-                    className="pl-10"
+                    className={`pl-10 ${
+                      errors.firstName ? 'border-red-500' : ''
+                    }`}
                     required
                   />
                   <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 </div>
+                {errors.firstName && (
+                  <p className="text-sm text-red-500">{errors.firstName}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -98,11 +202,16 @@ const SignUpStudent = () => {
                     onChange={e =>
                       setFormData({ ...formData, lastName: e.target.value })
                     }
-                    className="pl-10"
+                    className={`pl-10 ${
+                      errors.lastName ? 'border-red-500' : ''
+                    }`}
                     required
                   />
                   <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 </div>
+                {errors.lastName && (
+                  <p className="text-sm text-red-500">{errors.lastName}</p>
+                )}
               </div>
             </div>
 
@@ -117,11 +226,14 @@ const SignUpStudent = () => {
                   onChange={e =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className="pl-10"
+                  className={`pl-10 ${errors.email ? 'border-red-500' : ''}`}
                   required
                 />
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               </div>
+              {errors.email && (
+                <p className="text-sm text-red-500">{errors.email}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -135,15 +247,18 @@ const SignUpStudent = () => {
                   onChange={e =>
                     setFormData({ ...formData, password: e.target.value })
                   }
-                  className="pl-10"
+                  className={`pl-10 ${errors.password ? 'border-red-500' : ''}`}
                   required
                 />
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               </div>
+              {errors.password && (
+                <p className="text-sm text-red-500">{errors.password}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
+              <Label htmlFor="phone">WhatsApp Number</Label>
               <div className="relative">
                 <Input
                   id="phone"
@@ -153,27 +268,34 @@ const SignUpStudent = () => {
                   onChange={e =>
                     setFormData({ ...formData, phone: e.target.value })
                   }
-                  className="pl-10"
+                  className={`pl-10 ${errors.phone ? 'border-red-500' : ''}`}
                   required
                 />
                 <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               </div>
+              {errors.phone && (
+                <p className="text-sm text-red-500">{errors.phone}</p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="university">Country</Label>
+              <Label htmlFor="country">Country</Label>
               <div className="relative">
                 <Input
                   id="country"
-                  placeholder="Enter you country name"
+                  placeholder="Enter your country name"
                   value={formData.country}
                   onChange={e =>
                     setFormData({ ...formData, country: e.target.value })
                   }
-                  className="pl-10"
+                  className={`pl-10 ${errors.country ? 'border-red-500' : ''}`}
+                  required
                 />
                 <Building className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               </div>
+              {errors.country && (
+                <p className="text-sm text-red-500">{errors.country}</p>
+              )}
             </div>
           </CardContent>
 
