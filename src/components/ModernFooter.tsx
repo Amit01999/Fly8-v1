@@ -515,7 +515,7 @@ const ModernFooter = () => {
                     <br />
                     Munna Tower, 6th Floor, Shib Bari
                     <br />
-                    Khulna 9100, Bangladesh (BD) 🇧🇩
+                    Khulna 9100, Bangladesh
                   </div>
                 </li>
                 {/* <li className="flex items-start">
