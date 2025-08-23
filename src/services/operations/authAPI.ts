@@ -58,6 +58,50 @@ export function sendOtp({ email, navigate }: SendOtpParams) {
   };
 }
 
+// export function signUp(
+//   firstName: string,
+//   lastName: string,
+//   email: string,
+//   password: string,
+//   phone: string,
+//   country: string,
+//   otp: string,
+//   navigate: NavigateFunction
+// ) {
+//   return async (dispatch: Dispatch) => {
+//     const toastId = toast.loading('Loading...');
+//     dispatch(setAuthLoading(true));
+
+//     try {
+//       const response = await apiConnector('POST', SIGNUP_API, {
+//         firstName,
+//         lastName,
+//         email,
+//         password,
+//         phone,
+//         country,
+//         otp,
+//       });
+
+//       console.log('SIGNUP API RESPONSE............', response);
+
+//       if (!response.data.success) {
+//         throw new Error(response.data.message);
+//       }
+
+//       toast.success('Signup Successful');
+//       navigate('/signin/student');
+//     } catch (error: any) {
+//       console.log('SIGNUP API ERROR............', error);
+//       toast.error(error?.response?.data?.message || 'Signup Failed');
+//       navigate('/signup');
+//     }
+
+//     dispatch(setAuthLoading(false));
+//     toast.dismiss(toastId);
+//   };
+// }
+
 export function signUp(
   firstName: string,
   lastName: string,
@@ -65,6 +109,7 @@ export function signUp(
   password: string,
   phone: string,
   country: string,
+  referral: string | undefined, // Add optional referral parameter
   otp: string,
   navigate: NavigateFunction
 ) {
@@ -80,6 +125,7 @@ export function signUp(
         password,
         phone,
         country,
+        referral, // Include referral in API payload
         otp,
       });
 

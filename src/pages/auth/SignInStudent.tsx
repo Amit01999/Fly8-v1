@@ -26,13 +26,6 @@ const SignInStudent = () => {
 
   const navigate = useNavigate();
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setIsSubmitting(true);
-  //   const { email, password } = formData;
-  //   dispatch(login(email, password, navigate));
-  // };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
