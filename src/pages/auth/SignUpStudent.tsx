@@ -666,7 +666,7 @@ const SignUpStudent = () => {
                   <div className="relative">
                     <Input
                       id="referral"
-                      placeholder="Enter referral code"
+                      placeholder="Enter referral name"
                       value={formData.referral}
                       onChange={e =>
                         setFormData({ ...formData, referral: e.target.value })
