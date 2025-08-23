@@ -250,7 +250,7 @@ function Countries() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        Explore Programs
+                        Explore Countries
                         <ChevronRight className="w-4 h-4" />
                       </motion.button>
                     </Link>
