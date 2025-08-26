@@ -4,32 +4,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const offers = [
-  {
-    id: 1,
-    title: '50% OFF IELTS Preparation Course',
-    description: 'Limited time offer ending this week. Boost your score now!',
-    bgColor: 'from-purple-600 to-indigo-600',
-    btnText: 'Claim Offer',
-    btnColor: 'bg-white text-indigo-600 hover:bg-indigo-50',
-  },
-  {
-    id: 2,
-    title: 'Free Visa Consultation',
-    description: 'Book a free consultation with our visa experts this month',
-    bgColor: 'from-cyan-500 to-blue-500',
-    btnText: 'Book Now',
-    btnColor: 'bg-white text-blue-600 hover:bg-blue-50',
-  },
-  {
-    id: 3,
-    title: 'Scholarship Alert',
-    description: 'New scholarships available for Fall 2025 intake',
-    bgColor: 'from-amber-500 to-orange-500',
-    btnText: 'Apply Now',
-    btnColor: 'bg-white text-orange-600 hover:bg-orange-50',
-  },
-];
+// Replace with your own images
+import offer1 from '@/assets/offers/1.png';
+import offer2 from '@/assets/offers/2.png';
+import offer3 from '@/assets/offers/3.png';
+
+const offers = [offer1, offer2, offer3];
 
 const OffersCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -61,29 +41,18 @@ const OffersCarousel = () => {
       <Card className="overflow-hidden">
         <CardContent className="p-0 relative">
           <div className="relative h-48 md:h-56">
-            {offers.map((offer, index) => (
-              <div
-                key={offer.id}
+            {offers.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt={`Offer ${index + 1}`}
                 className={cn(
-                  'absolute inset-0 transition-all duration-500 ease-in-out transform',
+                  'absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-in-out transform',
                   index === activeIndex
                     ? 'opacity-100 translate-x-0'
                     : 'opacity-0 translate-x-full'
                 )}
-              >
-                <div
-                  className={cn(
-                    'h-full w-full flex flex-col justify-center p-6 text-white bg-gradient-to-r',
-                    offer.bgColor
-                  )}
-                >
-                  <h3 className="text-2xl font-bold mb-2">{offer.title}</h3>
-                  <p className="mb-4 text-white/80">{offer.description}</p>
-                  <Button className={cn('w-fit', offer.btnColor)}>
-                    {offer.btnText}
-                  </Button>
-                </div>
-              </div>
+              />
             ))}
           </div>
 

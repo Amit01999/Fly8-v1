@@ -331,7 +331,7 @@
 // export default SignUpStudent;
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, Building, GraduationCap, Phone } from 'lucide-react';
 import {
@@ -347,7 +347,6 @@ import { useToast } from '@/hooks/use-toast';
 import AuthLayout from '@/components/auth/AuthLayout';
 import RoleToggle from '@/components/auth/RoleToggle';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { setSignupData } from '@/slices/authSlice';
 import { sendOtp } from '@/services/operations/authAPI';
 import { AppDispatch } from '@/reducer/store';
@@ -356,6 +355,7 @@ const SignUpStudent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { toast } = useToast();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -365,6 +365,7 @@ const SignUpStudent = () => {
     country: '',
     referral: '',
   });
+
   const [errors, setErrors] = useState({
     firstName: '',
     lastName: '',
@@ -374,6 +375,7 @@ const SignUpStudent = () => {
     country: '',
     referral: '',
   });
+
   const [hasReferral, setHasReferral] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -389,19 +391,16 @@ const SignUpStudent = () => {
     };
     let isValid = true;
 
-    // Validate firstName
     if (!formData.firstName.trim()) {
       newErrors.firstName = 'First name is required';
       isValid = false;
     }
 
-    // Validate lastName
     if (!formData.lastName.trim()) {
       newErrors.lastName = 'Last name is required';
       isValid = false;
     }
 
-    // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email) {
       newErrors.email = 'Email is required';
@@ -411,7 +410,6 @@ const SignUpStudent = () => {
       isValid = false;
     }
 
-    // Validate password
     if (!formData.password) {
       newErrors.password = 'Password is required';
       isValid = false;
@@ -420,7 +418,6 @@ const SignUpStudent = () => {
       isValid = false;
     }
 
-    // Validate phone
     const phoneRegex = /^\+?\d{10,14}$/;
     if (!formData.phone) {
       newErrors.phone = 'Phone number is required';
@@ -430,15 +427,8 @@ const SignUpStudent = () => {
       isValid = false;
     }
 
-    // Validate country
     if (!formData.country.trim()) {
       newErrors.country = 'Country is required';
-      isValid = false;
-    }
-
-    // Validate referral if checkbox is checked
-    if (hasReferral && !formData.referral.trim()) {
-      newErrors.referral = 'Referral code is required when selected';
       isValid = false;
     }
 
@@ -446,7 +436,7 @@ const SignUpStudent = () => {
     return isValid;
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -461,12 +451,11 @@ const SignUpStudent = () => {
     setIsSubmitting(true);
 
     try {
-      // Only include referral in signupData if hasReferral is true
-      const signupData = hasReferral
-        ? formData
-        : { ...formData, referral: undefined };
+      // Always include referral (even if empty string)
+      const signupData = { ...formData };
 
       dispatch(setSignupData(signupData));
+
       await dispatch(sendOtp({ email: formData.email, navigate }));
 
       setFormData({
@@ -478,6 +467,7 @@ const SignUpStudent = () => {
         country: '',
         referral: '',
       });
+
       setErrors({
         firstName: '',
         lastName: '',
@@ -487,8 +477,9 @@ const SignUpStudent = () => {
         country: '',
         referral: '',
       });
+
       setHasReferral(false);
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: 'destructive',
         title: 'Error',
@@ -520,6 +511,7 @@ const SignUpStudent = () => {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
+              {/* First Name */}
               <div className="space-y-2">
                 <Label htmlFor="firstName">First Name</Label>
                 <div className="relative">
@@ -542,6 +534,7 @@ const SignUpStudent = () => {
                 )}
               </div>
 
+              {/* Last Name */}
               <div className="space-y-2">
                 <Label htmlFor="lastName">Last Name</Label>
                 <div className="relative">
@@ -565,6 +558,7 @@ const SignUpStudent = () => {
               </div>
             </div>
 
+            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
@@ -586,6 +580,7 @@ const SignUpStudent = () => {
               )}
             </div>
 
+            {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
@@ -607,6 +602,7 @@ const SignUpStudent = () => {
               )}
             </div>
 
+            {/* Phone */}
             <div className="space-y-2">
               <Label htmlFor="phone">WhatsApp Number</Label>
               <div className="relative">
@@ -628,6 +624,7 @@ const SignUpStudent = () => {
               )}
             </div>
 
+            {/* Country */}
             <div className="space-y-2">
               <Label htmlFor="country">Country</Label>
               <div className="relative">
@@ -648,6 +645,7 @@ const SignUpStudent = () => {
               )}
             </div>
 
+            {/* Referral */}
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
                 <input
