@@ -180,7 +180,7 @@ export default function CountryCostsSection({
           <div className="space-y-6">
             <p className="text-gray-600">
               Various scholarships and financial aid options are available for
-              international students studying in the UK.
+              international students pursuing their studies.
             </p>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

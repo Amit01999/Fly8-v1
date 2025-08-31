@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
   Upload,
@@ -19,150 +19,276 @@ import {
 } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
+import axios from 'axios';
 
 interface UploadedFile {
   id: string;
   name: string;
   size: string;
   type: string;
-  status: 'uploading' | 'completed' | 'error';
+  status: 'pending' | 'uploading' | 'completed' | 'error';
   progress: number;
+  file: File; // Store the actual File object for submission
 }
 
 export default function FileUploadSection() {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
-  const [dragActive, setDragActive] = useState(false);
+  const [dragActive, setDragActive] = useState<string | null>(null); // Track which document type is being dragged over
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const fileInputRefs = useRef<{ [key: string]: HTMLInputElement | null }>({});
 
-  const requiredDocuments = [
-    { name: 'Academic Transcripts', icon: FileText, required: true },
-    { name: 'English Test Scores', icon: Award, required: true },
-    { name: 'Statement of Purpose', icon: FileText, required: true },
-    { name: 'Letters of Recommendation', icon: FileText, required: false },
-    { name: 'Resume/CV', icon: FileText, required: true },
-    { name: 'Passport Copy', icon: Image, required: true },
+  const documentTypes = [
+    { name: 'Academic Transcripts', icon: FileText, key: 'transcripts' },
+    { name: 'English Test Scores', icon: Award, key: 'testScores' },
+    { name: 'Statement of Purpose', icon: FileText, key: 'sop' },
+    {
+      name: 'Letters of Recommendation',
+      icon: FileText,
+      key: 'recommendation',
+    },
+    { name: 'Resume/CV', icon: FileText, key: 'resume' },
+    { name: 'Passport Copy', icon: Image, key: 'passport' },
   ];
 
-  const handleDrag = (e: React.DragEvent) => {
+  const handleDrag = (e: React.DragEvent, key: string) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true);
+      setDragActive(key);
     } else if (e.type === 'dragleave') {
-      setDragActive(false);
+      setDragActive(null);
     }
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent, docKey: string) => {
     e.preventDefault();
     e.stopPropagation();
-    setDragActive(false);
+    setDragActive(null);
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFiles(e.dataTransfer.files);
+      handleFiles(e.dataTransfer.files, docKey);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    docKey: string
+  ) => {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      handleFiles(e.target.files);
+      handleFiles(e.target.files, docKey);
     }
   };
 
-  const handleFiles = (files: FileList) => {
+  const handleFiles = (files: FileList, docKey: string) => {
+    const maxFileSize = 10 * 1024 * 1024; // 10MB
+    const allowedTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'image/jpeg',
+      'image/png',
+    ];
+
     Array.from(files).forEach(file => {
+      if (file.size > maxFileSize) {
+        setError(`File ${file.name} exceeds 10MB limit.`);
+        return;
+      }
+      if (!allowedTypes.includes(file.type)) {
+        setError(`File ${file.name} has an unsupported format.`);
+        return;
+      }
+
       const newFile: UploadedFile = {
         id: Math.random().toString(36).substr(2, 9),
         name: file.name,
         size: (file.size / 1024 / 1024).toFixed(2) + ' MB',
         type: file.type,
-        status: 'uploading',
+        status: 'pending',
         progress: 0,
+        file,
       };
 
-      setUploadedFiles(prev => [...prev, newFile]);
-
-      // Simulate upload progress
-      const interval = setInterval(() => {
-        setUploadedFiles(prev =>
-          prev.map(f =>
-            f.id === newFile.id
-              ? { ...f, progress: Math.min(f.progress + 10, 100) }
-              : f
-          )
-        );
-      }, 200);
-
-      setTimeout(() => {
-        clearInterval(interval);
-        setUploadedFiles(prev =>
-          prev.map(f =>
-            f.id === newFile.id
-              ? { ...f, status: 'completed', progress: 100 }
-              : f
-          )
-        );
-      }, 2000);
+      setUploadedFiles(prev => {
+        // Replace existing file for this docKey, if any
+        const filtered = prev.filter(f => !f.name.includes(docKey));
+        return [...filtered, { ...newFile, name: `${docKey}_${file.name}` }];
+      });
+      setError(null);
+      setSuccess(null);
     });
   };
 
   const removeFile = (id: string) => {
     setUploadedFiles(prev => prev.filter(f => f.id !== id));
+    setError(null);
+    setSuccess(null);
+  };
+
+  const handleSubmitAll = async () => {
+    if (uploadedFiles.length === 0) {
+      setError('No files to submit.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      const formData = new FormData();
+      uploadedFiles.forEach(file => {
+        formData.append('files', file.file, file.name);
+      });
+
+      const response = await axios.post('/api/upload-documents', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: progressEvent => {
+          if (progressEvent.total) {
+            const progress = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadedFiles(prev =>
+              prev.map(f => ({
+                ...f,
+                status: 'uploading',
+                progress: Math.min(progress, 90),
+              }))
+            );
+          }
+        },
+      });
+
+      setUploadedFiles(prev =>
+        prev.map(f => ({ ...f, status: 'completed', progress: 100 }))
+      );
+      setSuccess('All documents uploaded successfully!');
+      setTimeout(() => {
+        setUploadedFiles([]); // Clear files after successful submission
+      }, 2000);
+    } catch (err) {
+      setUploadedFiles(prev =>
+        prev.map(f => ({ ...f, status: 'error', progress: 0 }))
+      );
+      setError('Failed to upload documents. Please try again.');
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="space-y-6">
-      {/* Required Documents Checklist */}
+      {/* Feedback Messages */}
+      {error && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-red-500 text-center"
+        >
+          {error}
+        </motion.div>
+      )}
+      {success && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-green-500 text-center"
+        >
+          {success}
+        </motion.div>
+      )}
+
+      {/* Document Upload Sections */}
       <Card className="border-blue-200 bg-gradient-to-r from-blue-50/50 to-indigo-50/50">
         <CardHeader>
           <CardTitle className="flex items-center gap-3">
             <div className="p-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg">
               <FileText className="h-5 w-5 text-white" />
             </div>
-            Required Documents
+            Upload Documents
           </CardTitle>
           <CardDescription>
-            Please upload the following documents for a comprehensive assessment
+            Upload each document by dragging and dropping or clicking to browse.
+            All uploads are optional.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 gap-4">
-            {requiredDocuments.map((doc, index) => {
+            {documentTypes.map((doc, index) => {
               const Icon = doc.icon;
-              const isUploaded = uploadedFiles.some(f =>
-                f.name
-                  .toLowerCase()
-                  .includes(doc.name.toLowerCase().split(' ')[0])
+              const uploadedFile = uploadedFiles.find(f =>
+                f.name.includes(doc.key)
               );
 
               return (
                 <motion.div
-                  key={doc.name}
+                  key={doc.key}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className={`flex items-center gap-3 p-3 rounded-lg border-2 transition-all ${
-                    isUploaded
-                      ? 'border-green-200 bg-green-50'
-                      : 'border-gray-200 bg-white'
-                  }`}
+                  className="space-y-2"
                 >
-                  <Icon
-                    className={`h-5 w-5 ${
-                      isUploaded ? 'text-green-600' : 'text-gray-400'
-                    }`}
-                  />
-                  <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <Icon className="h-5 w-5 text-gray-400" />
                     <p className="font-medium text-sm">{doc.name}</p>
-                    {doc.required && (
-                      <Badge variant="secondary" className="text-xs mt-1">
-                        Required
-                      </Badge>
+                    {uploadedFile && (
+                      <CheckCircle className="h-5 w-5 text-green-600" />
                     )}
                   </div>
-                  {isUploaded && (
-                    <CheckCircle className="h-5 w-5 text-green-600" />
-                  )}
+                  <div
+                    className={`border-2 border-dashed rounded-lg p-4 text-center transition-all ${
+                      dragActive === doc.key
+                        ? 'border-blue-400 bg-blue-50'
+                        : 'border-gray-300 hover:border-blue-400 hover:bg-blue-50/30'
+                    }`}
+                    onDragEnter={e => handleDrag(e, doc.key)}
+                    onDragLeave={e => handleDrag(e, doc.key)}
+                    onDragOver={e => handleDrag(e, doc.key)}
+                    onDrop={e => handleDrop(e, doc.key)}
+                  >
+                    <input
+                      type="file"
+                      multiple={false}
+                      onChange={e => handleChange(e, doc.key)}
+                      className="hidden"
+                      id={`file-upload-${doc.key}`}
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                      ref={el => (fileInputRefs.current[doc.key] = el)}
+                    />
+                    <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                    <p className="text-sm text-gray-700">
+                      Drop {doc.name} here, or{' '}
+                      <label
+                        htmlFor={`file-upload-${doc.key}`}
+                        className="text-blue-600 cursor-pointer hover:underline"
+                      >
+                        browse
+                      </label>
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      Supports: PDF, DOC, DOCX, JPG, PNG (Max 10MB)
+                    </p>
+                    {uploadedFile && (
+                      <div className="mt-2 flex items-center justify-center gap-2">
+                        <p className="text-sm text-gray-600 truncate">
+                          {uploadedFile.name.replace(`${doc.key}_`, '')}
+                        </p>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeFile(uploadedFile.id)}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               );
             })}
@@ -170,57 +296,7 @@ export default function FileUploadSection() {
         </CardContent>
       </Card>
 
-      {/* Upload Area */}
-      <Card className="border-purple-200 bg-gradient-to-r from-purple-50/50 to-pink-50/50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg">
-              <Upload className="h-5 w-5 text-white" />
-            </div>
-            Upload Documents
-          </CardTitle>
-          <CardDescription>
-            Drag and drop your files or click to browse
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div
-            className={`border-2 border-dashed rounded-lg p-8 text-center transition-all ${
-              dragActive
-                ? 'border-purple-400 bg-purple-50'
-                : 'border-gray-300 hover:border-purple-400 hover:bg-purple-50/30'
-            }`}
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-          >
-            <input
-              type="file"
-              multiple
-              onChange={handleChange}
-              className="hidden"
-              id="file-upload"
-              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-            />
-            <Upload className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-            <p className="text-lg font-medium text-gray-700 mb-2">
-              Drop your files here, or{' '}
-              <label
-                htmlFor="file-upload"
-                className="text-purple-600 cursor-pointer hover:underline"
-              >
-                browse
-              </label>
-            </p>
-            <p className="text-sm text-gray-500">
-              Supports: PDF, DOC, DOCX, JPG, PNG (Max 10MB each)
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Uploaded Files */}
+      {/* Uploaded Files Summary */}
       {uploadedFiles.length > 0 && (
         <Card className="border-green-200 bg-gradient-to-r from-green-50/50 to-emerald-50/50">
           <CardHeader>
@@ -243,15 +319,22 @@ export default function FileUploadSection() {
                   <div className="flex-shrink-0">
                     {file.status === 'completed' ? (
                       <CheckCircle className="h-8 w-8 text-green-500" />
+                    ) : file.status === 'error' ? (
+                      <X className="h-8 w-8 text-red-500" />
                     ) : (
                       <File className="h-8 w-8 text-blue-500" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{file.name}</p>
+                    <p className="font-medium truncate">
+                      {file.name.split('_').slice(1).join('_')}
+                    </p>
                     <p className="text-sm text-gray-500">{file.size}</p>
                     {file.status === 'uploading' && (
                       <Progress value={file.progress} className="mt-2 h-2" />
+                    )}
+                    {file.status === 'error' && (
+                      <p className="text-sm text-red-500">Upload failed</p>
                     )}
                   </div>
                   <Button
@@ -264,6 +347,16 @@ export default function FileUploadSection() {
                   </Button>
                 </motion.div>
               ))}
+            </div>
+            <div className="mt-4 flex justify-center">
+              <Button
+                onClick={handleSubmitAll}
+                disabled={isSubmitting || uploadedFiles.length === 0}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-2"
+              >
+                {isSubmitting ? 'Submitting...' : 'Submit All Documents'}
+                <Upload className="ml-2 h-4 w-4" />
+              </Button>
             </div>
           </CardContent>
         </Card>

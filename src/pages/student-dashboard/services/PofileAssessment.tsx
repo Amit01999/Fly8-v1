@@ -101,7 +101,7 @@ export default function ProfileAssessment() {
           </TabsList>
 
           <TabsContent value="form" className="space-y-6">
-            <AssessmentForm onSubmit={handleFormSubmit} />
+            <AssessmentForm />
           </TabsContent>
 
           <TabsContent value="upload" className="space-y-6">

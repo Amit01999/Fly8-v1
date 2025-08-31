@@ -1,13 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-  GraduationCap,
-  Globe,
-  BookOpen,
-  Trophy,
-  Clock,
-  MapPin,
-} from 'lucide-react';
+import { GraduationCap, Globe, BookOpen, Trophy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -28,22 +21,122 @@ import {
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import axios from 'axios';
+import { submitAssessment } from '@/services/operations/Profile';
 
-interface AssessmentFormProps {
-  onSubmit: () => void;
-}
-
-export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
+export default function AssessmentForm() {
   const [formData, setFormData] = useState({
-    personalInfo: {},
-    academics: {},
-    preferences: {},
-    goals: {},
+    personalInfo: {
+      fullName: '',
+      email: '',
+      age: '',
+      nationality: '',
+      phone: '',
+    },
+    academics: {
+      currentEducation: '',
+      fieldOfStudy: '',
+      gpa: '',
+      graduationYear: '',
+      institution: '',
+      ielts: '',
+      toefl: '',
+      gre: '',
+    },
+    preferences: {
+      preferredCountries: [] as string[],
+      preferredDegreeLevel: '',
+      budget: '',
+    },
+    goals: {
+      careerGoals: '',
+      industry: '',
+      workLocation: '',
+    },
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleInputChange = (
+    section: keyof typeof formData,
+    field: string,
+    value: string | string[]
+  ) => {
+    setFormData(prev => ({
+      ...prev,
+      [section]: {
+        ...prev[section],
+        [field]: value,
+      },
+    }));
+  };
+
+  const handleCheckboxChange = (country: string, checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      preferences: {
+        ...prev.preferences,
+        preferredCountries: checked
+          ? [...prev.preferences.preferredCountries, country]
+          : prev.preferences.preferredCountries.filter(c => c !== country),
+      },
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit();
+    setIsSubmitting(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      console.log('Submitting form data:', formData);
+      // ✅ Call the reusable submitAssessment function
+      const result = await submitAssessment(formData);
+
+      if (result.success) {
+        setSuccess('Form submitted successfully!');
+
+        // Optionally reset form
+        setFormData({
+          personalInfo: {
+            fullName: '',
+            email: '',
+            age: '',
+            nationality: '',
+            phone: '',
+          },
+          academics: {
+            currentEducation: '',
+            fieldOfStudy: '',
+            gpa: '',
+            graduationYear: '',
+            institution: '',
+            ielts: '',
+            toefl: '',
+            gre: '',
+          },
+          preferences: {
+            preferredCountries: [],
+            preferredDegreeLevel: '',
+            budget: '',
+          },
+          goals: {
+            careerGoals: '',
+            industry: '',
+            workLocation: '',
+          },
+        });
+      } else {
+        setError(result.message || 'Failed to submit form. Please try again.');
+      }
+    } catch (err) {
+      setError('Failed to submit form. Please try again.');
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const formSections = [
@@ -97,7 +190,18 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="fullName">Full Name</Label>
-                <Input id="fullName" placeholder="Enter your full name" />
+                <Input
+                  id="fullName"
+                  placeholder="Enter your full name"
+                  value={formData.personalInfo.fullName}
+                  onChange={e =>
+                    handleInputChange(
+                      'personalInfo',
+                      'fullName',
+                      e.target.value
+                    )
+                  }
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
@@ -105,21 +209,39 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
                   id="email"
                   type="email"
                   placeholder="your.email@example.com"
+                  value={formData.personalInfo.email}
+                  onChange={e =>
+                    handleInputChange('personalInfo', 'email', e.target.value)
+                  }
                 />
               </div>
             </div>
             <div className="grid md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="age">Age</Label>
-                <Input id="age" type="number" placeholder="25" />
+                <Input
+                  id="age"
+                  type="number"
+                  placeholder="25"
+                  value={formData.personalInfo.age}
+                  onChange={e =>
+                    handleInputChange('personalInfo', 'age', e.target.value)
+                  }
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="nationality">Nationality</Label>
-                <Select>
+                <Select
+                  onValueChange={value =>
+                    handleInputChange('personalInfo', 'nationality', value)
+                  }
+                  value={formData.personalInfo.nationality}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select country" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="ba">Bangladesh</SelectItem>
                     <SelectItem value="in">India</SelectItem>
                     <SelectItem value="us">United States</SelectItem>
                     <SelectItem value="uk">United Kingdom</SelectItem>
@@ -129,7 +251,14 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" placeholder="+1 234 567 8900" />
+                <Input
+                  id="phone"
+                  placeholder="+1 234 567 8900"
+                  value={formData.personalInfo.phone}
+                  onChange={e =>
+                    handleInputChange('personalInfo', 'phone', e.target.value)
+                  }
+                />
               </div>
             </div>
           </CardContent>
@@ -160,7 +289,12 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
                 <Label htmlFor="currentEducation">
                   Current Education Level
                 </Label>
-                <Select>
+                <Select
+                  onValueChange={value =>
+                    handleInputChange('academics', 'currentEducation', value)
+                  }
+                  value={formData.academics.currentEducation}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select level" />
                   </SelectTrigger>
@@ -174,21 +308,62 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="fieldOfStudy">Field of Study</Label>
-                <Input id="fieldOfStudy" placeholder="e.g., Computer Science" />
+                <Input
+                  id="fieldOfStudy"
+                  placeholder="e.g., Computer Science"
+                  value={formData.academics.fieldOfStudy}
+                  onChange={e =>
+                    handleInputChange(
+                      'academics',
+                      'fieldOfStudy',
+                      e.target.value
+                    )
+                  }
+                />
               </div>
             </div>
             <div className="grid md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="gpa">GPA/Percentage</Label>
-                <Input id="gpa" placeholder="3.8 or 85%" />
+                <Input
+                  id="gpa"
+                  placeholder="3.8 or 85%"
+                  value={formData.academics.gpa}
+                  onChange={e =>
+                    handleInputChange('academics', 'gpa', e.target.value)
+                  }
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="graduationYear">Graduation Year</Label>
-                <Input id="graduationYear" type="number" placeholder="2024" />
+                <Input
+                  id="graduationYear"
+                  type="number"
+                  placeholder="2024"
+                  value={formData.academics.graduationYear}
+                  onChange={e =>
+                    handleInputChange(
+                      'academics',
+                      'graduationYear',
+                      e.target.value
+                    )
+                  }
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="institution">Institution</Label>
-                <Input id="institution" placeholder="University name" />
+                <Input
+                  id="institution"
+                  placeholder="University name"
+                  value={formData.academics.institution}
+                  onChange={e =>
+                    handleInputChange(
+                      'academics',
+                      'institution',
+                      e.target.value
+                    )
+                  }
+                />
               </div>
             </div>
             <div className="space-y-2">
@@ -196,15 +371,36 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
               <div className="grid md:grid-cols-3 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="ielts">IELTS Score</Label>
-                  <Input id="ielts" placeholder="7.5" />
+                  <Input
+                    id="ielts"
+                    placeholder="7.5"
+                    value={formData.academics.ielts}
+                    onChange={e =>
+                      handleInputChange('academics', 'ielts', e.target.value)
+                    }
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="toefl">TOEFL Score</Label>
-                  <Input id="toefl" placeholder="100" />
+                  <Input
+                    id="toefl"
+                    placeholder="100"
+                    value={formData.academics.toefl}
+                    onChange={e =>
+                      handleInputChange('academics', 'toefl', e.target.value)
+                    }
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="gre">GRE Score</Label>
-                  <Input id="gre" placeholder="320" />
+                  <Input
+                    id="gre"
+                    placeholder="320"
+                    value={formData.academics.gre}
+                    onChange={e =>
+                      handleInputChange('academics', 'gre', e.target.value)
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -247,7 +443,15 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
                   'Sweden',
                 ].map(country => (
                   <div key={country} className="flex items-center space-x-2">
-                    <Checkbox id={country} />
+                    <Checkbox
+                      id={country}
+                      checked={formData.preferences.preferredCountries.includes(
+                        country
+                      )}
+                      onCheckedChange={checked =>
+                        handleCheckboxChange(country, checked as boolean)
+                      }
+                    />
                     <Label htmlFor={country} className="text-sm">
                       {country}
                     </Label>
@@ -258,7 +462,16 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Preferred Degree Level</Label>
-                <RadioGroup>
+                <RadioGroup
+                  onValueChange={value =>
+                    handleInputChange(
+                      'preferences',
+                      'preferredDegreeLevel',
+                      value
+                    )
+                  }
+                  value={formData.preferences.preferredDegreeLevel}
+                >
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem value="bachelor" id="bachelor" />
                     <Label htmlFor="bachelor">Bachelor's</Label>
@@ -275,7 +488,12 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="budget">Budget Range (USD)</Label>
-                <Select>
+                <Select
+                  onValueChange={value =>
+                    handleInputChange('preferences', 'budget', value)
+                  }
+                  value={formData.preferences.budget}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select budget" />
                   </SelectTrigger>
@@ -319,12 +537,21 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
                 id="careerGoals"
                 placeholder="Describe your career goals and what you hope to achieve..."
                 rows={4}
+                value={formData.goals.careerGoals}
+                onChange={e =>
+                  handleInputChange('goals', 'careerGoals', e.target.value)
+                }
               />
             </div>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="industry">Target Industry</Label>
-                <Select>
+                <Select
+                  onValueChange={value =>
+                    handleInputChange('goals', 'industry', value)
+                  }
+                  value={formData.goals.industry}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select industry" />
                   </SelectTrigger>
@@ -339,7 +566,12 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="workLocation">Preferred Work Location</Label>
-                <Select>
+                <Select
+                  onValueChange={value =>
+                    handleInputChange('goals', 'workLocation', value)
+                  }
+                  value={formData.goals.workLocation}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select preference" />
                   </SelectTrigger>
@@ -359,6 +591,26 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
         </Card>
       </motion.div>
 
+      {/* Feedback Messages */}
+      {error && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-red-500 text-center"
+        >
+          {error}
+        </motion.div>
+      )}
+      {success && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-green-500 text-center"
+        >
+          {success}
+        </motion.div>
+      )}
+
       {/* Submit Button */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -370,8 +622,9 @@ export default function AssessmentForm({ onSubmit }: AssessmentFormProps) {
           type="submit"
           size="lg"
           className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+          disabled={isSubmitting}
         >
-          Submit for Assessment
+          {isSubmitting ? 'Submitting...' : 'Submit for Assessment'}
           <Trophy className="ml-2 h-5 w-5" />
         </Button>
       </motion.div>

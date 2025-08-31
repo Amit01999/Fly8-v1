@@ -178,7 +178,7 @@ export default function CountryVisaSection({
 
             <div className="bg-blue-50 border border-blue-100 rounded-lg p-5">
               <h4 className="font-semibold text-blue-800 mb-3">
-                UK Job Market for International Graduates
+                Job Market for International Graduates
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -202,7 +202,7 @@ export default function CountryVisaSection({
               </div>
             </div>
 
-            <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-100">
+            {/* <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-100">
               <CardHeader>
                 <CardTitle className="text-green-800">
                   2025 Update: Post-Study Work Opportunities
@@ -213,14 +213,14 @@ export default function CountryVisaSection({
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-600">
-                  The UK Government continues to support the Graduate Route
-                  visa, allowing international students to work or seek
-                  employment after completing their degrees. This demonstrates
-                  the UK's commitment to attracting international talent and
-                  providing genuine career development pathways for graduates.
+                  Many countries offer post-study work opportunities, allowing
+                  international students to work or explore career options after
+                  completing their degrees. This reflects a strong commitment to
+                  attracting global talent and supporting genuine career
+                  development pathways for graduates.
                 </p>
               </CardContent>
-            </Card>
+            </Card> */}
           </div>
         </motion.section>
       </motion.div>

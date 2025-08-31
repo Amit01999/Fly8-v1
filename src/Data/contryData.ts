@@ -866,5 +866,22 @@ const mockCountries = [
       workVisa: '1 year post-study',
     },
   },
+  {
+    id: 'bangladesh',
+    code: 'bd',
+    name: 'Bangladesh',
+    flag: 'bd',
+    summary:
+      'Known for its affordable education, growing number of private universities, and strong cultural heritage.',
+    backgroundImage:
+      'https://cdn.britannica.com/97/189797-050-1FC0041B/Night-view-Dhaka-Bangladesh.jpg',
+    universities: 160,
+    ranking: 'Several in Top 1000',
+    stats: {
+      intlStudents: '3K+',
+      avgTuition: 'USD 1,500–3,000/year',
+      workVisa: 'Limited post-study options',
+    },
+  },
 ];
 export default mockCountries;

@@ -101,7 +101,6 @@ export function sendOtp({ email, navigate }: SendOtpParams) {
 //     toast.dismiss(toastId);
 //   };
 // }
-
 export function signUp(
   firstName: string,
   lastName: string,
@@ -187,7 +186,6 @@ export function login(
     toast.dismiss(toastId);
   };
 }
-
 export function logout(navigate) {
   return dispatch => {
     dispatch(setToken(null));
@@ -198,7 +196,6 @@ export function logout(navigate) {
     navigate('');
   };
 }
-
 // export function getPasswordResetToken(email, setEmailSent) {
 //   return async dispatch => {
 //     dispatch(setLoading(true));

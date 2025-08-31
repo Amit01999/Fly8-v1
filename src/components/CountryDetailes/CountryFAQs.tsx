@@ -48,7 +48,7 @@ function CountryFAQs({ itemVariants, faqs }) {
               </div>
               <p className="text-gray-600">
                 Have more questions? Contact our student advisors for
-                personalized assistance with your UK study plans. We're here to
+                personalized assistance with your study plans. We're here to
                 help you navigate every step of your educational journey.
               </p>
             </div>
