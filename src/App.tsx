@@ -22,7 +22,7 @@ import SignInUniversity from './pages/auth/SignInUniversity';
 import SignUpStudent from './pages/auth/SignUpStudent';
 import SignUpAgency from './pages/auth/SignUpAgency';
 import SignUpUniversity from './pages/auth/SignUpUniversity';
-import VerifyEmail from './pages/auth/VerifyEmail';
+// import VerifyEmail from './pages/auth/VerifyEmail';
 import { Toaster as HotToastToaster } from 'react-hot-toast';
 import StudentDashboard from './pages/student-dashboard/StudentDashboard';
 import VisaAssistance from './pages/student-dashboard/services/VisaAssistance';
@@ -176,7 +176,7 @@ const App = () => (
             <Route path="signup/student" element={<SignUpStudent />} />
             <Route path="signup/partner" element={<SignUpAgency />} />
             <Route path="signup/institution" element={<SignUpUniversity />} />
-            <Route path="verify-email" element={<VerifyEmail />} />
+            {/* <Route path="verify-email" element={<VerifyEmail />} /> */}
           </Route>
 
           {/* Student Dashboard inside  */}
