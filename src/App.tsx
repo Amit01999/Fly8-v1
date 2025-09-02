@@ -73,6 +73,7 @@ import UploadUniversity from './components/UploadUniversity';
 import FindCourses from './pages/FindCourse';
 import AMatch from './components/AMatch';
 import ProfileDetailes from './components/StrudentDashbord/profile-assessmen/ProfileDetailes';
+import ReferralSearch from './components/Temporary/ReferralSearch';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -105,6 +106,8 @@ const App = () => (
             <Route path="contact" element={<Contact />} />
             <Route path="partners" element={<AgencyPartners />} />
             <Route path="institution" element={<InstitutionPartners />} />
+            {/* Temporary  */}
+            <Route path="referral" element={<ReferralSearch />} />
 
             {/* Student Services */}
             <Route
