@@ -74,6 +74,7 @@ import FindCourses from './pages/FindCourse';
 import AMatch from './components/AMatch';
 import ProfileDetailes from './components/StrudentDashbord/profile-assessmen/ProfileDetailes';
 import ReferralSearch from './components/Temporary/ReferralSearch';
+import EducationFairRegistration from './components/Temporary/EducationFairRegistration';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -108,6 +109,7 @@ const App = () => (
             <Route path="institution" element={<InstitutionPartners />} />
             {/* Temporary  */}
             <Route path="referral" element={<ReferralSearch />} />
+            <Route path="gstu" element={<EducationFairRegistration />} />
 
             {/* Student Services */}
             <Route
