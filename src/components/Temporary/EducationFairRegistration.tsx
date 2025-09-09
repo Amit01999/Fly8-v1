@@ -16,6 +16,7 @@ import {
   ChevronLeft,
   AlertCircle,
 } from 'lucide-react';
+import bg from '../../assets/event/Screenshot 2025-09-06 134235.png';
 
 export default function RegistrationForm() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -169,8 +170,7 @@ export default function RegistrationForm() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
           style={{
-            backgroundImage:
-              "url('https://plus.unsplash.com/premium_photo-1683749809617-bb6885a1e7ae?q=80&w=1112&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+            backgroundImage: `url(${bg})`,
           }}
         ></div>
 

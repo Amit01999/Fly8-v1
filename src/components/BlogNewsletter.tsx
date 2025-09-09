@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, Clock, ArrowRight, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const blogPosts = [
   {
@@ -33,7 +34,7 @@ const blogPosts = [
     excerpt:
       'How to leverage your international degree for global career success.',
     image:
-      'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1459180129673-eefb56f79b45?q=80&w=1173&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     date: 'March 21, 2025',
     readTime: '6 min read',
     tag: 'Career Advice',
@@ -109,9 +110,11 @@ const BlogNewsletter = () => {
             </div>
 
             <div className="mt-8 text-center">
-              <Button variant="outline" className="rounded-full">
-                View All Articles <ArrowRight size={16} className="ml-1" />
-              </Button>
+              <Link to={'signup/student'}>
+                <Button variant="outline" className="rounded-full">
+                  View All Articles <ArrowRight size={16} className="ml-1" />
+                </Button>
+              </Link>
             </div>
           </motion.div>
 
@@ -153,9 +156,11 @@ const BlogNewsletter = () => {
                     className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50"
                   />
                 </div>
-                <Button className="w-full bg-white text-primary hover:bg-white/90">
-                  Subscribe to Newsletter
-                </Button>
+                <Link to={'signup/student'}>
+                  <Button className="w-full bg-white text-primary hover:bg-white/90">
+                    Subscribe to Newsletter
+                  </Button>
+                </Link>
               </form>
             </div>
           </motion.div>

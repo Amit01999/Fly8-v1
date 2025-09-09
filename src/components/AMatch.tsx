@@ -8,6 +8,7 @@ import {
   Zap,
   Star,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const AMatch = () => {
   const [email, setEmail] = useState('');
@@ -106,15 +107,17 @@ const AMatch = () => {
 
           {/* Premium CTA */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <button className="group relative px-10 py-5 bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl font-bold text-lg overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-2xl shadow-violet-500/25">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
-              <div className="relative flex items-center">
-                <Zap className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
-                Get Early Access
-                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform duration-300" />
-              </div>
-            </button>
+            <Link to="/signup/student">
+              <button className="group relative px-10 py-5 bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl font-bold text-lg overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-2xl shadow-violet-500/25">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
+                <div className="relative flex items-center">
+                  <Zap className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                  Get Early Access
+                  <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform duration-300" />
+                </div>
+              </button>
+            </Link>
           </div>
         </div>
       </div>

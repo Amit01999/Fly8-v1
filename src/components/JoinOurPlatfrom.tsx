@@ -67,7 +67,7 @@ export default function JoinOurPlatfrom() {
         'Application tracking and management',
       ],
       buttonText: 'Register as Student',
-      buttonLink: '/signup',
+      buttonLink: '/signup/student',
     },
     agent: {
       title: 'Agent Benefits',
@@ -77,7 +77,7 @@ export default function JoinOurPlatfrom() {
         'Commission tracking and reporting',
       ],
       buttonText: 'Register as Agent',
-      buttonLink: '/signup',
+      buttonLink: '/signup/partner',
     },
     university: {
       title: 'University Benefits',
@@ -87,7 +87,7 @@ export default function JoinOurPlatfrom() {
         'Analytics and recruitment insights',
       ],
       buttonText: 'Register as University',
-      buttonLink: '/signup',
+      buttonLink: 'signup/institution',
     },
   };
 
@@ -118,7 +118,7 @@ export default function JoinOurPlatfrom() {
               </p>
             </div>
             <div className="flex flex-col gap-4 sm:flex-row">
-              <Link to="/signup">
+              <Link to="/signup/student">
                 <button className="group flex h-12 items-center justify-center rounded-lg bg-white px-6 font-medium text-indigo-700 shadow-lg transition-all hover:bg-opacity-90">
                   Register as Student
                   <svg
@@ -136,7 +136,7 @@ export default function JoinOurPlatfrom() {
                   </svg>
                 </button>
               </Link>
-              <Link to="/signup">
+              <Link to="/signup/partner">
                 <button className="flex h-12 items-center justify-center rounded-lg border-2 border-white border-opacity-50 bg-transparent px-6 font-medium text-white backdrop-blur-sm transition-all hover:bg-white hover:bg-opacity-10">
                   Register as Agent
                 </button>

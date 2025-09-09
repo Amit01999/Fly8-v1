@@ -28,6 +28,7 @@ import Sydney from '@/assets/PartnerUniversities/University of Sydney.png';
 import Toronto from '@/assets/PartnerUniversities/University of Toronto.png';
 import Waterloo from '@/assets/PartnerUniversities/University of Waterloo.png';
 import Wittenborg from '@/assets/PartnerUniversities/Wittenborg University of Applied Sciences.png';
+import { Link } from 'react-router-dom';
 const universities = [
   {
     name: 'Buffalo State University',
@@ -260,9 +261,12 @@ const UniversityPartnersSection = () => {
         </div>
 
         <div className="flex justify-center mt-10">
-          <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-medium rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          <Link
+            to={'/universities'}
+            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-medium rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
             View All Partners
-          </button>
+          </Link>
         </div>
       </div>
 

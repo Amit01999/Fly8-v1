@@ -297,7 +297,7 @@ const HeroSection = () => {
                   >
                     <MessageSquare className="h-5 w-5 text-indigo-500" />
                   </motion.div>
-                  <span>Talk to AI Assistant</span>
+                  <Link to={'signup/student'}>Talk to AI Assistant</Link>
                 </span>
                 <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-white via-white/90 to-white/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </Button>
