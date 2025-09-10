@@ -170,7 +170,7 @@ const mockCountries = [
     },
   },
   {
-    id: 'south-korea',
+    id: 'southkorea',
     code: 'kr',
     name: 'South Korea',
     flag: 'kr',

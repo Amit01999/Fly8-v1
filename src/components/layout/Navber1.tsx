@@ -125,7 +125,7 @@ const Navber1 = () => {
                 </Link>
                 <Link to="/signup/student">
                   <Button className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-full px-6 shadow-md hover:shadow-lg transition-all">
-                    Sing Up
+                    Sign Up
                   </Button>
                 </Link>
               </div>
@@ -197,7 +197,7 @@ const Navber1 = () => {
                       }}
                       className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-white rounded-lg w-full"
                     >
-                      Sing Up
+                      Sign Up
                     </Button>
                   </Link>
                 </div>
