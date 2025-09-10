@@ -3,11 +3,6 @@ import {
   Calendar,
   MapPin,
   Clock,
-  Users,
-  GraduationCap,
-  Globe,
-  Mail,
-  Phone,
   User,
   BookOpen,
   FileText,
@@ -15,13 +10,28 @@ import {
   ChevronRight,
   ChevronLeft,
   AlertCircle,
+  X,
+  Trophy,
+  DollarSign,
+  Building,
+  Globe,
+  Mail,
+  Phone,
+  GraduationCap,
+  Copy,
+  Sparkles,
 } from 'lucide-react';
-import bg from '../../assets/event/Screenshot 2025-09-06 134235.png';
+import gstuimg from '../../assets/temporary/gstu.jpg';
 
 export default function RegistrationForm() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [showForm, setShowForm] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [registrationNumber, setRegistrationNumber] = useState('');
+  const [copied, setCopied] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [formData, setFormData] = useState({
-    // Student Information
     fullName: '',
     gender: '',
     dateOfBirth: '',
@@ -31,15 +41,11 @@ export default function RegistrationForm() {
     department: '',
     currentYear: '',
     studentId: '',
-
-    // Academic & Career Interest
     studyDestinations: [],
     programLevel: '',
     areasOfInterest: [],
     otherDestination: '',
     otherArea: '',
-
-    // Additional Details
     hasPassport: '',
     hasLanguageTest: '',
     languageTestName: '',
@@ -51,13 +57,13 @@ export default function RegistrationForm() {
 
   const handleInputChange = e => {
     const { name, value, type, checked } = e.target;
+
     if (type === 'checkbox' && name !== 'consent') {
-      const arrayName = name;
       setFormData(prev => ({
         ...prev,
-        [arrayName]: checked
-          ? [...prev[arrayName], value]
-          : prev[arrayName].filter(item => item !== value),
+        [name]: checked
+          ? [...prev[name], value]
+          : prev[name].filter(item => item !== value),
       }));
     } else if (type === 'checkbox' && name === 'consent') {
       setFormData(prev => ({ ...prev, consent: checked }));
@@ -66,46 +72,42 @@ export default function RegistrationForm() {
     }
   };
 
-  // Validation functions for each step
   const validateStep1 = () => {
     return (
-      formData.fullName.trim() !== '' &&
-      formData.contactNumber.trim() !== '' &&
-      formData.email.trim() !== '' &&
-      formData.universityName.trim() !== '' &&
-      formData.department.trim() !== '' &&
-      formData.studentId.trim() !== ''
+      formData.fullName &&
+      formData.contactNumber &&
+      formData.email &&
+      formData.universityName &&
+      formData.department &&
+      formData.studentId
     );
   };
 
   const validateStep2 = () => {
     return (
       formData.studyDestinations.length > 0 &&
-      formData.programLevel.trim() !== '' &&
+      formData.programLevel &&
       formData.areasOfInterest.length > 0
     );
   };
 
   const validateStep3 = () => {
-    const basicValidation =
-      formData.hasPassport !== '' &&
-      formData.hasLanguageTest !== '' &&
-      formData.appliedAbroad !== '' &&
-      formData.expectations.trim() !== '' &&
+    const basicValid =
+      formData.hasPassport &&
+      formData.hasLanguageTest &&
+      formData.appliedAbroad &&
+      formData.expectations &&
       formData.consent;
 
     if (formData.hasLanguageTest === 'Yes') {
       return (
-        basicValidation &&
-        formData.languageTestName.trim() !== '' &&
-        formData.languageTestScore.trim() !== ''
+        basicValid && formData.languageTestName && formData.languageTestScore
       );
     }
-
-    return basicValidation;
+    return basicValid;
   };
 
-  const canProceedToNext = () => {
+  const canProceed = () => {
     if (currentStep === 1) return validateStep1();
     if (currentStep === 2) return validateStep2();
     if (currentStep === 3) return validateStep3();
@@ -113,7 +115,7 @@ export default function RegistrationForm() {
   };
 
   const nextStep = () => {
-    if (canProceedToNext() && currentStep < 3) {
+    if (canProceed() && currentStep < 3) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -124,392 +126,434 @@ export default function RegistrationForm() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateStep3()) {
-      console.log('Form submitted:', formData);
-      alert(
-        '🎉 Registration completed successfully! We will contact you soon with event details.'
-      );
+      try {
+        // Check if email or contact number already exists
+        const checkResponse = await fetch(
+          'https://fly8-v1-server.vercel.app/api/v1/gstu/check-existing',
+          // 'http://localhost:3000/api/v1/gstu/check-existing',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: formData.email,
+              contactNumber: formData.contactNumber,
+            }),
+          }
+        );
 
-      // Reset form
-      setFormData({
-        fullName: '',
-        gender: '',
-        dateOfBirth: '',
-        contactNumber: '',
-        email: '',
-        universityName: '',
-        department: '',
-        currentYear: '',
-        studentId: '',
-        studyDestinations: [],
-        programLevel: '',
-        areasOfInterest: [],
-        otherDestination: '',
-        otherArea: '',
-        hasPassport: '',
-        hasLanguageTest: '',
-        languageTestName: '',
-        languageTestScore: '',
-        appliedAbroad: '',
-        expectations: '',
-        consent: false,
-      });
-      setCurrentStep(1);
-    } else {
-      alert('❌ Please fill in all required fields before submitting.');
+        const checkData = await checkResponse.json();
+        if (checkData.exists) {
+          setErrorMessage(
+            `You have already registered with Registration Number: ${checkData.registrationNumber}`
+          );
+          return;
+        }
+
+        const response = await fetch(
+          'https://fly8-v1-server.vercel.app/api/v1/gstu/register',
+          // 'http://localhost:3000/api/v1/gstu/register',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('Registration failed');
+        }
+
+        const data = await response.json();
+        setRegistrationNumber(data.registrationNumber);
+        setShowSuccess(true);
+        setShowForm(false);
+        setCurrentStep(1);
+        setErrorMessage('');
+
+        // Reset form
+        setFormData({
+          fullName: '',
+          gender: '',
+          dateOfBirth: '',
+          contactNumber: '',
+          email: '',
+          universityName: '',
+          department: '',
+          currentYear: '',
+          studentId: '',
+          studyDestinations: [],
+          programLevel: '',
+          areasOfInterest: [],
+          otherDestination: '',
+          otherArea: '',
+          hasPassport: '',
+          hasLanguageTest: '',
+          languageTestName: '',
+          languageTestScore: '',
+          appliedAbroad: '',
+          expectations: '',
+          consent: false,
+        });
+      } catch (error) {
+        console.error('Error submitting registration:', error);
+        setErrorMessage('Registration failed. Please try again.');
+      }
     }
   };
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(registrationNumber);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50">
-      {/* Hero Section with Background Image */}
-      <div className="relative bg-gradient-to-r from-sky-100 via-blue-100 to-indigo-100 overflow-hidden">
-        {/* Hero Background Pattern */}
-        <div className="absolute inset-0 bg-white bg-opacity-30 backdrop-blur-sm"></div>
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
-          style={{
-            backgroundImage: `url(${bg})`,
-          }}
-        ></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/80 via-indigo-900/70 to-purple-900/80 z-10"></div>
+        <img
+          src="/api/placeholder/1200/500"
+          className="w-full h-[500px] object-cover"
+          // alt="GSTU Campus"
+        />
 
-        <div className="relative z-10 container mx-auto px-4 py-16">
-          <div className="text-center text-blue-900">
-            <div className="flex justify-center items-center mb-6 animate-bounce">
-              <div className="bg-blue-50 rounded-full p-4 shadow-md">
-                <GraduationCap className="w-16 h-16 text-blue-600" />
+        <div className="absolute inset-0 z-20 flex items-center justify-center">
+          <div className="text-center text-white px-4 max-w-6xl mx-auto">
+            <div className="flex items-center justify-center mb-6 space-x-3">
+              <Sparkles className="w-8 h-8 text-yellow-400 animate-pulse" />
+              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
+                Global Education Gateway Summit 2025
+              </h1>
+              <Sparkles className="w-8 h-8 text-yellow-400 animate-pulse" />
+            </div>
+
+            <p className="text-xl md:text-2xl mb-8 text-blue-100">
+              Organized by <span className="font-bold text-white">Fly8</span> &
+              <span className="font-bold text-white">
+                {' '}
+                GSTU Research and Higher Studies Society
+              </span>
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                <Calendar className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
+                <p className="text-sm text-blue-200">Date</p>
+                <p className="font-bold text-lg">20 September, 2025</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                <Clock className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
+                <p className="text-sm text-blue-200">Time</p>
+                <p className="font-bold text-lg">10:00 AM – 5:00 PM</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
+                <MapPin className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
+                <p className="text-sm text-blue-200">Venue</p>
+                <p className="font-bold text-lg">GSTU, Gopalganj</p>
               </div>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent">
-              Global Education Fair
-            </h1>
-            <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-indigo-900">
-              Research Gateway 2025
-            </h2>
-
-            <div className="bg-gradient-to-r from-teal-400 to-cyan-400 text-gray-900 rounded-2xl p-6 mb-8 max-w-4xl mx-auto shadow-lg">
-              <h3 className="text-xl md:text-2xl font-bold mb-2">
-                🎓 ON SPOT ADMISSION AVAILABLE
-              </h3>
-              <p className="text-lg font-semibold">
-                UK • Australia • Malaysia • Cyprus • Spain • Malta
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto text-sm">
-              <div className="bg-white bg-opacity-80 rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow">
-                <Users className="w-6 h-6 mx-auto mb-2 text-blue-500" />
-                <p className="font-semibold text-blue-600">Organizers</p>
-                <p className="text-indigo-800">
-                  Fly8 & Research and Higher Study Society, GSTU
-                </p>
-              </div>
-              <div className="bg-white bg-opacity-80 rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow">
-                <MapPin className="w-6 h-6 mx-auto mb-2 text-blue-500" />
-                <p className="font-semibold text-blue-600">Venue</p>
-                <p className="text-indigo-800">
-                  Gopalganj Science & Technology University
-                </p>
-              </div>
-              <div className="bg-white bg-opacity-80 rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow">
-                <Calendar className="w-6 h-6 mx-auto mb-2 text-blue-500" />
-                <p className="font-semibold text-blue-600">Date</p>
-                <p className="text-indigo-800">16 September, 2025</p>
-              </div>
-              <div className="bg-white bg-opacity-80 rounded-xl p-4 shadow-md hover:shadow-lg transition-shadow">
-                <Clock className="w-6 h-6 mx-auto mb-2 text-blue-500" />
-                <p className="font-semibold text-blue-600">Time</p>
-                <p className="text-indigo-800">10 AM - 5 PM</p>
-              </div>
-            </div>
+            <button
+              onClick={() => setShowForm(true)}
+              className="px-12 py-5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold text-xl rounded-full transform transition-all duration-300 hover:scale-110 hover:shadow-2xl"
+            >
+              Register Now - FREE
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Registration Form Section */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto">
-          {/* Enhanced Progress Bar */}
-          {/* Advanced Progress Bar with Full Connecting Line */}
-          <div className="mb-12">
-            {/* Header */}
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-3xl font-bold text-slate-800">
-                Registration Form
-              </h2>
-              <span className="text-sm font-medium text-slate-500">
-                Step {currentStep} of 3
-              </span>
+      {/* Event Details Section */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto text-center mb-12">
+          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            About the Event
+          </h2>
+          <p className="text-xl text-gray-700 leading-relaxed">
+            The Global Education Gateway Summit 2025 is your one-stop platform
+            to explore international study opportunities. Join students, global
+            education counselors, and top universities to discover scholarships,
+            admissions, and career pathways worldwide.
+          </p>
+        </div>
+
+        {/* Features Grid */}
+        <div className="mb-16">
+          <h3 className="text-3xl font-bold text-center mb-10 text-gray-800">
+            What's in it for Students?
+          </h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
+              <Trophy className="w-12 h-12 text-yellow-500 mb-4" />
+              <h4 className="text-xl font-bold text-gray-800 mb-2">
+                Fully Funded Scholarships
+              </h4>
+              <p className="text-gray-600">
+                Apply for exclusive fully funded scholarships across multiple
+                destinations
+              </p>
             </div>
 
-            {/* Stepper Wrapper */}
-            <div className="relative">
-              {/* Background Line */}
-              <div className="absolute top-7 left-[7%] right-[7%] h-1 bg-slate-300 rounded-full"></div>
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
+              <DollarSign className="w-12 h-12 text-green-500 mb-4" />
+              <h4 className="text-xl font-bold text-gray-800 mb-2">
+                Up to BDT 1,500,000 in Scholarships
+              </h4>
+              <p className="text-gray-600">
+                Special scholarships available during on-spot university
+                admissions
+              </p>
+            </div>
 
-              {/* Animated Progress Line */}
-              <div
-                className="absolute top-7 left-[7%] h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-700 ease-in-out"
-                style={{ width: `${((currentStep - 1) / (3 - 1)) * 86}%` }}
-              ></div>
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
+              <Building className="w-12 h-12 text-blue-500 mb-4" />
+              <h4 className="text-xl font-bold text-gray-800 mb-2">
+                On-Spot Admission – 10+ Countries
+              </h4>
+              <p className="text-gray-600">
+                Direct admission from UK, Australia, Cyprus, Spain, Malaysia,
+                Malta, China, Russia, Japan, and India
+              </p>
+            </div>
 
-              {/* Steps */}
-              <div className="flex justify-between relative">
-                {[1, 2, 3].map(step => (
-                  <div
-                    key={step}
-                    className="flex flex-col items-center relative z-10"
-                  >
-                    {/* Step Circle */}
-                    <div
-                      className={`w-14 h-14 rounded-full flex items-center justify-center font-bold transition-all duration-500 border-2 shadow-lg ${
-                        currentStep > step
-                          ? 'bg-gradient-to-r from-green-400 to-blue-500 text-white border-green-400'
-                          : currentStep === step
-                          ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white border-blue-500 scale-110 ring-4 ring-blue-200'
-                          : 'bg-white text-slate-500 border-slate-300'
-                      }`}
-                    >
-                      {currentStep > step ? (
-                        <CheckCircle className="w-7 h-7 animate-bounce" />
-                      ) : (
-                        step
-                      )}
-                    </div>
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
+              <Globe className="w-12 h-12 text-purple-500 mb-4" />
+              <h4 className="text-xl font-bold text-gray-800 mb-2">
+                52 Countries & 4000+ Universities
+              </h4>
+              <p className="text-gray-600">
+                Learn about admission processes, course options, and career
+                prospects worldwide
+              </p>
+            </div>
 
-                    {/* Step Label */}
-                    <p
-                      className={`mt-3 text-sm font-semibold transition-colors duration-300 ${
-                        currentStep === step
-                          ? 'text-blue-600'
-                          : currentStep > step
-                          ? 'text-green-600'
-                          : 'text-slate-500'
-                      }`}
-                    >
-                      {step === 1
-                        ? 'Student Info'
-                        : step === 2
-                        ? 'Academic Interest'
-                        : 'Additional Details'}
-                    </p>
-                  </div>
-                ))}
-              </div>
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
+              <FileText className="w-12 h-12 text-indigo-500 mb-4" />
+              <h4 className="text-xl font-bold text-gray-800 mb-2">
+                Free File Assessment
+              </h4>
+              <p className="text-gray-600">
+                Receive expert profile evaluation and advice from top global
+                education counselors
+              </p>
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
+              <BookOpen className="w-12 h-12 text-pink-500 mb-4" />
+              <h4 className="text-xl font-bold text-gray-800 mb-2">
+                Complimentary Online Classes
+              </h4>
+              <p className="text-gray-600">
+                Free access to online preparatory classes for IELTS, PTE, and
+                Duolingo
+              </p>
             </div>
           </div>
+        </div>
 
-          {/* Form Container */}
-          <div className="bg-white rounded-2xl shadow-xl border border-blue-100 overflow-hidden transition-all duration-300 hover:shadow-2xl">
-            {/* Step 1: Student Information */}
-            {currentStep === 1 && (
-              <div className="p-8 animate-fade-in">
-                <div className="flex items-center mb-6">
-                  <div className="bg-blue-100 rounded-full p-3 mr-4">
-                    <User className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-blue-800">
-                      Student Information
-                    </h3>
-                    <p className="text-indigo-600">
-                      Please provide your basic details
-                    </p>
-                  </div>
+        {/* Why Attend Section */}
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-10 text-white mb-12">
+          <h3 className="text-3xl font-bold mb-8 text-center">Why Attend?</h3>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="flex items-start space-x-3">
+              <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
+              <p className="text-lg">
+                Direct interaction with university delegates and admission
+                officers
+              </p>
+            </div>
+            <div className="flex items-start space-x-3">
+              <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
+              <p className="text-lg">
+                Explore scholarship and financial aid opportunities
+              </p>
+            </div>
+            <div className="flex items-start space-x-3">
+              <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
+              <p className="text-lg">
+                Gain clarity on visa processes and study abroad planning
+              </p>
+            </div>
+            <div className="flex items-start space-x-3">
+              <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
+              <p className="text-lg">
+                Build global connections and prepare for an international career
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA Section */}
+        <div className="text-center bg-gradient-to-r from-yellow-50 to-orange-50 rounded-3xl p-10 border-2 border-yellow-200">
+          <h3 className="text-3xl font-bold mb-4 text-gray-800">
+            Registration
+          </h3>
+          <p className="text-xl text-gray-700 mb-6">
+            Seats are limited! Don't miss this chance to secure your future with
+            global education.
+          </p>
+          <button
+            onClick={() => setShowForm(true)}
+            className="px-10 py-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold text-lg rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+          >
+            Register Now
+          </button>
+        </div>
+      </div>
+
+      {/* Registration Form Modal */}
+      {showForm && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative">
+            <button
+              onClick={() => setShowForm(false)}
+              className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full hover:bg-gray-200 z-10"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            <div className="p-8">
+              <h2 className="text-3xl font-bold text-slate-800 mb-6">
+                Registration Form - Step {currentStep} of 3
+              </h2>
+
+              {errorMessage && (
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
+                  <p className="text-red-600">{errorMessage}</p>
                 </div>
+              )}
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-2">
-                      Full Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="fullName"
-                      value={formData.fullName}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50/50"
-                      placeholder="Enter your full name"
-                      required
-                    />
-                  </div>
+              {/* Progress Bar */}
+              <div className="flex justify-between mb-8">
+                <div
+                  className={`flex-1 h-2 rounded-full mr-2 ${
+                    currentStep >= 1 ? 'bg-blue-500' : 'bg-gray-300'
+                  }`}
+                ></div>
+                <div
+                  className={`flex-1 h-2 rounded-full mr-2 ${
+                    currentStep >= 2 ? 'bg-blue-500' : 'bg-gray-300'
+                  }`}
+                ></div>
+                <div
+                  className={`flex-1 h-2 rounded-full ${
+                    currentStep >= 3 ? 'bg-blue-500' : 'bg-gray-300'
+                  }`}
+                ></div>
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-2">
-                      Gender
-                    </label>
-                    <div className="flex space-x-4">
-                      {['Male', 'Female', 'Other'].map(option => (
-                        <label
-                          key={option}
-                          className="flex items-center cursor-pointer"
-                        >
-                          <input
-                            type="radio"
-                            name="gender"
-                            value={option}
-                            checked={formData.gender === option}
-                            onChange={handleInputChange}
-                            className="w-4 h-4 text-blue-600 focus:ring-blue-400"
-                          />
-                          <span className="ml-2 text-sm text-indigo-700">
-                            {option}
-                          </span>
-                        </label>
-                      ))}
+              {/* Step 1 */}
+              {currentStep === 1 && (
+                <div>
+                  <h3 className="text-2xl font-bold text-blue-800 mb-6">
+                    Student Information
+                  </h3>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-blue-700 mb-2">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-blue-200 rounded-xl"
+                        placeholder="Enter your full name"
+                      />
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-2">
-                      Date of Birth
-                    </label>
-                    <input
-                      type="date"
-                      name="dateOfBirth"
-                      value={formData.dateOfBirth}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50/50"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-2">
-                      Contact Number (WhatsApp preferred){' '}
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-3 w-5 h-5 text-blue-400" />
+                    <div>
+                      <label className="block text-sm font-semibold text-blue-700 mb-2">
+                        Contact Number *
+                      </label>
                       <input
                         type="tel"
                         name="contactNumber"
                         value={formData.contactNumber}
                         onChange={handleInputChange}
-                        className="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50/50"
+                        className="w-full px-4 py-3 border border-blue-200 rounded-xl"
                         placeholder="+880 1234567890"
-                        required
                       />
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-2">
-                      Email Address <span className="text-red-500">*</span>
-                    </label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 w-5 h-5 text-blue-400" />
+                    <div>
+                      <label className="block text-sm font-semibold text-blue-700 mb-2">
+                        Email *
+                      </label>
                       <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full pl-10 pr-4 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50/50"
+                        className="w-full px-4 py-3 border border-blue-200 rounded-xl"
                         placeholder="your.email@example.com"
-                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-blue-700 mb-2">
+                        University/College *
+                      </label>
+                      <input
+                        type="text"
+                        name="universityName"
+                        value={formData.universityName}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-blue-200 rounded-xl"
+                        placeholder="Enter your university name"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-blue-700 mb-2">
+                        Department *
+                      </label>
+                      <input
+                        type="text"
+                        name="department"
+                        value={formData.department}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-blue-200 rounded-xl"
+                        placeholder="Enter your department"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-blue-700 mb-2">
+                        Student ID *
+                      </label>
+                      <input
+                        type="text"
+                        name="studentId"
+                        value={formData.studentId}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-blue-200 rounded-xl"
+                        placeholder="Enter your student ID"
                       />
                     </div>
                   </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-2">
-                      University/College Name{' '}
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="universityName"
-                      value={formData.universityName}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50/50"
-                      placeholder="Enter your university name"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-2">
-                      Department/Class <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="department"
-                      value={formData.department}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50/50"
-                      placeholder="Enter your department"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-2">
-                      Student ID/Roll No.{' '}
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="studentId"
-                      value={formData.studentId}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50/50"
-                      placeholder="Enter your student ID"
-                      required
-                    />
-                  </div>
                 </div>
+              )}
 
-                <div className="mt-6">
-                  <label className="block text-sm font-semibold text-blue-700 mb-2">
-                    Current Year
-                  </label>
-                  <div className="flex flex-wrap gap-3">
-                    {['1st', '2nd', '3rd', '4th', "Master's"].map(year => (
-                      <label
-                        key={year}
-                        className="flex items-center cursor-pointer bg-blue-50 hover:bg-blue-100 p-3 rounded-xl transition-colors shadow-sm"
-                      >
-                        <input
-                          type="radio"
-                          name="currentYear"
-                          value={year}
-                          checked={formData.currentYear === year}
-                          onChange={handleInputChange}
-                          className="w-4 h-4 text-blue-600 focus:ring-blue-400"
-                        />
-                        <span className="ml-2 text-sm text-indigo-700">
-                          {year}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
+              {/* Step 2 */}
+              {currentStep === 2 && (
+                <div>
+                  <h3 className="text-2xl font-bold text-blue-800 mb-6">
+                    Academic Interest
+                  </h3>
 
-            {/* Step 2: Academic & Career Interest */}
-            {currentStep === 2 && (
-              <div className="p-8 animate-fade-in">
-                <div className="flex items-center mb-6">
-                  <div className="bg-purple-100 rounded-full p-3 mr-4">
-                    <BookOpen className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-blue-800">
-                      Academic & Career Interest
-                    </h3>
-                    <p className="text-indigo-600">
-                      Tell us about your study preferences
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-8">
-                  <div>
+                  <div className="mb-6">
                     <label className="block text-sm font-semibold text-blue-700 mb-3">
-                      Interested Study Destination(s){' '}
-                      <span className="text-red-500">*</span>
+                      Study Destinations *
                     </label>
                     <div className="grid md:grid-cols-3 gap-3">
                       {[
@@ -518,107 +562,60 @@ export default function RegistrationForm() {
                         'Canada',
                         'Australia',
                         'Europe',
-                        'Asia (Japan, Malaysia, etc.)',
-                      ].map(destination => (
+                        'Asia',
+                      ].map(dest => (
                         <label
-                          key={destination}
-                          className="flex items-center bg-blue-50 hover:bg-blue-100 p-4 rounded-xl cursor-pointer transition-all duration-200 border-2 border-transparent hover:border-blue-300 shadow-sm"
+                          key={dest}
+                          className="flex items-center bg-blue-50 p-3 rounded-xl cursor-pointer"
                         >
                           <input
                             type="checkbox"
                             name="studyDestinations"
-                            value={destination}
-                            checked={formData.studyDestinations.includes(
-                              destination
-                            )}
+                            value={dest}
+                            checked={formData.studyDestinations.includes(dest)}
                             onChange={handleInputChange}
-                            className="w-4 h-4 text-blue-600 focus:ring-blue-400 rounded"
+                            className="mr-2"
                           />
-                          <span className="ml-3 text-sm font-medium text-indigo-700">
-                            {destination}
-                          </span>
+                          <span>{dest}</span>
                         </label>
                       ))}
                     </div>
-                    <div className="mt-3">
-                      <label className="flex items-center bg-blue-50 hover:bg-blue-100 p-4 rounded-xl cursor-pointer transition-all duration-200 border-2 border-transparent hover:border-blue-300 shadow-sm">
-                        <input
-                          type="checkbox"
-                          name="studyDestinations"
-                          value="Others"
-                          checked={formData.studyDestinations.includes(
-                            'Others'
-                          )}
-                          onChange={handleInputChange}
-                          className="w-4 h-4 text-blue-600 focus:ring-blue-400 rounded"
-                        />
-                        <span className="ml-3 text-sm font-medium text-indigo-700 mr-3">
-                          Others:
-                        </span>
-                        <input
-                          type="text"
-                          name="otherDestination"
-                          value={formData.otherDestination}
-                          onChange={handleInputChange}
-                          placeholder="Specify other destination"
-                          className="flex-1 px-3 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white"
-                        />
-                      </label>
-                    </div>
                   </div>
 
-                  <div>
+                  <div className="mb-6">
                     <label className="block text-sm font-semibold text-blue-700 mb-3">
-                      Preferred Program Level{' '}
-                      <span className="text-red-500">*</span>
+                      Program Level *
                     </label>
-                    <div className="grid md:grid-cols-3 gap-3">
-                      {[
-                        "Bachelor's",
-                        "Master's",
-                        'PhD',
-                        'Postdoctoral',
-                        'Language/Short Course',
-                      ].map(level => (
-                        <label
-                          key={level}
-                          className="flex items-center bg-purple-50 hover:bg-purple-100 p-4 rounded-xl cursor-pointer transition-all duration-200 border-2 border-transparent hover:border-purple-300 shadow-sm"
-                        >
-                          <input
-                            type="radio"
-                            name="programLevel"
-                            value={level}
-                            checked={formData.programLevel === level}
-                            onChange={handleInputChange}
-                            className="w-4 h-4 text-purple-600 focus:ring-purple-400"
-                          />
-                          <span className="ml-3 text-sm font-medium text-indigo-700">
-                            {level}
-                          </span>
-                        </label>
-                      ))}
-                    </div>
+                    <select
+                      name="programLevel"
+                      value={formData.programLevel}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-blue-200 rounded-xl"
+                    >
+                      <option value="">Select a program level</option>
+                      <option value="Bachelor's">Bachelor's</option>
+                      <option value="Master's">Master's</option>
+                      <option value="PhD">PhD</option>
+                      <option value="Language Course">Language Course</option>
+                    </select>
                   </div>
 
                   <div>
                     <label className="block text-sm font-semibold text-blue-700 mb-3">
-                      Areas of Interest <span className="text-red-500">*</span>{' '}
-                      <span className="text-indigo-500 font-normal">
-                        (Select multiple if applicable)
-                      </span>
+                      Areas of Interest *
                     </label>
                     <div className="grid md:grid-cols-2 gap-3">
                       {[
-                        'Engineering & Technology',
-                        'Business & Management',
-                        'Medical & Health Sciences',
-                        'Arts & Humanities',
-                        'Social Sciences',
-                        'Agriculture & Environmental Studies',
+                        'Engineering',
+                        'Business',
+                        'Medical',
+                        'Arts',
+                        'Sciences',
+                        'Agriculture',
                       ].map(area => (
                         <label
                           key={area}
-                          className="flex items-center bg-green-50 hover:bg-green-100 p-4 rounded-xl cursor-pointer transition-all duration-200 border-2 border-transparent hover:border-green-300 shadow-sm"
+                          className="flex items-center bg-green-50 p-3 rounded-xl cursor-pointer"
                         >
                           <input
                             type="checkbox"
@@ -626,228 +623,149 @@ export default function RegistrationForm() {
                             value={area}
                             checked={formData.areasOfInterest.includes(area)}
                             onChange={handleInputChange}
-                            className="w-4 h-4 text-green-600 focus:ring-green-400 rounded"
+                            className="mr-2"
                           />
-                          <span className="ml-3 text-sm font-medium text-indigo-700">
-                            {area}
-                          </span>
+                          <span>{area}</span>
                         </label>
                       ))}
                     </div>
-                    <div className="mt-3">
-                      <label className="flex items-center bg-green-50 hover:bg-green-100 p-4 rounded-xl cursor-pointer transition-all duration-200 border-2 border-transparent hover:border-green-300 shadow-sm">
-                        <input
-                          type="checkbox"
-                          name="areasOfInterest"
-                          value="Other"
-                          checked={formData.areasOfInterest.includes('Other')}
-                          onChange={handleInputChange}
-                          className="w-4 h-4 text-green-600 focus:ring-green-400 rounded"
-                        />
-                        <span className="ml-3 text-sm font-medium text-indigo-700 mr-3">
-                          Other:
-                        </span>
-                        <input
-                          type="text"
-                          name="otherArea"
-                          value={formData.otherArea}
-                          onChange={handleInputChange}
-                          placeholder="Specify other area"
-                          className="flex-1 px-3 py-2 border border-green-200 rounded-lg focus:ring-2 focus:ring-green-400 focus:border-transparent bg-white"
-                        />
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3 */}
+              {currentStep === 3 && (
+                <div>
+                  <h3 className="text-2xl font-bold text-blue-800 mb-6">
+                    Additional Details
+                  </h3>
+
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block text-sm font-semibold text-blue-700 mb-3">
+                        Do you have a passport? *
                       </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Step 3: Additional Details */}
-            {currentStep === 3 && (
-              <div className="p-8 animate-fade-in">
-                <div className="flex items-center mb-6">
-                  <div className="bg-green-100 rounded-full p-3 mr-4">
-                    <FileText className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-blue-800">
-                      Additional Details
-                    </h3>
-                    <p className="text-indigo-600">
-                      Final details to complete your registration
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-8">
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-3">
-                      Do you have a passport?{' '}
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <div className="flex gap-4 flex-wrap">
-                      {['Yes', 'No', 'Planning to take soon'].map(option => (
-                        <label
-                          key={option}
-                          className="flex items-center cursor-pointer bg-blue-50 hover:bg-blue-100 p-3 rounded-xl transition-colors shadow-sm"
-                        >
-                          <input
-                            type="radio"
-                            name="hasPassport"
-                            value={option}
-                            checked={formData.hasPassport === option}
-                            onChange={handleInputChange}
-                            className="w-4 h-4 text-blue-600 focus:ring-blue-400"
-                          />
-                          <span className="ml-2 text-sm font-medium text-indigo-700">
-                            {option}
-                          </span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-3">
-                      Do you have any IELTS/TOEFL/PTE/Language Test Score?{' '}
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <div className="space-y-4">
-                      <div className="flex gap-4 flex-wrap">
+                      <div className="flex gap-4">
                         {['Yes', 'No', 'Planning to take soon'].map(option => (
-                          <label
-                            key={option}
-                            className="flex items-center cursor-pointer bg-purple-50 hover:bg-purple-100 p-3 rounded-xl transition-colors shadow-sm"
-                          >
+                          <label key={option} className="flex items-center">
+                            <input
+                              type="radio"
+                              name="hasPassport"
+                              value={option}
+                              checked={formData.hasPassport === option}
+                              onChange={handleInputChange}
+                              className="mr-2"
+                            />
+                            <span>{option}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-blue-700 mb-3">
+                        Language Test Score? *
+                      </label>
+                      <div className="flex gap-4">
+                        {['Yes', 'No', 'Planning to take soon'].map(option => (
+                          <label key={option} className="flex items-center">
                             <input
                               type="radio"
                               name="hasLanguageTest"
                               value={option}
                               checked={formData.hasLanguageTest === option}
                               onChange={handleInputChange}
-                              className="w-4 h-4 text-purple-600 focus:ring-purple-400"
+                              className="mr-2"
                             />
-                            <span className="ml-2 text-sm font-medium text-indigo-700">
-                              {option}
-                            </span>
+                            <span>{option}</span>
                           </label>
                         ))}
                       </div>
 
                       {formData.hasLanguageTest === 'Yes' && (
-                        <div className="grid md:grid-cols-2 gap-4 p-6 bg-gradient-to-r from-purple-100 to-blue-100 rounded-xl border border-purple-200 shadow-sm">
-                          <div>
-                            <label className="block text-sm font-semibold text-blue-700 mb-2">
-                              Name of Language Test{' '}
-                              <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              name="languageTestName"
-                              value={formData.languageTestName}
-                              onChange={handleInputChange}
-                              placeholder="e.g., IELTS, TOEFL, PTE"
-                              className="w-full px-4 py-3 border border-purple-200 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent bg-white"
-                            />
-                          </div>
-                          <div>
-                            <label className="block text-sm font-semibold text-blue-700 mb-2">
-                              Your Score <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              name="languageTestScore"
-                              value={formData.languageTestScore}
-                              onChange={handleInputChange}
-                              placeholder="e.g., 7.0, 90, 65"
-                              className="w-full px-4 py-3 border border-purple-200 rounded-xl focus:ring-2 focus:ring-purple-400 focus:border-transparent bg-white"
-                            />
-                          </div>
+                        <div className="grid md:grid-cols-2 gap-4 mt-4">
+                          <input
+                            type="text"
+                            name="languageTestName"
+                            value={formData.languageTestName}
+                            onChange={handleInputChange}
+                            className="px-4 py-3 border border-blue-200 rounded-xl"
+                            placeholder="Test name (IELTS, TOEFL, etc.)"
+                          />
+                          <input
+                            type="text"
+                            name="languageTestScore"
+                            value={formData.languageTestScore}
+                            onChange={handleInputChange}
+                            className="px-4 py-3 border border-blue-200 rounded-xl"
+                            placeholder="Your score"
+                          />
                         </div>
                       )}
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-3">
-                      Have you applied abroad before?{' '}
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <div className="flex gap-4">
-                      {['Yes', 'No'].map(option => (
-                        <label
-                          key={option}
-                          className="flex items-center cursor-pointer bg-green-50 hover:bg-green-100 p-3 rounded-xl transition-colors shadow-sm"
-                        >
-                          <input
-                            type="radio"
-                            name="appliedAbroad"
-                            value={option}
-                            checked={formData.appliedAbroad === option}
-                            onChange={handleInputChange}
-                            className="w-4 h-4 text-green-600 focus:ring-green-400"
-                          />
-                          <span className="ml-2 text-sm font-medium text-indigo-700">
-                            {option}
-                          </span>
-                        </label>
-                      ))}
+                    <div>
+                      <label className="block text-sm font-semibold text-blue-700 mb-3">
+                        Applied abroad before? *
+                      </label>
+                      <div className="flex gap-4">
+                        {['Yes', 'No'].map(option => (
+                          <label key={option} className="flex items-center">
+                            <input
+                              type="radio"
+                              name="appliedAbroad"
+                              value={option}
+                              checked={formData.appliedAbroad === option}
+                              onChange={handleInputChange}
+                              className="mr-2"
+                            />
+                            <span>{option}</span>
+                          </label>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-blue-700 mb-3">
-                      What do you expect to learn from this event?{' '}
-                      <span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                      name="expectations"
-                      value={formData.expectations}
-                      onChange={handleInputChange}
-                      rows={4}
-                      className="w-full px-4 py-3 border border-blue-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all duration-200 bg-blue-50/50"
-                      placeholder="Share your expectations from this education fair..."
-                    />
-                  </div>
-
-                  <div className="bg-gradient-to-r from-blue-100 to-purple-100 p-6 rounded-xl border-2 border-blue-200 shadow-sm">
-                    <div className="flex items-center mb-4">
-                      <CheckCircle className="w-6 h-6 text-blue-600 mr-3" />
-                      <h4 className="text-lg font-bold text-blue-800">
-                        Consent & Agreement
-                      </h4>
-                    </div>
-                    <label className="flex items-start cursor-pointer">
-                      <input
-                        type="checkbox"
-                        name="consent"
-                        checked={formData.consent}
+                    <div>
+                      <label className="block text-sm font-semibold text-blue-700 mb-2">
+                        Your Expectations *
+                      </label>
+                      <textarea
+                        name="expectations"
+                        value={formData.expectations}
                         onChange={handleInputChange}
-                        className="w-5 h-5 text-blue-600 focus:ring-blue-400 rounded mt-1 flex-shrink-0"
-                        required
+                        rows={4}
+                        className="w-full px-4 py-3 border border-blue-200 rounded-xl"
+                        placeholder="What do you expect from this event?"
                       />
-                      <span className="ml-3 text-sm text-indigo-700 leading-relaxed">
-                        <strong className="text-blue-600">I agree</strong> that
-                        Fly8 and Research and Higher Study Society, GSTU may use
-                        my information for event communication and higher study
-                        support purposes, in compliance with data protection
-                        policies.{' '}
-                        <span className="text-red-500 font-semibold">*</span>
-                      </span>
-                    </label>
+                    </div>
+
+                    <div className="bg-blue-50 p-4 rounded-xl">
+                      <label className="flex items-start cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="consent"
+                          checked={formData.consent}
+                          onChange={handleInputChange}
+                          className="mt-1 mr-3"
+                        />
+                        <span className="text-sm">
+                          I agree that Fly8 and GSTU may use my information for
+                          event communication and higher study support purposes.
+                          *
+                        </span>
+                      </label>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Navigation Buttons */}
-            <div className="bg-blue-50 px-8 py-6 border-t border-blue-100">
-              <div className="flex justify-between items-center">
+              {/* Navigation */}
+              <div className="flex justify-between mt-8">
                 <div>
                   {currentStep > 1 && (
                     <button
                       onClick={prevStep}
-                      className="flex items-center px-6 py-3 bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-sm"
+                      className="flex items-center px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-300"
                     >
                       <ChevronLeft className="w-5 h-5 mr-2" />
                       Previous
@@ -855,74 +773,92 @@ export default function RegistrationForm() {
                   )}
                 </div>
 
-                <div className="flex items-center space-x-4">
-                  {!canProceedToNext() && (
-                    <div className="flex items-center text-amber-600 bg-amber-100 px-4 py-2 rounded-lg shadow-sm">
-                      <AlertCircle className="w-4 h-4 mr-2" />
-                      <span className="text-sm font-medium">
-                        Please fill all required fields
-                      </span>
-                    </div>
-                  )}
-
+                <div>
                   {currentStep < 3 ? (
                     <button
                       onClick={nextStep}
-                      disabled={!canProceedToNext()}
-                      className={`flex items-center px-8 py-3 font-semibold rounded-xl transition-all duration-200 transform ${
-                        canProceedToNext()
-                          ? 'bg-gradient-to-r from-blue-400 to-purple-400 hover:from-blue-500 hover:to-purple-500 text-white hover:scale-105 shadow-md hover:shadow-lg'
+                      disabled={!canProceed()}
+                      className={`flex items-center px-6 py-3 font-semibold rounded-xl ${
+                        canProceed()
+                          ? 'bg-blue-500 text-white hover:bg-blue-600'
                           : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                       }`}
                     >
-                      Next Step
+                      Next
                       <ChevronRight className="w-5 h-5 ml-2" />
                     </button>
                   ) : (
                     <button
                       onClick={handleSubmit}
                       disabled={!validateStep3()}
-                      className={`flex items-center px-8 py-4 font-bold text-lg rounded-xl transition-all duration-300 transform ${
+                      className={`flex items-center px-8 py-3 font-bold rounded-xl ${
                         validateStep3()
-                          ? 'bg-gradient-to-r from-green-400 to-blue-400 hover:from-green-500 hover:to-blue-500 text-white hover:scale-105 shadow-lg hover:shadow-xl'
+                          ? 'bg-green-500 text-white hover:bg-green-600'
                           : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                       }`}
                     >
                       <GraduationCap className="w-6 h-6 mr-2" />
-                      Register Now - FREE
+                      Submit Registration
                     </button>
                   )}
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      )}
 
-          {/* Form Requirements Info */}
-          <div className="mt-6 bg-blue-100 border border-blue-200 rounded-xl p-4 shadow-sm">
-            <div className="flex items-center">
-              <AlertCircle className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0" />
-              <div className="text-sm text-blue-800">
-                <p className="font-semibold mb-1">Registration Requirements:</p>
-                <ul className="space-y-1 text-blue-700">
-                  <li>
-                    • All fields marked with{' '}
-                    <span className="text-red-500 font-bold">*</span> are
-                    mandatory
-                  </li>
-                  <li>
-                    • Complete all steps to unlock the registration button
-                  </li>
-                  <li>• Registration is completely FREE for all students</li>
-                  <li>
-                    • You will receive confirmation details via email and
-                    WhatsApp
-                  </li>
-                </ul>
-              </div>
+      {/* Success Modal */}
+      {showSuccess && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-8 text-center">
+            <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="w-10 h-10 text-white" />
             </div>
+
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              Congratulations!
+            </h2>
+            <p className="text-gray-600 mb-6">
+              You have successfully registered for the Global Education Gateway
+              Summit 2025.
+            </p>
+
+            <div className="bg-blue-50 rounded-xl p-6 mb-6">
+              <p className="text-sm text-gray-600 mb-2">
+                Your Registration Number:
+              </p>
+              <div className="flex items-center justify-center space-x-2">
+                <p className="text-2xl font-bold text-blue-600">
+                  {registrationNumber}
+                </p>
+                <button
+                  onClick={copyToClipboard}
+                  className="p-2 bg-blue-100 rounded-lg hover:bg-blue-200"
+                >
+                  <Copy className="w-5 h-5 text-blue-600" />
+                </button>
+              </div>
+              {copied && <p className="text-xs text-green-600 mt-2">Copied!</p>}
+            </div>
+
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
+              <p className="text-sm font-semibold mb-2">Ticket Collection:</p>
+              <p className="text-sm">
+                Visit our Registration Booth at JoyBangla Chattor, GSTU,
+                Gopalganj with your registration number.
+              </p>
+            </div>
+
+            <button
+              onClick={() => setShowSuccess(false)}
+              className="px-8 py-3 bg-blue-500 text-white font-semibold rounded-xl hover:bg-blue-600"
+            >
+              Close
+            </button>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
