@@ -233,73 +233,105 @@ export default function RegistrationForm() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <Toaster position="top-center" />
       {/* Hero Section */}
-      <div className="relative max-sm:h-[90vh] lg:overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-950/80 via-indigo-950/70 to-cyan-950/80 z-10"></div>
+      <div
+        className="relative min-h-fit bg-cover bg-center md:pb-10 overflow-hidden"
+        style={{ backgroundImage: `url(${r1})` }}
+      >
+        {/* Enhanced Overlay with multiple gradients */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-indigo-900/85 to-cyan-900/90 z-10"></div>
 
-        <img
-          src={r1}
-          className="w-full h-[400px] sm:h-[500px] md:h-[600px] object-cover"
-          alt="GSTU Campus"
-        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent z-15"></div>
 
-        <div className="absolute inset-0 z-20 flex items-center justify-center">
-          <div className="text-center text-white px-4 max-w-6xl mx-auto">
-            <div className="flex items-center justify-center mb-6 space-x-3">
-              <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 animate-pulse" />
-              <h1
-                className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white 
-  drop-shadow-[0_4px_25px_rgba(0,0,0,0.6)] 
-  bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent"
-              >
+        {/* Animated background elements */}
+        <div className="absolute inset-0 z-15">
+          <div className="absolute top-20 left-10 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-400/10 rounded-full blur-2xl"></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-20 flex flex-col justify-start sm:justify-center">
+          <div className="text-center text-white px-3 sm:px-4 max-w-6xl mx-auto pt-10 sm:pt-16 pb-10">
+            {/* Title Section */}
+            <div className="flex items-center justify-center mb-4 sm:mb-6 space-x-2 sm:space-x-3">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 animate-pulse" />
+              <h1 className="text-3xl sm:text-5xl md:text-7xl font-black drop-shadow-[0_8px_32px_rgba(0,0,0,0.8)] bg-gradient-to-r from-yellow-300 via-white to-cyan-300 bg-clip-text text-transparent leading-tight tracking-tight">
                 Global Education Gateway Summit 2025
               </h1>
-
-              <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 animate-pulse" />
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 animate-pulse" />
             </div>
 
-            <p className="text-lg sm:text-xl md:text-2xl mb-8 text-blue-100">
-              Organized by <span className="font-bold text-white">Fly8</span> &
-              <span className="font-bold text-white">
-                {' '}
+            {/* Subheading */}
+            <p className="text-base sm:text-xl md:text-2xl mb-6 sm:mb-8 text-blue-100/90 font-medium">
+              Organized by{' '}
+              <span className="font-bold text-yellow-300 drop-shadow-lg">
+                Fly8
+              </span>{' '}
+              &{' '}
+              <span className="font-bold text-yellow-300 drop-shadow-lg">
                 GSTU Research and Higher Studies Society
               </span>
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 max-w-3xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-                <Calendar className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-                <p className="text-sm text-blue-200">Date</p>
-                <p className="font-bold text-lg">20 September, 2025</p>
+            {/* Enhanced Date / Time / Venue Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8 max-w-3xl mx-auto">
+              <div className="group bg-white/15 backdrop-blur-xl rounded-3xl p-4 sm:p-6 border border-white/30 shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-500 hover:bg-white/20">
+                <Calendar className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 mx-auto mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300" />
+                <p className="text-xs sm:text-sm text-blue-200/80 font-medium mb-1">
+                  Date
+                </p>
+                <p className="font-black text-lg sm:text-xl text-white drop-shadow-md">
+                  20 September, 2025
+                </p>
               </div>
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-                <Clock className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-                <p className="text-sm text-blue-200">Time</p>
-                <p className="font-bold text-lg">10:00 AM – 5:00 PM</p>
+              <div className="group bg-white/15 backdrop-blur-xl rounded-3xl p-4 sm:p-6 border border-white/30 shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-500 hover:bg-white/20">
+                <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 mx-auto mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300" />
+                <p className="text-xs sm:text-sm text-blue-200/80 font-medium mb-1">
+                  Time
+                </p>
+                <p className="font-black text-lg sm:text-xl text-white drop-shadow-md">
+                  10:00 AM – 5:00 PM
+                </p>
               </div>
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20">
-                <MapPin className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
-                <p className="text-sm text-blue-200">Venue</p>
-                <p className="font-bold text-lg">GSTU, Gopalganj</p>
+              <div className="group bg-white/15 backdrop-blur-xl rounded-3xl p-4 sm:p-6 border border-white/30 shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-500 hover:bg-white/20">
+                <MapPin className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400 mx-auto mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300" />
+                <p className="text-xs sm:text-sm text-blue-200/80 font-medium mb-1">
+                  Venue
+                </p>
+                <p className="font-black text-lg sm:text-xl text-white drop-shadow-md">
+                  GSTU, Gopalganj
+                </p>
               </div>
             </div>
 
-            <button
-              onClick={() => setShowForm(true)}
-              className="px-8 sm:px-12 py-4 sm:py-5 bg-gradient-to-r from-yellow-600 to-orange-500 text-white font-bold text-lg sm:text-xl rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-            >
-              Register Now - FREE
-            </button>
+            {/* Enhanced CTA Button */}
+            <div className="relative">
+              <button
+                onClick={() => setShowForm(true)}
+                className="group relative px-8 sm:px-16 py-4 sm:py-6 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-white font-black text-lg sm:text-2xl rounded-full overflow-hidden shadow-2xl hover:shadow-3xl transform transition-all duration-500 hover:scale-105 hover:-translate-y-1 border-2 border-yellow-400/50"
+              >
+                <span className="relative drop-shadow-lg tracking-wide">
+                  Register Now - FREE
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Event Details Section */}
-      <div className="container mx-auto px-4 py-12 sm:py-16">
+      <div className="container mx-auto px-4 py-12 sm:py-16 bg-gradient-to-br from-slate-50 via-blue-50/50 to-indigo-50/50">
         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <div className="inline-flex items-center gap-2 bg-blue-100/80 backdrop-blur-sm rounded-full px-6 py-3 mb-6 border border-blue-200/50">
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+            <span className="text-blue-800 font-semibold text-sm">
+              About the Event
+            </span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-black mb-8 bg-gradient-to-r from-blue-700 via-purple-700 to-cyan-700 bg-clip-text text-transparent leading-tight">
             About the Event
           </h2>
-          <p className="text-lg sm:text-xl text-gray-700 leading-relaxed">
+          <p className="text-lg sm:text-xl text-slate-700 leading-relaxed font-medium">
             The Global Education Gateway Summit 2025 is your one-stop platform
             to explore international study opportunities. Join students, global
             education counselors, and top universities to discover scholarships,
@@ -307,129 +339,255 @@ export default function RegistrationForm() {
           </p>
         </div>
 
-        {/* Features Grid */}
+        {/* Enhanced Features Grid */}
         <div className="mb-16">
-          <h3 className="text-2xl sm:text-3xl font-bold text-center mb-10 text-gray-800">
+          <h3 className="text-3xl sm:text-4xl font-black text-center mb-12 bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
             What's in it for Students?
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
-              <Trophy className="w-10 h-10 sm:w-12 sm:h-12 text-yellow-500 mb-4 mx-auto" />
-              <h4 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 text-center">
-                Fully Funded Scholarships
-              </h4>
-              <p className="text-gray-600 text-center">
-                Apply for exclusive fully funded scholarships across multiple
-                destinations
-              </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="group bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl hover:shadow-2xl transform transition-all duration-500 hover:-translate-y-3 border border-white/50 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <Trophy className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-slate-800 mb-4 text-center group-hover:text-yellow-600 transition-colors duration-300">
+                  Fully Funded Scholarships
+                </h4>
+                <p className="text-slate-600 text-center leading-relaxed font-medium">
+                  Apply for exclusive fully funded scholarships across multiple
+                  destinations
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
-              <DollarSign className="w-10 h-10 sm:w-12 sm:h-12 text-green-500 mb-4 mx-auto" />
-              <h4 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 text-center">
-                Up to BDT 1,500,000 in Scholarships
-              </h4>
-              <p className="text-gray-600 text-center">
-                Special scholarships available during on-spot university
-                admissions
-              </p>
+            <div className="group bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl hover:shadow-2xl transform transition-all duration-500 hover:-translate-y-3 border border-white/50 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <DollarSign className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-slate-800 mb-4 text-center group-hover:text-green-600 transition-colors duration-300">
+                  Up to BDT 1,500,000 in Scholarships
+                </h4>
+                <p className="text-slate-600 text-center leading-relaxed font-medium">
+                  Special scholarships available during on-spot university
+                  admissions
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
-              <Building className="w-10 h-10 sm:w-12 sm:h-12 text-blue-500 mb-4 mx-auto" />
-              <h4 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 text-center">
-                On-Spot Admission – 10+ Countries
-              </h4>
-              <p className="text-gray-600 text-center">
-                Direct admission from UK, Australia, Cyprus, Spain, Malaysia,
-                Malta, China, Russia, Japan, and India
-              </p>
+            <div className="group bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl hover:shadow-2xl transform transition-all duration-500 hover:-translate-y-3 border border-white/50 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <Building className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-slate-800 mb-4 text-center group-hover:text-blue-600 transition-colors duration-300">
+                  On-Spot Admission – 10+ Countries
+                </h4>
+                <p className="text-slate-600 text-center leading-relaxed font-medium">
+                  Direct admission from UK, Australia, Cyprus, Spain, Malaysia,
+                  Malta, China, Russia, Japan, and India
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
-              <Globe className="w-10 h-10 sm:w-12 sm:h-12 text-purple-500 mb-4 mx-auto" />
-              <h4 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 text-center">
-                52 Countries & 4000+ Universities
-              </h4>
-              <p className="text-gray-600 text-center">
-                Learn about admission processes, course options, and career
-                prospects worldwide
-              </p>
+            <div className="group bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl hover:shadow-2xl transform transition-all duration-500 hover:-translate-y-3 border border-white/50 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <Globe className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-slate-800 mb-4 text-center group-hover:text-purple-600 transition-colors duration-300">
+                  52 Countries & 4000+ Universities
+                </h4>
+                <p className="text-slate-600 text-center leading-relaxed font-medium">
+                  Learn about admission processes, course options, and career
+                  prospects worldwide
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
-              <FileText className="w-10 h-10 sm:w-12 sm:h-12 text-indigo-500 mb-4 mx-auto" />
-              <h4 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 text-center">
-                Free File Assessment
-              </h4>
-              <p className="text-gray-600 text-center">
-                Receive expert profile evaluation and advice from top global
-                education counselors
-              </p>
+            <div className="group bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl hover:shadow-2xl transform transition-all duration-500 hover:-translate-y-3 border border-white/50 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <FileText className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-slate-800 mb-4 text-center group-hover:text-indigo-600 transition-colors duration-300">
+                  Free File Assessment
+                </h4>
+                <p className="text-slate-600 text-center leading-relaxed font-medium">
+                  Receive expert profile evaluation and advice from top global
+                  education counselors
+                </p>
+              </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transform transition-all duration-300 hover:-translate-y-2">
-              <BookOpen className="w-10 h-10 sm:w-12 sm:h-12 text-pink-500 mb-4 mx-auto" />
-              <h4 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 text-center">
-                Complimentary Online Classes
-              </h4>
-              <p className="text-gray-600 text-center">
-                Free access to online preparatory classes for IELTS, PTE, and
-                Duolingo
-              </p>
+            <div className="group bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl hover:shadow-2xl transform transition-all duration-500 hover:-translate-y-3 border border-white/50 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-16 h-16 bg-gradient-to-br from-rose-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                  <BookOpen className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-xl sm:text-2xl font-black text-slate-800 mb-4 text-center group-hover:text-rose-600 transition-colors duration-300">
+                  Complimentary Online Classes
+                </h4>
+                <p className="text-slate-600 text-center leading-relaxed font-medium">
+                  Free access to online preparatory classes for IELTS, PTE, and
+                  Duolingo
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Why Attend Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-6 sm:p-10 text-white mb-12">
-          <h3 className="text-2xl sm:text-3xl font-bold mb-8 text-center">
-            Why Attend?
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="flex items-start space-x-3">
-              <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
-              <p className="text-base sm:text-lg">
-                Direct interaction with university delegates and admission
-                officers
-              </p>
+        {/* Refined Why Attend Section */}
+        <div className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 rounded-2xl p-10 sm:p-12 text-white mb-12 overflow-hidden shadow-xl">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/15 via-purple-600/15 to-cyan-600/15"></div>
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/8 to-purple-500/8 rounded-full blur-3xl transform translate-x-32 -translate-y-32"></div>
+          <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-cyan-500/8 to-blue-500/8 rounded-full blur-3xl transform -translate-x-40 translate-y-40"></div>
+
+          <div className="relative z-10">
+            <div className="text-center mb-10">
+              <h3 className="text-2xl sm:text-3xl font-black mb-4">
+                Why Choose This Summit?
+              </h3>
+              <div className="w-20 h-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 mx-auto rounded-full"></div>
             </div>
-            <div className="flex items-start space-x-3">
-              <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
-              <p className="text-base sm:text-lg">
-                Explore scholarship and financial aid opportunities
-              </p>
-            </div>
-            <div className="flex items-start space-x-3">
-              <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
-              <p className="text-base sm:text-lg">
-                Gain clarity on visa processes and study abroad planning
-              </p>
-            </div>
-            <div className="flex items-start space-x-3">
-              <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" />
-              <p className="text-base sm:text-lg">
-                Build global connections and prepare for an international career
-              </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div className="flex items-start space-x-4 group">
+                <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-xl flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-105 group-hover:rotate-3 transition-transform duration-300 shadow-lg">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold mb-2 group-hover:text-yellow-300 transition-colors duration-300">
+                    Direct University Access
+                  </h4>
+                  <p className="text-blue-100 leading-relaxed font-medium text-sm">
+                    Direct interaction with university delegates and admission
+                    officers.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 group">
+                <div className="w-10 h-10 bg-gradient-to-r from-emerald-400 to-green-400 rounded-xl flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-105 group-hover:rotate-3 transition-transform duration-300 shadow-lg">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold mb-2 group-hover:text-emerald-300 transition-colors duration-300">
+                    Scholarship Opportunities
+                  </h4>
+                  <p className="text-blue-100 leading-relaxed font-medium text-sm">
+                    Explore scholarship and financial aid opportunities with
+                    instant processing.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 group">
+                <div className="w-10 h-10 bg-gradient-to-r from-purple-400 to-pink-400 rounded-xl flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-105 group-hover:rotate-3 transition-transform duration-300 shadow-lg">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold mb-2 group-hover:text-purple-300 transition-colors duration-300">
+                    Visa & Planning Guidance
+                  </h4>
+                  <p className="text-blue-100 leading-relaxed font-medium text-sm">
+                    Gain clarity on visa processes and study abroad planning.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4 group">
+                <div className="w-10 h-10 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-xl flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-105 group-hover:rotate-3 transition-transform duration-300 shadow-lg">
+                  <CheckCircle className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h4 className="text-base font-bold mb-2 group-hover:text-cyan-300 transition-colors duration-300">
+                    Global Network Building
+                  </h4>
+                  <p className="text-blue-100 leading-relaxed font-medium text-sm">
+                    Build global connections and prepare for an international
+                    career.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+        {/* Enhanced CTA Section */}
+        {/* Refined CTA Section */}
+        <div className="relative text-center bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 rounded-2xl p-10 sm:p-12 border border-gradient-to-r from-blue-200/50 to-purple-200/50 shadow-xl overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-100/20 to-purple-100/20"></div>
+          <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-300/15 to-purple-300/15 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-purple-300/15 to-pink-300/15 rounded-full blur-2xl"></div>
 
-        {/* CTA Section */}
-        <div className="text-center bg-gradient-to-r from-yellow-50 to-orange-50 rounded-3xl p-6 sm:p-10 border-2 border-yellow-200">
-          <h3 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">
-            Registration
-          </h3>
-          <p className="text-lg sm:text-xl text-gray-700 mb-6">
-            Seats are limited! Don't miss this chance to secure your future with
-            global education.
-          </p>
-          <button
-            onClick={() => setShowForm(true)}
-            className="px-8 sm:px-10 py-3 sm:py-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold text-base sm:text-lg rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-          >
-            Register Now
-          </button>
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full px-6 py-2 mb-6 border border-orange-200/40 shadow-md">
+              <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full animate-pulse"></div>
+              <span className="text-orange-800 font-semibold text-xs uppercase tracking-wider">
+                Limited Seats Available
+              </span>
+              <div className="w-2 h-2 bg-gradient-to-r from-red-500 to-pink-500 rounded-full animate-pulse delay-300"></div>
+            </div>
+
+            <h3 className="text-2xl sm:text-3xl font-black mb-6 bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900 bg-clip-text text-transparent">
+              Registration
+            </h3>
+
+            <p className="text-lg sm:text-xl text-slate-700 mb-8 font-medium leading-relaxed max-w-2xl mx-auto">
+              Seats are limited! Don't miss this chance to secure your future
+              with global education.
+            </p>
+
+            <div className="relative inline-block">
+              <div className="absolute -inset-4 bg-gradient-to-r from-orange-400 via-red-400 to-pink-400 rounded-2xl blur-lg opacity-25 group-hover:opacity-40 transition-opacity duration-500"></div>
+              <button
+                onClick={() => setShowForm(true)}
+                className="group relative px-12 sm:px-16 py-4 sm:py-5 bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white font-bold text-lg sm:text-xl rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transform transition-all duration-500 hover:scale-105 hover:-translate-y-1 border border-orange-400/30"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative flex items-center gap-3">
+                  <span className="drop-shadow-lg tracking-wide">
+                    Register Now
+                  </span>
+                  <div className="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center">
+                    <div className="w-3 h-3 bg-white rounded-sm transform group-hover:rotate-45 transition-transform duration-300"></div>
+                  </div>
+                </div>
+              </button>
+            </div>
+
+            <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-slate-600">
+              <div className="flex items-center gap-1.5">
+                <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-2.5 h-2.5 text-white" />
+                </div>
+                <span className="font-medium text-sm">
+                  100% Free Registration
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-2.5 h-2.5 text-white" />
+                </div>
+                <span className="font-medium text-sm">
+                  Instant Confirmation
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
+                  <CheckCircle className="w-2.5 h-2.5 text-white" />
+                </div>
+                <span className="font-medium text-sm">Premium Access</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
