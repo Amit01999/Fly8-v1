@@ -7,6 +7,7 @@ import { endpoints } from '../apis';
 import { NavigateFunction } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { useAppDispatch } from '@/hooks/redux/SelectorAndDispatchHooks';
+import { AppDispatch } from '@/reducer/store';
 
 /*
  const response = await apiConnector("POST", LOGIN_API, {
@@ -151,48 +152,53 @@ export function logout(navigate) {
     navigate('');
   };
 }
-// export function getPasswordResetToken(email, setEmailSent) {
-//   return async dispatch => {
-//     dispatch(setLoading(true));
-//     try {
-//       const response = await apiConnector('POST', RESETPASSTOKEN_API, {
-//         email,
-//       });
-//       console.log('RESET PASSWORD TOKEN RESPONSE....', response);
+export function getPasswordResetToken(
+  email: string,
+  setEmailSent: (value: boolean) => void
+) {
+  return async (dispatch: AppDispatch) => {
+    const toastId = toast.loading('Sending reset email...');
+    dispatch(setAuthLoading(true));
+    try {
+      const response = await apiConnector('POST', RESETPASSTOKEN_API, {
+        email,
+      });
+      if (!response.data.success) throw new Error(response.data.message);
 
-//       if (!response.data.success) {
-//         throw new Error(response.data.message);
-//       }
+      toast.success('Reset Email Sent', { id: toastId });
+      setEmailSent(true);
+    } catch (error: any) {
+      console.error('RESET PASSWORD TOKEN Error', error);
+      toast.error(error?.message || 'Failed to send email', { id: toastId });
+    } finally {
+      dispatch(setAuthLoading(false));
+    }
+  };
+}
 
-//       toast.success('Reset Email Sent');
-//       setEmailSent(true);
-//     } catch (error) {
-//       console.log('RESET PASSWORD TOKEN Error', error);
-//       toast.error('Failed to send email for resetting password');
-//     }
-//     dispatch(setLoading(false));
-//   };
-// }
+export function resetPassword(
+  password: string,
+  confirmPassword: string,
+  token: string,
+  navigate: any
+) {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setAuthLoading(true));
+    try {
+      const response = await apiConnector('POST', RESETPASSWORD_API, {
+        password,
+        confirmPassword,
+        token,
+      });
 
-// export function resetPassword(password, confirmPassword, token) {
-//   return async dispatch => {
-//     dispatch(setLoading(true));
-//     try {
-//       const response = await apiConnector('POST', RESETPASSWORD_API, {
-//         password,
-//         confirmPassword,
-//         token,
-//       });
-//       console.log('RESET Password RESPONSE ... ', response);
+      if (!response.data.success) throw new Error(response.data.message);
 
-//       if (!response.data.success) {
-//         throw new Error(response.data.message);
-//       }
-//       toast.success('Password has been reset successfully');
-//     } catch (error) {
-//       console.log('RESET PASSWORD TOKEN Error', error);
-//       toast.error('Unable to reset password');
-//     }
-//     dispatch(setLoading(false));
-//   };
-// }
+      toast.success('Password has been reset successfully');
+      navigate('/signin/student');
+    } catch (error: any) {
+      toast.error(error.message || 'Unable to reset password');
+    } finally {
+      dispatch(setAuthLoading(false));
+    }
+  };
+}

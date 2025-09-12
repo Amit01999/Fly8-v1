@@ -4,7 +4,6 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import ComingSoon from './pages/ComingSoon';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import CourseFinder from './pages/CourseFinder';
@@ -75,6 +74,10 @@ import AMatch from './components/AMatch';
 import ProfileDetailes from './components/StrudentDashbord/profile-assessmen/ProfileDetailes';
 import ReferralSearch from './components/Temporary/ReferralSearch';
 import EducationFairRegistration from './components/Temporary/EducationFairRegistration';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import UpdatePassword from './pages/auth/UpdatePassword';
+import PastEventsPage from './pages/Events/PastEventsPage';
+import ScrollToTop from './components/ScrollToTop';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -83,12 +86,10 @@ const App = () => (
       <HotToastToaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Toaster />
         <Routes>
-          {/* Coming Soon Page on Root */}
-          {/* <Route path="/phantom " element={<ComingSoon />} /> */}
-          <Route path="/intern" element={<StudentInternFrom />} />
-          {/* Full Website under /phantom */}
+          {/* <Route path="/intern" element={<StudentInternFrom />} /> */}
           <Route path="/" element={<Layout children={''} />}>
             <Route index element={<Index />} />
             <Route path="phantom" element={<Index />} />
@@ -107,6 +108,8 @@ const App = () => (
             <Route path="contact" element={<Contact />} />
             <Route path="partners" element={<AgencyPartners />} />
             <Route path="institution" element={<InstitutionPartners />} />
+            {/* Events */}
+            <Route path="past-event" element={<PastEventsPage />} />
             {/* Temporary  */}
             <Route path="referral" element={<ReferralSearch />} />
             <Route path="gstu" element={<EducationFairRegistration />} />
@@ -182,6 +185,8 @@ const App = () => (
             <Route path="signup/partner" element={<SignUpAgency />} />
             <Route path="signup/institution" element={<SignUpUniversity />} />
             {/* <Route path="verify-email" element={<VerifyEmail />} /> */}
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="update-password/:id" element={<UpdatePassword />} />
           </Route>
 
           {/* Student Dashboard inside  */}

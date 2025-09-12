@@ -15,6 +15,7 @@ import {
   Award,
   Search,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 function FindUniversity() {
   const universityBenefits = [
@@ -106,12 +107,15 @@ function FindUniversity() {
                 lifestyle.
               </p>
 
-              <button className="group flex items-center gap-4 rounded-full bg-gradient-to-r from-indigo-600 to-purple-700 px-8 py-5 font-bold text-white shadow-xl transition-all duration-300 hover:shadow-2xl hover:translate-y-px">
+              <Link
+                to={'/universities'}
+                className="max-w-fit group flex items-center gap-4 rounded-full bg-gradient-to-r from-indigo-600 to-purple-700 px-8 py-5 font-bold text-white shadow-xl transition-all duration-300 hover:shadow-2xl hover:translate-y-px"
+              >
                 Get Your Personalized University List
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white bg-opacity-30 group-hover:bg-opacity-40 transition-all duration-300">
                   <ArrowRight className="h-4 w-4" />
                 </span>
-              </button>
+              </Link>
             </div>
 
             {/* Right content - Auto-scrolling University Cards */}

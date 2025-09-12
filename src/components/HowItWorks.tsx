@@ -299,7 +299,7 @@ const HowItWork: React.FC = () => {
                 <GraduationCap className="w-8 h-8 text-white animate-pulse" />
               </div>
               <p className="text-transparent bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text font-bold text-lg">
-                Your Fly8 Dream—Ready for Takeoff 🎉
+                Launch Your Journey Today!✈️
               </p>
             </div>
           ) : (

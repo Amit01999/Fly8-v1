@@ -530,7 +530,7 @@ export default function RegistrationForm() {
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-100 to-red-100 rounded-full px-6 py-2 mb-6 border border-orange-200/40 shadow-md">
               <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full animate-pulse"></div>
               <span className="text-orange-800 font-semibold text-xs uppercase tracking-wider">
-                Limited Seats Available
+                Only 300 seats are available.
               </span>
               <div className="w-2 h-2 bg-gradient-to-r from-red-500 to-pink-500 rounded-full animate-pulse delay-300"></div>
             </div>
