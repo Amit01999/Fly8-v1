@@ -78,6 +78,8 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import UpdatePassword from './pages/auth/UpdatePassword';
 import PastEventsPage from './pages/Events/PastEventsPage';
 import ScrollToTop from './components/ScrollToTop';
+import GstuAdminPanel from './components/Temporary/GstuAdminPanel';
+import RegistrationLookup from './components/Temporary/RegistrationLookup';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -113,7 +115,10 @@ const App = () => (
             {/* Temporary  */}
             <Route path="referral" element={<ReferralSearch />} />
             <Route path="gstu" element={<EducationFairRegistration />} />
-
+            <Route path="/lookup" element={<RegistrationLookup />} />
+            {/* Public lookup page */}
+            <Route path="/gstu-admin" element={<GstuAdminPanel />} />
+            {/* Combined admin panel with tabs */}
             {/* Student Services */}
             <Route
               path="services/profile-assessment"
@@ -133,7 +138,6 @@ const App = () => (
               element={<LanguageTestPage />}
             />
             <Route path="services/education-loan" element={<EducationLoan />} />
-
             {/* Document Services */}
             <Route
               path="services/document-verification"
@@ -149,7 +153,6 @@ const App = () => (
               path="services/medical-insurance"
               element={<MedicalInsurance />}
             />
-
             {/* Travel & Accommodation */}
             <Route path="services/flight-booking" element={<FlightBooking />} />
             <Route path="services/hotel-booking" element={<HotelBooking />} />
@@ -163,7 +166,6 @@ const App = () => (
               element={<TravelInsurance />}
             />
             <Route path="services/travel-package" element={<TravelPackage />} />
-
             {/* Career Services */}
             <Route
               path="services/resume-building"
@@ -176,7 +178,6 @@ const App = () => (
             <Route path="services/visa-interview" element={<VisaInterview />} />
             <Route path="services/job-placement" element={<JobPlacement />} />
             <Route path="services/global-events" element={<GlobalEvents />} />
-
             {/* Auth */}
             <Route path="signin/student" element={<SignInStudent />} />
             <Route path="signin/partner" element={<SignInAgency />} />
