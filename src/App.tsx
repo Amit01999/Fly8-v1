@@ -114,12 +114,19 @@ const App = () => (
             {/* Events */}
             <Route path="past-event" element={<PastEventsPage />} />
             {/* Temporary  */}
-            <Route path="free-ielts-registration" element={<CoursesPage />} />
+            <Route
+              path="free-ielts-registration"
+              element={
+                <PrivateRoute>
+                  <CoursesPage />
+                </PrivateRoute>
+              }
+            />
             {/* <Route path="referral" element={<ReferralSearch />} />
             <Route path="gstu" element={<EducationFairRegistration />} />
             <Route path="/lookup" element={<RegistrationLookup />} /> */}
             {/* Public lookup page */}
-            <Route path="/gstu-admin" element={<GstuAdminPanel />} />
+            {/* <Route path="/gstu-admin" element={<GstuAdminPanel />} /> */}
             {/* Combined admin panel with tabs */}
             {/* Student Services */}
             <Route
