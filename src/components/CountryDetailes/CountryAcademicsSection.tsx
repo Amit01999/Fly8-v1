@@ -12,6 +12,8 @@ export default function CountryAcademicsSection({
   requirementsData,
   countryNote,
 }) {
+  console.log('CountryAcademicsSection - topuniversites:', topuniversites);
+  console.log('CountryAcademicsSection - topuniversites length:', topuniversites?.length);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -28,7 +30,12 @@ export default function CountryAcademicsSection({
 
   return (
     <div>
-      <motion.div variants={containerVariants} className="space-y-10">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="space-y-10"
+      >
         {/* Top Courses */}
         <motion.section
           variants={itemVariants}

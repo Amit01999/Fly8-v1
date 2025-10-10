@@ -277,6 +277,8 @@ const StudentDashboardHome = () => {
 
   return (
     <div className="space-y-6">
+      {/* Offers Carousel */}
+      <OffersCarousel />
       {/* Welcome Banner */}
       <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary via-secondary to-accent p-6 text-white shadow-md">
         <div className="relative z-10 text-center py-8 px-4">
@@ -299,9 +301,6 @@ const StudentDashboardHome = () => {
         <div className="absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-white/10 blur-3xl"></div>
         <div className="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-white/10 blur-3xl"></div>
       </div>
-
-      {/* Offers Carousel */}
-      <OffersCarousel />
 
       {/* Features Section */}
       <div>

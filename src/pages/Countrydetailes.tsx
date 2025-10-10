@@ -311,6 +311,33 @@ const CountryDetails: React.FC = () => {
       try {
         const res = await fetchCountryDetails(countryname);
         console.log('Raw API Response:', JSON.stringify(res.data, null, 2));
+        console.log('topuniversities from API:', res.data.topuniversities);
+        console.log('topuniversities length:', res.data.topuniversities?.length);
+
+        // Handle field name variations from API
+        // Map topuniversities to topuniversites
+        if (res.data.topuniversities && !res.data.topuniversites) {
+          console.log('Mapping topuniversities to topuniversites');
+          res.data.topuniversites = res.data.topuniversities;
+          delete res.data.topuniversities;
+          console.log('After mapping - topuniversites:', res.data.topuniversites);
+          console.log('After mapping - topuniversites length:', res.data.topuniversites?.length);
+        }
+
+        // Map admissionnotes to addmissionnotes
+        if (res.data.admissionnotes && !res.data.addmissionnotes) {
+          console.log('Mapping admissionnotes to addmissionnotes');
+          res.data.addmissionnotes = res.data.admissionnotes;
+          delete res.data.admissionnotes;
+        }
+
+        // Map spainVisaData to ukVisaData if country is not Spain
+        if (res.data.spainVisaData && !res.data.ukVisaData) {
+          console.log('Mapping spainVisaData to ukVisaData');
+          res.data.ukVisaData = res.data.spainVisaData;
+          delete res.data.spainVisaData;
+        }
+
         const requiredFields = [
           'code',
           'name',
@@ -352,11 +379,6 @@ const CountryDetails: React.FC = () => {
         );
         if (missingFields.length > 0) {
           console.warn('Missing fields:', missingFields);
-          // Handle spainVisaData mismatch
-          if (res.data.spainVisaData && countryname.toLowerCase() === 'uk') {
-            res.data.ukVisaData = res.data.spainVisaData;
-            delete res.data.spainVisaData;
-          }
           // Set default values for all required fields
           res.data.code = res.data.code ?? '';
           res.data.name = res.data.name ?? '';
@@ -422,6 +444,8 @@ const CountryDetails: React.FC = () => {
           'Processed API Response:',
           JSON.stringify(res.data, null, 2)
         );
+        console.log('Final topuniversites before setState:', res.data.topuniversites);
+        console.log('Final topuniversites length before setState:', res.data.topuniversites?.length);
         setCountry(res.data);
         setError(null);
       } catch (error) {

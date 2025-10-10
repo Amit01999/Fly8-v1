@@ -80,6 +80,7 @@ import PastEventsPage from './pages/Events/PastEventsPage';
 import ScrollToTop from './components/ScrollToTop';
 import GstuAdminPanel from './components/Temporary/GstuAdminPanel';
 import RegistrationLookup from './components/Temporary/RegistrationLookup';
+import CoursesPage from './components/Temporary/CoursesPage';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -113,9 +114,10 @@ const App = () => (
             {/* Events */}
             <Route path="past-event" element={<PastEventsPage />} />
             {/* Temporary  */}
-            <Route path="referral" element={<ReferralSearch />} />
+            <Route path="free-ielts-registration" element={<CoursesPage />} />
+            {/* <Route path="referral" element={<ReferralSearch />} />
             <Route path="gstu" element={<EducationFairRegistration />} />
-            <Route path="/lookup" element={<RegistrationLookup />} />
+            <Route path="/lookup" element={<RegistrationLookup />} /> */}
             {/* Public lookup page */}
             <Route path="/gstu-admin" element={<GstuAdminPanel />} />
             {/* Combined admin panel with tabs */}
