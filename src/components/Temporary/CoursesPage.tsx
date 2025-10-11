@@ -29,7 +29,7 @@ export default function CoursesPage() {
               <span className="block italic text-amber-500 mt-2 text-4xl sm:text-5xl md:text-6xl lg:text-8xl">
                 Offers
               </span>
-              <span className="block mt-3 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-700">
+              <span className="block mt-3 text-2xl sm:text-3xl md:text-4xl lg:text-7xl font-bold text-gray-700">
                 for Everyone!
               </span>
             </h1>
@@ -41,68 +41,57 @@ export default function CoursesPage() {
           </div>
 
           {/* Right Visuals */}
-          <div className="relative h-80 sm:h-96 md:h-[500px]">
-            {/* Background glow effects */}
-            <div className="absolute top-10 right-10 w-48 sm:w-64 md:w-72 h-48 sm:h-64 md:h-72 bg-gradient-to-br from-amber-300 to-orange-400 rounded-full opacity-20 blur-2xl"></div>
-            <div className="absolute bottom-10 left-10 w-40 sm:w-56 md:w-64 h-40 sm:h-56 md:h-64 bg-gradient-to-br from-indigo-300 to-purple-400 rounded-full opacity-20 blur-2xl"></div>
+          <div className="relative h-[400px] sm:h-[450px] md:h-[500px] flex items-center justify-center">
+            {/* Background Glow Effects */}
+            <div className="absolute top-8 right-8 w-40 sm:w-56 md:w-72 h-40 sm:h-56 md:h-72 bg-gradient-to-br from-amber-300 to-orange-400 rounded-full opacity-20 blur-2xl"></div>
+            <div className="absolute bottom-8 left-8 w-32 sm:w-48 md:w-64 h-32 sm:h-48 md:h-64 bg-gradient-to-br from-indigo-300 to-purple-400 rounded-full opacity-20 blur-2xl"></div>
 
-            {/* Main Illustration */}
-            <div className="relative h-full flex items-center justify-center">
-              {/* Floating Course Cards */}
-              <div className="absolute top-10 right-8 sm:right-16 bg-white p-4 sm:p-6 rounded-2xl shadow-2xl transform rotate-6 hover:rotate-12 transition-transform duration-300">
-                <div className="w-20 sm:w-24 h-28 sm:h-32 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                  <span className="text-4xl sm:text-5xl">📚</span>
-                </div>
-                <div className="mt-3 text-center text-xs sm:text-sm font-bold text-gray-800">
-                  IELTS
-                </div>
+            {/* Central Student Element */}
+            <div className="relative z-10 flex items-center justify-center">
+              <div className="w-24 sm:w-32 md:w-40 h-24 sm:h-32 md:h-40 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-full flex items-center justify-center shadow-2xl">
+                <span className="text-4xl sm:text-6xl md:text-7xl">🎓</span>
               </div>
+              <div className="absolute inset-0 border-4 border-amber-400 rounded-full animate-ping opacity-20"></div>
+              <div className="absolute inset-[-8px] border-2 border-indigo-400 rounded-full"></div>
+            </div>
 
-              <div className="absolute top-32 left-6 sm:left-12 bg-white p-4 sm:p-6 rounded-2xl shadow-2xl transform -rotate-6 hover:-rotate-12 transition-transform duration-300">
-                <div className="w-20 sm:w-24 h-28 sm:h-32 bg-gradient-to-br from-rose-500 to-orange-500 rounded-lg flex items-center justify-center">
-                  <span className="text-4xl sm:text-5xl">🤖</span>
-                </div>
-                <div className="mt-3 text-center text-xs sm:text-sm font-bold text-gray-800">
-                  AI Course
-                </div>
+            {/* Floating Course Cards */}
+            <div className="absolute top-6 right-4 sm:right-10 bg-white p-3 sm:p-5 rounded-2xl shadow-2xl transform rotate-6 hover:rotate-12 transition-transform duration-300">
+              <div className="w-16 sm:w-20 md:w-24 h-20 sm:h-24 md:h-28 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-3xl sm:text-4xl md:text-5xl">📚</span>
               </div>
+              <div className="mt-2 text-center text-xs sm:text-sm font-bold text-gray-800">
+                IELTS
+              </div>
+            </div>
 
-              <div className="absolute bottom-16 right-12 sm:right-24 bg-white p-4 sm:p-6 rounded-2xl shadow-2xl transform rotate-3 hover:rotate-6 transition-transform duration-300">
-                <div className="w-20 sm:w-24 h-28 sm:h-32 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-lg flex items-center justify-center">
-                  <span className="text-4xl sm:text-5xl">🏆</span>
-                </div>
-                <div className="mt-3 text-center text-xs sm:text-sm font-bold text-gray-800">
-                  Certificate
-                </div>
+            <div className="absolute top-28 left-3 sm:left-10 bg-white p-3 sm:p-5 rounded-2xl shadow-2xl transform -rotate-6 hover:-rotate-12 transition-transform duration-300">
+              <div className="w-16 sm:w-20 md:w-24 h-20 sm:h-24 md:h-28 bg-gradient-to-br from-rose-500 to-orange-500 rounded-lg flex items-center justify-center">
+                <span className="text-3xl sm:text-4xl md:text-5xl">🤖</span>
               </div>
+              <div className="mt-2 text-center text-xs sm:text-sm font-bold text-gray-800">
+                AI Course
+              </div>
+            </div>
 
-              {/* Central Student Element */}
-              <div className="relative z-10">
-                <div className="w-28 sm:w-36 md:w-40 h-28 sm:h-36 md:h-40 bg-gradient-to-br from-indigo-600 to-purple-700 rounded-full flex items-center justify-center shadow-2xl">
-                  <span className="text-5xl sm:text-6xl md:text-7xl">🎓</span>
-                </div>
-                <div className="absolute inset-0 border-4 border-amber-400 rounded-full animate-ping opacity-20"></div>
-                <div className="absolute inset-[-8px] border-2 border-indigo-400 rounded-full"></div>
+            <div className="absolute bottom-10 right-8 sm:right-16 bg-white p-3 sm:p-5 rounded-2xl shadow-2xl transform rotate-3 hover:rotate-6 transition-transform duration-300">
+              <div className="w-16 sm:w-20 md:w-24 h-20 sm:h-24 md:h-28 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-lg flex items-center justify-center">
+                <span className="text-3xl sm:text-4xl md:text-5xl">🏆</span>
               </div>
+              <div className="mt-2 text-center text-xs sm:text-sm font-bold text-gray-800">
+                Certificate
+              </div>
+            </div>
 
-              {/* Language Badges */}
-              <div className="absolute bottom-6 left-4 sm:left-8 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg transform hover:scale-110 transition-transform">
-                🇯🇵 Japanese
-              </div>
-              <div className="absolute top-16 left-10 sm:left-24 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg transform hover:scale-110 transition-transform">
-                🇩🇪 German
-              </div>
-
-              {/* Sparkle effects */}
-              <div className="absolute top-4 right-24 sm:right-32 text-xl sm:text-2xl animate-pulse">
-                ✨
-              </div>
-              <div className="absolute bottom-4 left-20 sm:left-32 text-xl sm:text-2xl animate-pulse delay-100">
-                ⭐
-              </div>
-              <div className="absolute top-1/2 right-6 sm:right-8 text-lg sm:text-xl animate-pulse delay-200">
-                💫
-              </div>
+            {/* Sparkles */}
+            <div className="absolute top-4 right-20 text-lg sm:text-xl animate-pulse">
+              ✨
+            </div>
+            <div className="absolute bottom-4 left-16 text-lg sm:text-xl animate-pulse delay-100">
+              ⭐
+            </div>
+            <div className="absolute top-1/2 right-6 text-base sm:text-lg animate-pulse delay-200">
+              💫
             </div>
           </div>
         </div>
@@ -267,6 +256,7 @@ export default function CoursesPage() {
                 DON'T MISS OUT
               </p>
               <h2 className="text-5xl font-black mb-6">Register Now!</h2>
+
               <a
                 href="https://englishcarnivalbangladesh.com/registration/"
                 target="_blank"
@@ -275,9 +265,23 @@ export default function CoursesPage() {
               >
                 Save Your Seat →
               </a>
+
               <p className="text-sm mt-6 opacity-70">
                 Already registered? You're all set!
               </p>
+
+              {/* Important Note Section */}
+              <div className="mt-8 bg-white/10 p-4 rounded-2xl border border-white/20 inline-block">
+                <p className="text-base font-semibold text-amber-300 uppercase tracking-wide mb-2">
+                  Important Note
+                </p>
+                <p className="text-sm text-white/90">
+                  Reference Name: <span className="font-bold">Fly8-Nusrat</span>
+                  <br />
+                  Reference Phone Number:{' '}
+                  <span className="font-bold">01322-908309</span>
+                </p>
+              </div>
             </div>
           </div>
         </div>

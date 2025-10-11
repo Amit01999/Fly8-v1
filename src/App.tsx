@@ -81,6 +81,9 @@ import ScrollToTop from './components/ScrollToTop';
 import GstuAdminPanel from './components/Temporary/GstuAdminPanel';
 import RegistrationLookup from './components/Temporary/RegistrationLookup';
 import CoursesPage from './components/Temporary/CoursesPage';
+import Blogs from './pages/Blog/Blogs';
+import BlogDetail from './pages/Blog/BlogDetail';
+import BlogsAdmin from './pages/Blog/BlogsAdmin';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -111,15 +114,21 @@ const App = () => (
             <Route path="contact" element={<Contact />} />
             <Route path="partners" element={<AgencyPartners />} />
             <Route path="institution" element={<InstitutionPartners />} />
+
+            {/* Blog routes */}
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blogs/:id" element={<BlogDetail />} />
+            <Route path="/admin/blogs" element={<BlogsAdmin />} />
+
             {/* Events */}
             <Route path="past-event" element={<PastEventsPage />} />
             {/* Temporary  */}
             <Route
               path="free-ielts-registration"
               element={
-                <PrivateRoute>
-                  <CoursesPage />
-                </PrivateRoute>
+                // <PrivateRoute>
+                <CoursesPage />
+                // </PrivateRoute>
               }
             />
             {/* <Route path="referral" element={<ReferralSearch />} />
