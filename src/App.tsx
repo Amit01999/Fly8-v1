@@ -81,9 +81,14 @@ import ScrollToTop from './components/ScrollToTop';
 import GstuAdminPanel from './components/Temporary/GstuAdminPanel';
 import RegistrationLookup from './components/Temporary/RegistrationLookup';
 import CoursesPage from './components/Temporary/CoursesPage';
-import Blogs from './pages/Blog/Blogs';
-import BlogDetail from './pages/Blog/BlogDetail';
-import BlogsAdmin from './pages/Blog/BlogsAdmin';
+// import Blogs from './pages/Blog/Blogs';
+// import BlogDetail from './pages/Blog/BlogDetail';
+// import BlogsAdmin from './pages/Blog/BlogsAdmin';
+import CreateBlog from './pages/Blogs/CreateBlog';
+import BlogsAdmin from './pages/Blogs/BlogsAdmin';
+import Blogs from './pages/Blogs/Blogs';
+import BlogDetail from './pages/Blogs/BlogDetail';
+import StudentProfileAssignment from './components/Temporary/StudentProfileAssignment';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -116,19 +121,27 @@ const App = () => (
             <Route path="institution" element={<InstitutionPartners />} />
 
             {/* Blog routes */}
+            {/* <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blogs/:id" element={<BlogDetail />} />
+            <Route path="/admin/blogs" element={<BlogsAdmin />} /> */}
+            <Route path="/create-blog" element={<CreateBlog />} />
+            <Route path="/admin/blogs" element={<BlogsAdmin />} />
             <Route path="/blogs" element={<Blogs />} />
             <Route path="/blogs/:id" element={<BlogDetail />} />
-            <Route path="/admin/blogs" element={<BlogsAdmin />} />
 
             {/* Events */}
             <Route path="past-event" element={<PastEventsPage />} />
             {/* Temporary  */}
             <Route
+              path="student-profile-assignment"
+              element={<StudentProfileAssignment />}
+            />
+            <Route
               path="free-ielts-registration"
               element={
-                // <PrivateRoute>
-                <CoursesPage />
-                // </PrivateRoute>
+                <PrivateRoute>
+                  <CoursesPage />
+                </PrivateRoute>
               }
             />
             {/* <Route path="referral" element={<ReferralSearch />} />

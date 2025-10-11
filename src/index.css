@@ -190,3 +190,16 @@
   z-index: 10;
   /* ensures text/icon stay above the sliding background */
 }
+
+
+.layout-layout1 {
+  @apply border-l-4 border-blue-500;
+}
+
+.layout-layout2 {
+  @apply rounded-t-lg;
+}
+
+.layout-layout3 {
+  @apply col-span-full;
+}
