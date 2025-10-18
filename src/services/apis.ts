@@ -12,6 +12,10 @@ export const endpoints = {
 // PROFILE ENDPOINTS
 export const profileEndpoints = {
   PROFILE_ASSESSMENT_API: BASE_URL + '/profile/assessment',
+  GET_STUDENT_PROFILE_API: BASE_URL + '/student/profile',
+  UPDATE_STUDENT_PROFILE_API: BASE_URL + '/student/profile',
+  UPLOAD_DOCUMENT_API: BASE_URL + '/student/upload-document',
+  UPLOAD_PROFILE_IMAGE_API: BASE_URL + '/student/upload-image',
   // GET_USER_ENROLLED_COURSES_API: BASE_URL + '/profile/getEnrolledCourses',
   // GET_INSTRUCTOR_DATA_API: BASE_URL + '/profile/instructorDashboard',
 };
@@ -52,5 +56,8 @@ export const settingsEndpoints = {
   UPDATE_DISPLAY_PICTURE_API: BASE_URL + '/profile/updateDisplayPicture',
   UPDATE_PROFILE_API: BASE_URL + '/profile/updateProfile',
   CHANGE_PASSWORD_API: BASE_URL + '/auth/changepassword',
+  CHANGE_EMAIL_API: BASE_URL + '/student/change-email',
   DELETE_PROFILE_API: BASE_URL + '/profile/deleteProfile',
+  DEACTIVATE_ACCOUNT_API: BASE_URL + '/student/deactivate',
+  GET_ACCOUNT_INFO_API: BASE_URL + '/student/account-info',
 };

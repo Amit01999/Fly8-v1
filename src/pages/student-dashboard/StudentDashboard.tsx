@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/StrudentDashbord/DashboardSidebar';
 import DashboardHeader from '@/components/StrudentDashbord/DashboardHeader';
@@ -10,14 +11,23 @@ export default function StudentDashboard() {
   const isHomeDashboard =
     location.pathname === '/dashboard' || location.pathname === '/dashboard/';
 
+  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+
   return (
     <SidebarProvider>
       <div className="min-h-screen w-full">
         {/* Header */}
-        <DashboardHeader />
+        <DashboardHeader
+          onLeftSidebarToggle={() => setIsLeftSidebarOpen(!isLeftSidebarOpen)}
+          onRightSidebarToggle={() => setIsRightSidebarOpen(!isRightSidebarOpen)}
+        />
         <div className="flex h-svh scrollbar-hide-y">
           {/* Sidebar */}
-          <DashboardSidebar />
+          <DashboardSidebar
+            isOpen={isLeftSidebarOpen}
+            onClose={() => setIsLeftSidebarOpen(false)}
+          />
           {/* Main content */}
           <div className="flex-1 flex flex-col h-full overflow-hidden">
             {/* Tabs */}
@@ -29,10 +39,24 @@ export default function StudentDashboard() {
                 <Outlet />
               </main>
               {/* Right sidebar */}
-              <RightSidebar />
+              <RightSidebar
+                isOpen={isRightSidebarOpen}
+                onClose={() => setIsRightSidebarOpen(false)}
+              />
             </div>
           </div>
         </div>
+
+        {/* Mobile overlay backdrop */}
+        {(isLeftSidebarOpen || isRightSidebarOpen) && (
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => {
+              setIsLeftSidebarOpen(false);
+              setIsRightSidebarOpen(false);
+            }}
+          />
+        )}
       </div>
     </SidebarProvider>
   );

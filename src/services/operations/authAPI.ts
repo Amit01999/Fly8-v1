@@ -132,7 +132,7 @@ export function login(
         JSON.stringify(response.data.student.token)
       );
       localStorage.setItem('user', JSON.stringify(response.data.student));
-      navigate('/StudentDashboard/my-profile');
+      navigate('/StudentDashboard/home');
     } catch (error) {
       console.log('LOGIN API ERROR............', error);
       toast.error('Login Failed');

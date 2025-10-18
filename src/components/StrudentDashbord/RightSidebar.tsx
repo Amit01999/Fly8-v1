@@ -248,19 +248,24 @@
 
 // export default RightSidebar;
 
-import { Calendar, MessageSquare, Bell, ChevronRight } from 'lucide-react';
+import { Calendar, MessageSquare, Bell, ChevronRight, X } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const RightSidebar = () => {
+interface RightSidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const RightSidebar = ({ isOpen, onClose }: RightSidebarProps) => {
   // Later these will come from API/backend
   const updates: any[] = [];
   const appointments: any[] = [];
   const messages: any[] = [];
 
-  return (
-    <aside className="hidden lg:flex w-80 flex-col border-l bg-background/95 p-4 overflow-y-auto scrollbar-hide">
+  const SidebarContent = () => (
+    <>
       {/* Updates */}
       <SidebarBox
         title="Updates"
@@ -313,7 +318,41 @@ const RightSidebar = () => {
           </div>
         )}
       </SidebarBox>
-    </aside>
+    </>
+  );
+
+  return (
+    <>
+      {/* Desktop Sidebar - Always visible on large screens */}
+      <aside className="hidden lg:flex w-80 flex-col border-l bg-background/95 p-4 overflow-y-auto scrollbar-hide">
+        <SidebarContent />
+      </aside>
+
+      {/* Mobile Sidebar - Slides in from right */}
+      <div
+        className={cn(
+          'fixed inset-y-0 right-0 z-50 w-80 bg-background border-l transform transition-transform duration-300 ease-in-out lg:hidden',
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        )}
+      >
+        {/* Close button */}
+        <div className="flex items-center justify-between p-4 border-b">
+          <h2 className="text-lg font-semibold">Activity</h2>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label="Close sidebar"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Sidebar content */}
+        <div className="h-[calc(100%-4rem)] overflow-y-auto scrollbar-hide p-4">
+          <SidebarContent />
+        </div>
+      </div>
+    </>
   );
 };
 

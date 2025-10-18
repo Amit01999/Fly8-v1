@@ -71,7 +71,6 @@ import JobsAbroad from './pages/student-dashboard/StudentdashboadPage/JobsAbroad
 import UploadUniversity from './components/UploadUniversity';
 import FindCourses from './pages/FindCourse';
 import AMatch from './components/AMatch';
-import ProfileDetailes from './components/StrudentDashbord/profile-assessmen/ProfileDetailes';
 import ReferralSearch from './components/Temporary/ReferralSearch';
 import EducationFairRegistration from './components/Temporary/EducationFairRegistration';
 import ForgotPassword from './pages/auth/ForgotPassword';
@@ -89,6 +88,8 @@ import BlogsAdmin from './pages/Blogs/BlogsAdmin';
 import Blogs from './pages/Blogs/Blogs';
 import BlogDetail from './pages/Blogs/BlogDetail';
 import StudentProfileAssignment from './components/Temporary/StudentProfileAssignment';
+import MyProfile from './pages/student-dashboard/MyProfile';
+import AccountSettings from './pages/student-dashboard/AccountSettings';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -150,6 +151,7 @@ const App = () => (
             {/* Public lookup page */}
             {/* <Route path="/gstu-admin" element={<GstuAdminPanel />} /> */}
             {/* Combined admin panel with tabs */}
+
             {/* Student Services */}
             <Route
               path="services/profile-assessment"
@@ -230,14 +232,19 @@ const App = () => (
               </PrivateRoute>
             }
           >
-            <Route path="my-profile" element={<StudentDashboardHome />} />
+            <Route path="home" element={<StudentDashboardHome />} />
+            <Route path="my-profile" element={<MyProfile />} />
+            <Route path="account-settings" element={<AccountSettings />} />
             <Route path="ai-assistance" element={<StudentAIAssistance />} />
             <Route
               path="book-appointment"
               element={<StudentBookAppointment />}
             />
+            <Route path="updates" element={<StudentUpdates />} />
+
+            {/* fly8 student dashboard 8 services*/}
+
             <Route path="profile-assessment" element={<ProfileAssessment />} />
-            {/* <Route path="profile-assessment" element={<ProfileDetailes />} /> */}
             <Route
               path="preparation-support"
               element={<PreparationSupport />}
@@ -251,7 +258,6 @@ const App = () => (
             <Route path="accommodation-finder" element={<Accommodation />} />
             <Route path="student-loan" element={<EducationLoanSupport />} />
             <Route path="job-portal" element={<JobsAbroad />} />
-            <Route path="updates" element={<StudentUpdates />} />
             <Route path="visa" element={<VisaAssistance />} />
             <Route path="tickets" element={<TicketBooking />} />
             <Route path="accommodation" element={<AccommodationFinder />} />

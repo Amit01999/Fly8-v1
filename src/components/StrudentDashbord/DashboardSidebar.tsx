@@ -16,6 +16,7 @@ import {
   Building,
   CirclePlus,
   PlusCircle,
+  X,
 } from 'lucide-react';
 import {
   Sidebar,
@@ -124,7 +125,14 @@ const shortcuts = [
   },
 ];
 
-const DashboardSidebar = () => {
+interface DashboardSidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
+  const location = useLocation();
+
   const renderNavLink = (item: {
     name: string;
     icon: any;
@@ -132,20 +140,21 @@ const DashboardSidebar = () => {
     color: string;
   }) => {
     const Icon = item.icon;
+    // Check if current route matches this menu item
+    const isActive = location.pathname === item.to;
 
     return (
       <SidebarMenuItem key={item.name}>
         <SidebarMenuButton asChild>
           <NavLink
             to={item.to}
-            className={({ isActive }) =>
-              cn(
-                'group hover-slide-bg flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-primary',
-                isActive
-                  ? 'bg-blue-900 text-white font-semibold'
-                  : 'text-muted-foreground hover:text-white'
-              )
-            }
+            onClick={() => onClose()}
+            className={cn(
+              'group hover-slide-bg flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+              isActive
+                ? 'bg-blue-900 text-white font-semibold'
+                : 'text-muted-foreground hover:text-white'
+            )}
           >
             <span
               className={cn(
@@ -155,36 +164,57 @@ const DashboardSidebar = () => {
             >
               <Icon className="h-5 w-5" />
             </span>
-            <span className="relative z-10 text-secondary">{item.name}</span>
+            <span
+              className={cn(
+                'relative z-10',
+                isActive ? 'text-white' : 'text-secondary'
+              )}
+            >
+              {item.name}
+            </span>
           </NavLink>
         </SidebarMenuButton>
       </SidebarMenuItem>
     );
   };
 
-  return (
-    <Sidebar variant="sidebar" collapsible="offcanvas">
-      <SidebarSeparator className="mt-16" />
-      <SidebarContent className="h-full bg-background border-r px-2 py-2 overflow-y-auto scrollbar-hide">
+  const SidebarContentComponent = () => {
+    const isDashboardActive = location.pathname === '/StudentDashboard/home';
+
+    return (
+      <>
         <SidebarGroup>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <NavLink
-                  to="/StudentDashboard/my-profile"
-                  className={({ isActive }) =>
-                    cn(
-                      'flex items-center px-3 rounded-lg transition-colors',
-                      isActive
-                        ? 'bg-primary/10 text-primary font-medium'
-                        : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'
-                    )
-                  }
+                  to="/StudentDashboard/home"
+                  onClick={() => onClose()}
+                  className={cn(
+                    'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                    isDashboardActive
+                      ? 'bg-blue-900 text-white font-semibold hover:bg-blue-900 hover:text-white'
+                      : 'text-muted-foreground hover:bg-blue-900 hover:text-primary'
+                  )}
                 >
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <span
+                    className={cn(
+                      'flex h-8 w-8 items-center justify-center rounded-lg',
+                      isDashboardActive
+                        ? 'bg-primary/20 text-white'
+                        : 'bg-primary/10 text-primary'
+                    )}
+                  >
                     <Home className="h-5 w-5" />
                   </span>
-                  <span>Dashboard</span>
+                  <span
+                    className={cn(
+                      'relative z-10',
+                      isDashboardActive ? 'text-white' : 'text-secondary'
+                    )}
+                  >
+                    Dashboard
+                  </span>
                 </NavLink>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -229,14 +259,56 @@ const DashboardSidebar = () => {
         <div className="p-3 mt-auto">
           <NavLink
             to="phantom/dashboard/new-request"
+            onClick={() => onClose()}
             className="flex justify-center items-center gap-2 w-full p-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg hover:shadow-md transition-all font-medium"
           >
             <CirclePlus className="h-5 w-5" />
             <span>Add your feedback</span>
           </NavLink>
         </div>
-      </SidebarContent>
-    </Sidebar>
+      </>
+    );
+  };
+
+  return (
+    <>
+      {/* Desktop Sidebar - Always visible on large screens */}
+      <Sidebar
+        variant="sidebar"
+        collapsible="offcanvas"
+        className="hidden lg:flex"
+      >
+        <SidebarSeparator className="mt-16" />
+        <SidebarContent className="h-full bg-background border-r px-2 py-2 overflow-y-auto scrollbar-hide">
+          <SidebarContentComponent />
+        </SidebarContent>
+      </Sidebar>
+
+      {/* Mobile Sidebar - Slides in from left */}
+      <div
+        className={cn(
+          'fixed inset-y-0 left-0 z-50 w-72 bg-background border-r transform transition-transform duration-300 ease-in-out lg:hidden',
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
+      >
+        {/* Close button */}
+        <div className="flex items-center justify-between p-4 border-b">
+          <h2 className="text-lg font-semibold">Menu</h2>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            aria-label="Close sidebar"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Sidebar content */}
+        <div className="h-[calc(100%-4rem)] overflow-y-auto scrollbar-hide px-2 py-2">
+          <SidebarContentComponent />
+        </div>
+      </div>
+    </>
   );
 };
 
