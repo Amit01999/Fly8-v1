@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LayoutGrid, MessageSquare, Calendar, Bell } from 'lucide-react';
+import { LayoutGrid, MessageSquare, Calendar, Bell, Gift } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const DashboardTabs = () => {
@@ -17,6 +17,8 @@ const DashboardTabs = () => {
       setActiveTab('appointments');
     } else if (path.includes('updates')) {
       setActiveTab('updates');
+    } else if (path.includes('free-ielts-registration')) {
+      setActiveTab('offers');
     } else {
       setActiveTab('dashboard');
     }
@@ -36,6 +38,9 @@ const DashboardTabs = () => {
         break;
       case 'updates':
         navigate('/StudentDashboard/updates');
+        break;
+      case 'offers':
+        navigate('/free-ielts-registration');
         break;
       default:
         navigate('/StudentDashboard');
@@ -66,6 +71,14 @@ const DashboardTabs = () => {
           onClick={() => handleTabChange('updates')}
           color="from-amber-400 to-orange-300"
         />
+        <TabButton
+          icon={<Gift className="h-5 w-5" />}
+          label="SPECIAL OFFERS"
+          active={activeTab === 'offers'}
+          onClick={() => handleTabChange('offers')}
+          color="from-pink-500 to-rose-400"
+          special
+        />
       </div>
     </div>
   );
@@ -77,16 +90,27 @@ interface TabButtonProps {
   active: boolean;
   onClick: () => void;
   color: string;
+  special?: boolean;
 }
 
-const TabButton = ({ icon, label, active, onClick, color }: TabButtonProps) => {
+const TabButton = ({
+  icon,
+  label,
+  active,
+  onClick,
+  color,
+  special,
+}: TabButtonProps) => {
   return (
     <button
       className={cn(
-        'flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all duration-300 ease-in-out',
+        'flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all duration-300 ease-in-out relative',
         active
           ? `bg-gradient-to-r ${color} text-white shadow-md`
-          : 'bg-gray-50 text-gray-500 hover:bg-gray-100'
+          : special
+          ? `bg-gradient-to-r ${color} text-white shadow-lg hover:shadow-xl hover:scale-105`
+          : 'bg-gray-50 text-gray-500 hover:bg-gray-100',
+        special && 'ring-2 ring-pink-300 ring-offset-2'
       )}
       onClick={onClick}
     >
