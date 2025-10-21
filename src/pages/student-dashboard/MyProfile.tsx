@@ -651,7 +651,7 @@ export default function MyProfile() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => navigate('/StudentDashboard')}
+                onClick={() => navigate('/StudentDashboard/home')}
                 disabled={isSubmitting}
               >
                 Cancel

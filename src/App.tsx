@@ -57,7 +57,7 @@ import VisaInterview from './pages/CareerServices/VisaInterview';
 import JobPlacement from './pages/CareerServices/JobPlacement';
 import GlobalEvents from './pages/CareerServices/GlobalEvents';
 import UniversityProfile from './pages/UniversityProfile';
-import ProfileAssessment from './pages/student-dashboard/services/PofileAssessment';
+// import ProfileAssessment from './pages/student-dashboard/services/ProfileAssessment1';
 import StudentInternFrom from './components/StudentInternFrom';
 import PrivateRoute from './components/auth/PrivateRoute';
 import PreparationSupport from './pages/student-dashboard/StudentdashboadPage/PreparationSupport';
@@ -90,6 +90,7 @@ import BlogDetail from './pages/Blogs/BlogDetail';
 import StudentProfileAssignment from './components/Temporary/StudentProfileAssignment';
 import MyProfile from './pages/student-dashboard/MyProfile';
 import AccountSettings from './pages/student-dashboard/AccountSettings';
+import ProfileAssessment from './pages/student-dashboard/services/ProfileAssessment';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -145,8 +146,8 @@ const App = () => (
                 </PrivateRoute>
               }
             />
-            {/* <Route path="referral" element={<ReferralSearch />} />
-            <Route path="gstu" element={<EducationFairRegistration />} />
+            <Route path="referral" element={<ReferralSearch />} />
+             {/*<Route path="gstu" element={<EducationFairRegistration />} />
             <Route path="/lookup" element={<RegistrationLookup />} /> */}
             {/* Public lookup page */}
             {/* <Route path="/gstu-admin" element={<GstuAdminPanel />} /> */}
@@ -244,6 +245,7 @@ const App = () => (
 
             {/* fly8 student dashboard 8 services*/}
 
+            {/* <Route path="profile-assessment" element={<ProfileAssessment />} /> */}
             <Route path="profile-assessment" element={<ProfileAssessment />} />
             <Route
               path="preparation-support"

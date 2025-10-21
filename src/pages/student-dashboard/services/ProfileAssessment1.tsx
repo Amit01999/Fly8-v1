@@ -10,7 +10,7 @@ import FileUploadSection from '@/components/StrudentDashbord/profile-assessmen/F
 import AssessmentResults from '@/components/StrudentDashbord/profile-assessmen/AssessmentResult';
 import AssessmentChat from '@/components/StrudentDashbord/profile-assessmen/AssessmentChat';
 
-export default function ProfileAssessment() {
+export default function ProfileAssessment1() {
   const [activeTab, setActiveTab] = useState('form');
   const [assessmentProgress, setAssessmentProgress] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
