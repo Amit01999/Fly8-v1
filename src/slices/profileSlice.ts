@@ -1,9 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// Safely parse user from localStorage
+const getUserFromLocalStorage = () => {
+  try {
+    const userString = localStorage.getItem('user');
+    if (userString && userString !== 'undefined' && userString !== 'null') {
+      return JSON.parse(userString);
+    }
+  } catch (error) {
+    console.error('Error parsing user from localStorage:', error);
+    localStorage.removeItem('user'); // Clear invalid data
+  }
+  return null;
+};
+
 const initialState = {
-  user: localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user'))
-    : null,
+  user: getUserFromLocalStorage(),
   loading: false,
 };
 

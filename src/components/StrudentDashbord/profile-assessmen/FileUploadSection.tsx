@@ -182,8 +182,35 @@ export default function FileUploadSection() {
     }
   };
 
+  // Test function to add a dummy file
+  const addTestFile = () => {
+    const testFile: UploadedFile = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: 'transcripts_test.pdf',
+      size: '2.5 MB',
+      type: 'application/pdf',
+      status: 'pending',
+      progress: 0,
+      file: new File([''], 'test.pdf', { type: 'application/pdf' }),
+    };
+    setUploadedFiles(prev => [...prev, testFile]);
+  };
+
   return (
     <div className="space-y-6">
+      {/* Debug Info */}
+      <div className="flex items-center gap-4 text-sm text-gray-600 p-4 bg-gray-100 rounded">
+        <div>Total files uploaded: {uploadedFiles.length}</div>
+        <Button onClick={addTestFile} size="sm" variant="outline">
+          Add Test File
+        </Button>
+        {uploadedFiles.length > 0 && (
+          <div className="text-xs">
+            Files: {uploadedFiles.map(f => f.name).join(', ')}
+          </div>
+        )}
+      </div>
+
       {/* Feedback Messages */}
       {error && (
         <motion.div
@@ -274,21 +301,32 @@ export default function FileUploadSection() {
                     <p className="text-xs text-gray-500">
                       Supports: PDF, DOC, DOCX, JPG, PNG (Max 10MB)
                     </p>
-                    {uploadedFile && (
-                      <div className="mt-2 flex items-center justify-center gap-2">
-                        <p className="text-sm text-gray-600 truncate">
-                          {uploadedFile.name.replace(`${doc.key}_`, '')}
-                        </p>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeFile(uploadedFile.id)}
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    )}
                   </div>
+                  {uploadedFile && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-2 p-2 bg-green-50 border border-green-200 rounded-lg flex items-center justify-between gap-2"
+                    >
+                      <div className="flex items-center gap-2 min-w-0 flex-1">
+                        <CheckCircle className="h-4 w-4 text-green-600 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm text-gray-700 font-medium truncate">
+                            {uploadedFile.name.replace(`${doc.key}_`, '')}
+                          </p>
+                          <p className="text-xs text-gray-500">{uploadedFile.size}</p>
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeFile(uploadedFile.id)}
+                        className="flex-shrink-0"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </motion.div>
+                  )}
                 </motion.div>
               );
             })}
@@ -326,15 +364,34 @@ export default function FileUploadSection() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">
-                      {file.name.split('_').slice(1).join('_')}
-                    </p>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium truncate">
+                        {file.name.split('_').slice(1).join('_')}
+                      </p>
+                      {file.status === 'pending' && (
+                        <Badge variant="secondary" className="text-xs">
+                          Ready
+                        </Badge>
+                      )}
+                      {file.status === 'uploading' && (
+                        <Badge variant="default" className="text-xs bg-blue-500">
+                          Uploading {file.progress}%
+                        </Badge>
+                      )}
+                      {file.status === 'completed' && (
+                        <Badge variant="default" className="text-xs bg-green-500">
+                          Uploaded
+                        </Badge>
+                      )}
+                      {file.status === 'error' && (
+                        <Badge variant="destructive" className="text-xs">
+                          Failed
+                        </Badge>
+                      )}
+                    </div>
                     <p className="text-sm text-gray-500">{file.size}</p>
                     {file.status === 'uploading' && (
                       <Progress value={file.progress} className="mt-2 h-2" />
-                    )}
-                    {file.status === 'error' && (
-                      <p className="text-sm text-red-500">Upload failed</p>
                     )}
                   </div>
                   <Button

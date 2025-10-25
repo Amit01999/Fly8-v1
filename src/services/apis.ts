@@ -18,10 +18,8 @@ export const profileEndpoints = {
   UPLOAD_PROFILE_IMAGE_API: BASE_URL + '/student/upload-image',
   GET_PROFILE_COMPLETION_API: BASE_URL + '/profile/profile-completion',
   GET_DOCUMENTS_API: BASE_URL + '/student/documents',
-  DELETE_DOCUMENT_API: BASE_URL + '/student/documents',
+  DELETE_DOCUMENT_API: BASE_URL + '/student/documents/delete',
   GET_FEEDBACK_API: BASE_URL + '/student/feedback',
-  // GET_USER_ENROLLED_COURSES_API: BASE_URL + '/profile/getEnrolledCourses',
-  // GET_INSTRUCTOR_DATA_API: BASE_URL + '/profile/instructorDashboard',
 };
 
 // STUDENTS ENDPOINTS

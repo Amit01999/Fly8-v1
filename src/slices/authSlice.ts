@@ -16,6 +16,21 @@ interface AuthState {
   token: string | null;
 }
 
+// Safely get token from localStorage
+const getTokenFromLocalStorage = () => {
+  try {
+    const token = localStorage.getItem('token');
+    if (token && token !== 'undefined' && token !== 'null') {
+      // Token is stored as a plain string, not JSON
+      return token;
+    }
+  } catch (error) {
+    console.error('Error getting token from localStorage:', error);
+    localStorage.removeItem('token'); // Clear invalid data
+  }
+  return null;
+};
+
 const initialState: AuthState = {
   signupData: {
     firstName: '',
@@ -27,9 +42,7 @@ const initialState: AuthState = {
     referral: '', // Initialize referral as empty string
   },
   loading: false,
-  token: localStorage.getItem('token')
-    ? JSON.parse(localStorage.getItem('token') as string)
-    : null,
+  token: getTokenFromLocalStorage(),
 };
 
 const authSlice = createSlice({

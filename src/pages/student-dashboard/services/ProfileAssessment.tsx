@@ -34,6 +34,7 @@ import CompletionSummary from '@/components/StrudentDashbord/profile-assessmen/s
 import StepIndicator from '@/components/StrudentDashbord/profile-assessmen/StepIndicator';
 import ProfileCompletionProgress from '@/components/StrudentDashbord/profile-assessmen/ProfileCompletionProgress';
 import AdvisorSection from '@/components/StrudentDashbord/profile-assessmen/AdvisorSection';
+import AdvisorModal from '@/components/StrudentDashbord/profile-assessmen/AdvisorModal';
 import ProfileHeader from '@/components/StrudentDashbord/profile-assessmen/ProfileHeader';
 import NextSteps from '@/components/StrudentDashbord/profile-assessmen/NextSteps';
 import Fly8Feedback from '@/components/StrudentDashbord/profile-assessmen/Fly8Feedback';
@@ -44,6 +45,7 @@ import {
   updateStudentProfile,
   uploadDocument,
   getProfileFeedback,
+  getUploadedDocuments,
 } from '@/services/operations/studentProfileAPI';
 
 // Import types
@@ -115,6 +117,10 @@ export default function ProfileAssessment() {
   const [hasExistingData, setHasExistingData] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showAdvisorSection, setShowAdvisorSection] = useState(false);
+  const [isAdvisorModalOpen, setIsAdvisorModalOpen] = useState(false);
+  const [advisorModalTab, setAdvisorModalTab] = useState<
+    'chat' | 'appointment'
+  >('chat');
   const [feedback, setFeedback] = useState<any>(null);
   const [isLoadingFeedback, setIsLoadingFeedback] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -158,6 +164,8 @@ export default function ProfileAssessment() {
     resume: null,
     passport: null,
   });
+
+  const [uploadedDocuments, setUploadedDocuments] = useState<any[]>([]);
 
   // Fetch existing profile data on mount
   useEffect(() => {
@@ -217,6 +225,11 @@ export default function ProfileAssessment() {
             await loadFeedback();
           }
         }
+
+        // Fetch existing uploaded documents
+        const existingDocuments = await getUploadedDocuments();
+        console.log('Existing Documentsssss:', existingDocuments);
+        setUploadedDocuments(existingDocuments);
       } catch (error) {
         console.error('Error loading profile:', error);
       } finally {
@@ -252,7 +265,13 @@ export default function ProfileAssessment() {
     const completedFields = allFields.filter(
       field => field && field.toString().trim() !== ''
     );
-    return Math.round((completedFields.length / allFields.length) * 100);
+    const totalDocuments = 6;
+    const documentsUploaded = uploadedDocuments.length;
+
+    return Math.round(
+      (completedFields.length / allFields.length) * 80 +
+        (documentsUploaded / totalDocuments) * 20
+    );
   };
 
   // Load feedback data
@@ -274,8 +293,19 @@ export default function ProfileAssessment() {
   };
 
   const scrollToAdvisor = () => {
-    advisorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setShowAdvisorSection(true);
+    advisorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  // Modal handlers
+  const handleOpenChatModal = () => {
+    setAdvisorModalTab('chat');
+    setIsAdvisorModalOpen(true);
+  };
+
+  const handleOpenAppointmentModal = () => {
+    setAdvisorModalTab('appointment');
+    setIsAdvisorModalOpen(true);
   };
 
   // Navigation handlers
@@ -318,9 +348,24 @@ export default function ProfileAssessment() {
       field => field && field.toString().trim() !== ''
     );
     const totalFields = allFields.length;
-    const documentsUploaded = Object.values(documents).filter(
-      doc => doc !== null
-    ).length;
+
+    // Count documents: use a Set to track unique document types
+    // to avoid counting duplicates when a user re-uploads a document
+    const documentTypes = new Set<string>();
+
+    // Add existing uploaded documents
+    uploadedDocuments.forEach(doc => {
+      documentTypes.add(doc.type);
+    });
+
+    // Add newly selected documents (these will override existing ones)
+    Object.entries(documents).forEach(([key, file]) => {
+      if (file !== null) {
+        documentTypes.add(key);
+      }
+    });
+
+    const documentsUploaded = documentTypes.size;
     const totalDocuments = 6;
 
     const percentage = Math.round(
@@ -384,6 +429,16 @@ export default function ProfileAssessment() {
     value: File | null
   ) => {
     setDocuments(prev => ({ ...prev, [field]: value }));
+  };
+
+  // Refresh uploaded documents list (called after upload or delete)
+  const refreshUploadedDocuments = async () => {
+    try {
+      const existingDocuments = await getUploadedDocuments();
+      setUploadedDocuments(existingDocuments);
+    } catch (error) {
+      console.error('Error refreshing documents:', error);
+    }
   };
 
   // Validation functions
@@ -604,8 +659,8 @@ export default function ProfileAssessment() {
         <ProfileHeader
           profileCompletion={completion.percentage}
           onReviewFeedback={scrollToFeedback}
-          onBookAppointment={scrollToAdvisor}
-          onChatWithAdvisor={scrollToAdvisor}
+          onBookAppointment={handleOpenAppointmentModal}
+          onChatWithAdvisor={handleOpenChatModal}
         />
 
         <div className="max-w-7xl mx-auto p-4 md:p-6 space-y-6">
@@ -621,12 +676,16 @@ export default function ProfileAssessment() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Profile Completion</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Profile Completion
+                    </p>
                     <p className="text-3xl font-bold text-gray-900 mt-2">
                       {completion.percentage}%
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      {isProfileComplete ? 'All set!' : `${100 - completion.percentage}% remaining`}
+                      {isProfileComplete
+                        ? 'All set!'
+                        : `${100 - completion.percentage}% remaining`}
                     </p>
                   </div>
                   <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -641,12 +700,17 @@ export default function ProfileAssessment() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Documents</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Documents
+                    </p>
                     <p className="text-3xl font-bold text-gray-900 mt-2">
                       {completion.documentsUploaded}/{completion.totalDocuments}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      {completion.documentsUploaded === completion.totalDocuments ? 'Complete' : 'Uploaded'}
+                      {completion.documentsUploaded ===
+                      completion.totalDocuments
+                        ? 'Complete'
+                        : 'Uploaded'}
                     </p>
                   </div>
                   <div className="h-12 w-12 bg-emerald-100 rounded-full flex items-center justify-center">
@@ -661,7 +725,9 @@ export default function ProfileAssessment() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Applications</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Applications
+                    </p>
                     <p className="text-3xl font-bold text-gray-900 mt-2">0</p>
                     <p className="text-xs text-gray-500 mt-1">In progress</p>
                   </div>
@@ -677,8 +743,12 @@ export default function ProfileAssessment() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">Avg Response</p>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">2-4h</p>
+                    <p className="text-sm font-medium text-gray-600">
+                      Avg Response
+                    </p>
+                    <p className="text-3xl font-bold text-gray-900 mt-2">
+                      2-4h
+                    </p>
                     <p className="text-xs text-gray-500 mt-1">Business hours</p>
                   </div>
                   <div className="h-12 w-12 bg-amber-100 rounded-full flex items-center justify-center">
@@ -697,13 +767,10 @@ export default function ProfileAssessment() {
           >
             <NextSteps
               profileCompletion={completion.percentage}
+              studentId={user?.id}
               onReviewFeedback={scrollToFeedback}
-              onBookAppointment={scrollToAdvisor}
-              onStartChat={scrollToAdvisor}
-              onViewEvents={() => {
-                // TODO: Implement events page navigation
-                console.log('Navigate to events');
-              }}
+              onBookAppointment={handleOpenAppointmentModal}
+              onStartChat={handleOpenChatModal}
               onCompleteProfile={() => setIsEditMode(true)}
             />
           </motion.div>
@@ -769,7 +836,7 @@ export default function ProfileAssessment() {
           </motion.div>
 
           {/* Feedback Section */}
-          <motion.div
+          {/* <motion.div
             ref={feedbackRef}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -805,7 +872,7 @@ export default function ProfileAssessment() {
                 </CardContent>
               </Card>
             ) : null}
-          </motion.div>
+          </motion.div> */}
 
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Main Content */}
@@ -914,6 +981,13 @@ export default function ProfileAssessment() {
             </motion.div>
           )}
         </div>
+
+        {/* Advisor Modal */}
+        <AdvisorModal
+          isOpen={isAdvisorModalOpen}
+          onClose={() => setIsAdvisorModalOpen(false)}
+          defaultTab={advisorModalTab}
+        />
       </div>
     );
   }
@@ -983,6 +1057,7 @@ export default function ProfileAssessment() {
                 key="documents"
                 data={documents}
                 onChange={handleDocumentChange}
+                onDocumentsUpdate={refreshUploadedDocuments}
               />
             )}
             {currentStep === 'complete' && (
@@ -991,8 +1066,8 @@ export default function ProfileAssessment() {
                 formData={formData}
                 documents={documents}
                 completionData={calculateCompletion()}
-                onBookAppointment={() => setShowAdvisorSection(true)}
-                onStartChat={() => setShowAdvisorSection(true)}
+                onBookAppointment={handleOpenAppointmentModal}
+                onStartChat={handleOpenChatModal}
               />
             )}
           </AnimatePresence>
@@ -1053,6 +1128,13 @@ export default function ProfileAssessment() {
             <AdvisorSection />
           </div>
         )} */}
+
+        {/* Advisor Modal */}
+        <AdvisorModal
+          isOpen={isAdvisorModalOpen}
+          onClose={() => setIsAdvisorModalOpen(false)}
+          defaultTab={advisorModalTab}
+        />
       </motion.div>
     </div>
   );

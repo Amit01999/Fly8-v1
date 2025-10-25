@@ -32,6 +32,20 @@ const DashboardHeader = ({ onLeftSidebarToggle, onRightSidebarToggle }: Dashboar
     dispatch(logout(navigate) as any);
   };
 
+  // Get user initials for avatar fallback
+  const getUserInitials = () => {
+    if (!user) return 'U';
+    const firstInitial = user.firstName?.[0] ?? '';
+    const lastInitial = user.lastName?.[0] ?? '';
+    return `${firstInitial}${lastInitial}`.toUpperCase() || 'U';
+  };
+
+  // Get user's full name
+  const getUserName = () => {
+    if (!user) return 'User';
+    return `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'User';
+  };
+
   return (
     <header className=" px-4 md:px-10 sticky top-0 z-30 flex h-16 items-center justify-between bg-indigo-100">
       {/* Left: Hamburger menu (mobile) + Brand logo */}
@@ -117,21 +131,19 @@ const DashboardHeader = ({ onLeftSidebarToggle, onRightSidebarToggle }: Dashboar
             <button className=" flex items-center gap-2 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
               <Avatar className="h-8 w-8 ">
                 <AvatarImage
-                  src="@/assets/picture/StudentServices/4.png"
+                  src={user?.image || ''}
                   alt="Profile"
                 />
-                <AvatarFallback className="bg-sky-500 p-3">
-                  {`${user.firstName?.[0] ?? ''}${
-                    user.lastName?.[0] ?? ''
-                  }`.toUpperCase()}
+                <AvatarFallback className="bg-sky-500 text-white">
+                  {getUserInitials()}
                 </AvatarFallback>
               </Avatar>
               <div className="hidden md:flex flex-col items-start text-sm">
                 <span className="font-medium">
-                  {user.firstName} {''} {user.lastName}
+                  {getUserName()}
                 </span>
                 <span className="text-xs text-muted-foreground">
-                  {user.email}
+                  {user?.email || 'user@example.com'}
                 </span>
               </div>
             </button>
@@ -140,9 +152,9 @@ const DashboardHeader = ({ onLeftSidebarToggle, onRightSidebarToggle }: Dashboar
             <DropdownMenuLabel>
               <div className="flex flex-col">
                 <p>
-                  {user.firstName} {''} {user.lastName}
+                  {getUserName()}
                 </p>
-                <p className="text-xs text-muted-foreground"> {user.email}</p>
+                <p className="text-xs text-muted-foreground">{user?.email || 'user@example.com'}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />

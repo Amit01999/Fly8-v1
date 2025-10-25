@@ -14,6 +14,7 @@ interface UploadDocumentsProps {
   data: DocumentsData;
   onChange: (field: keyof DocumentsData, value: File | null) => void;
   disabled?: boolean;
+  onDocumentsUpdate?: () => void;
 }
 
 interface DocumentFieldConfig {
@@ -66,6 +67,7 @@ export default function UploadDocuments({
   data,
   onChange,
   disabled = false,
+  onDocumentsUpdate,
 }: UploadDocumentsProps) {
   const dispatch = useDispatch();
   const [draggedField, setDraggedField] = useState<keyof DocumentsData | null>(null);
@@ -118,6 +120,8 @@ export default function UploadDocuments({
       const documents = await getUploadedDocuments();
       setUploadedDocuments(documents);
       toast.success('Document removed successfully');
+      // Notify parent component to update progress
+      onDocumentsUpdate?.();
     } catch (error) {
       console.error('Error removing document:', error);
     }
