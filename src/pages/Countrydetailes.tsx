@@ -311,8 +311,14 @@ const CountryDetails: React.FC = () => {
       try {
         const res = await fetchCountryDetails(countryname);
         console.log('Raw API Response:', JSON.stringify(res.data, null, 2));
-        console.log('topuniversities from API:', res.data.topuniversities);
-        console.log('topuniversities length:', res.data.topuniversities?.length);
+        console.log(
+          'topuniversities from APIIIIIIIIIIIII:',
+          res.data.topuniversities
+        );
+        console.log(
+          'topuniversities length:',
+          res.data.topuniversities?.length
+        );
 
         // Handle field name variations from API
         // Map topuniversities to topuniversites
@@ -320,8 +326,14 @@ const CountryDetails: React.FC = () => {
           console.log('Mapping topuniversities to topuniversites');
           res.data.topuniversites = res.data.topuniversities;
           delete res.data.topuniversities;
-          console.log('After mapping - topuniversites:', res.data.topuniversites);
-          console.log('After mapping - topuniversites length:', res.data.topuniversites?.length);
+          console.log(
+            'After mapping - topuniversites:',
+            res.data.topuniversites
+          );
+          console.log(
+            'After mapping - topuniversites length:',
+            res.data.topuniversites?.length
+          );
         }
 
         // Map admissionnotes to addmissionnotes
@@ -444,8 +456,14 @@ const CountryDetails: React.FC = () => {
           'Processed API Response:',
           JSON.stringify(res.data, null, 2)
         );
-        console.log('Final topuniversites before setState:', res.data.topuniversites);
-        console.log('Final topuniversites length before setState:', res.data.topuniversites?.length);
+        console.log(
+          'Final topuniversites before setState:',
+          res.data.topuniversites
+        );
+        console.log(
+          'Final topuniversites length before setState:',
+          res.data.topuniversites?.length
+        );
         setCountry(res.data);
         setError(null);
       } catch (error) {
