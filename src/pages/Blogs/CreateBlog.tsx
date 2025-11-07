@@ -44,6 +44,10 @@ const CreateBlog = () => {
   const handleImageUpload = async (type, file) => {
     const formDataUpload = new FormData();
     formDataUpload.append('image', file);
+
+    // Show loading toast
+    const loadingToast = toast.loading('Uploading image...');
+
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/blog/blogs/imgupload`,
@@ -51,12 +55,15 @@ const CreateBlog = () => {
         {
           headers: { 'Content-Type': 'multipart/form-data' },
           withCredentials: true,
+          timeout: 120000, // 2 minutes timeout
         }
       );
       setFormData({ ...formData, [type]: res.data.url });
-      toast.success('Image uploaded!');
+      toast.success('Image uploaded!', { id: loadingToast });
     } catch (error) {
-      toast.error('Upload failed');
+      console.error('Image upload error:', error);
+      const errorMessage = error.response?.data?.error || error.message || 'Upload failed';
+      toast.error(`Upload failed: ${errorMessage}`, { id: loadingToast });
     }
   };
 
