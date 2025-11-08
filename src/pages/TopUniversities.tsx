@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Search,
   Trophy,
@@ -13,105 +13,14 @@ import {
   Building2,
   ChevronLeft,
   MoreHorizontal,
+  Loader2,
+  AlertCircle,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import UniversityCard1 from './UniversityCard1';
-import universities from '../Data/universitydetailes';
-
-// Mock data for demo
-// const mockUniversities = [
-//   {
-//     id: '1',
-//     name: 'Harvard University',
-//     logo: 'https://via.placeholder.com/150',
-//     country: 'USA',
-//     rank: 1,
-//     feeRange: { min: 45000, max: 60000 },
-//     isFeatured: true,
-//     students: '23,000',
-//     acceptanceRate: '3.4%',
-//   },
-//   {
-//     id: '2',
-//     name: 'Massachusetts Institute of Technology (MIT)',
-//     logo: 'https://via.placeholder.com/150',
-//     country: 'USA',
-//     rank: 2,
-//     feeRange: { min: 47000, max: 62000 },
-//     isFeatured: false,
-//     students: '11,500',
-//     acceptanceRate: '6.7%',
-//   },
-//   {
-//     id: '3',
-//     name: 'Stanford University',
-//     logo: 'https://via.placeholder.com/150',
-//     country: 'USA',
-//     rank: 3,
-//     feeRange: { min: 48000, max: 63000 },
-//     isFeatured: true,
-//     students: '17,200',
-//     acceptanceRate: '4.3%',
-//   },
-//   {
-//     id: '4',
-//     name: 'University of Oxford',
-//     logo: 'https://via.placeholder.com/150',
-//     country: 'UK',
-//     rank: 4,
-//     feeRange: { min: 35000, max: 50000 },
-//     isFeatured: true,
-//     students: '24,500',
-//     acceptanceRate: '17.5%',
-//   },
-//   {
-//     id: '5',
-//     name: 'University of Cambridge',
-//     logo: 'https://via.placeholder.com/150',
-//     country: 'UK',
-//     rank: 5,
-//     feeRange: { min: 34000, max: 48000 },
-//     isFeatured: false,
-//     students: '23,200',
-//     acceptanceRate: '21%',
-//   },
-//   {
-//     id: '6',
-//     name: 'California Institute of Technology (Caltech)',
-//     logo: 'https://via.placeholder.com/150',
-//     country: 'USA',
-//     rank: 6,
-//     feeRange: { min: 49000, max: 64000 },
-//     isFeatured: false,
-//     students: '2,200',
-//     acceptanceRate: '6.4%',
-//   },
-//   {
-//     id: '7',
-//     name: 'University College London (UCL)',
-//     logo: 'https://via.placeholder.com/150',
-//     country: 'UK',
-//     rank: 7,
-//     feeRange: { min: 32000, max: 45000 },
-//     isFeatured: false,
-//     students: '42,000',
-//     acceptanceRate: '63%',
-//   },
-//   {
-//     id: '8',
-//     name: 'Imperial College London',
-//     logo: 'https://via.placeholder.com/150',
-//     country: 'UK',
-//     rank: 8,
-//     feeRange: { min: 33000, max: 47000 },
-//     isFeatured: true,
-//     students: '17,500',
-//     acceptanceRate: '14.3%',
-//   },
-// ];
-
-const countries = Array.from(new Set(universities.map(uni => uni.country)));
+import { fetchAllUniversities } from '../services/operations/universityAPI';
+import toast from 'react-hot-toast';
 
 const UniversityCard = ({
   university,
@@ -233,11 +142,7 @@ const UniversityCard = ({
 
           {/* CTA Button */}
           <div className="mt-auto">
-            <Link
-              to={`/universities/${university.universityName
-                .toLowerCase()
-                .replace(/ /g, '-')}`}
-            >
+            <Link to={`/universities/${university.universitycode}`}>
               <button className="w-full px-6 py-4 bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white rounded-2xl font-bold shadow-lg transition-all duration-500 hover:shadow-xl hover:from-sky-600 hover:via-blue-600 hover:to-indigo-600 group-hover:scale-[1.02] transform hover:-translate-y-1 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <span className="flex items-center justify-center gap-3 relative z-10">
@@ -258,41 +163,89 @@ const UniversityCard = ({
 };
 
 const TopUniversities = () => {
+  const [universities, setUniversities] = useState<any[]>([]);
+  const [countries, setCountries] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('');
   const [viewMode, setViewMode] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalUniversities, setTotalUniversities] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const universitiesPerPage = 6;
 
-  // Filter universities based on filters
-  const filteredUniversities = universities.filter(university => {
-    if (
-      searchTerm &&
-      !university.universityName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
-    ) {
-      return false;
-    }
-    if (selectedCountry && university.country !== selectedCountry) {
-      return false;
-    }
-    // if (viewMode === 'featured' && !university.isFeatured) {
-    //   return false;
-    // }
-    return true;
-  });
+  // Fetch universities from backend
+  const loadUniversities = async () => {
+    setLoading(true);
+    setError('');
 
-  // Calculate pagination
-  const indexOfLastUniversity = currentPage * universitiesPerPage;
-  const indexOfFirstUniversity = indexOfLastUniversity - universitiesPerPage;
-  const currentUniversities = filteredUniversities.slice(
-    indexOfFirstUniversity,
-    indexOfLastUniversity
-  );
-  const totalPages = Math.ceil(
-    filteredUniversities.length / universitiesPerPage
-  );
+    try {
+      const params: any = {
+        page: currentPage,
+        limit: universitiesPerPage,
+      };
+
+      if (selectedCountry) {
+        params.country = selectedCountry;
+      }
+
+      if (searchTerm) {
+        params.search = searchTerm;
+      }
+
+      const response = await fetchAllUniversities(params);
+
+      if (response && response.success) {
+        setUniversities(response.data || []);
+        setTotalPages(response.pagination?.totalPages || 1);
+        setTotalUniversities(response.pagination?.total || 0);
+
+        // Extract unique countries from all universities for filter
+        if (response.data && response.data.length > 0) {
+          const uniqueCountries = Array.from(
+            new Set(response.data.map((uni: any) => uni.country))
+          ) as string[];
+          setCountries(prevCountries => {
+            const merged = new Set([...prevCountries, ...uniqueCountries]);
+            return Array.from(merged).sort();
+          });
+        }
+      } else {
+        setError(response?.message || 'Failed to fetch universities');
+        setUniversities([]);
+      }
+    } catch (err: any) {
+      console.error('Error loading universities:', err);
+      setError('Failed to load universities. Please try again later.');
+      setUniversities([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load all countries on initial mount
+  useEffect(() => {
+    const loadAllCountries = async () => {
+      try {
+        const response = await fetchAllUniversities({ limit: 1000 });
+        if (response && response.success && response.data) {
+          const uniqueCountries = Array.from(
+            new Set(response.data.map((uni: any) => uni.country))
+          ) as string[];
+          setCountries(uniqueCountries.sort());
+        }
+      } catch (err) {
+        console.error('Error loading countries:', err);
+      }
+    };
+    loadAllCountries();
+  }, []);
+
+  // Fetch universities when filters change
+  useEffect(() => {
+    loadUniversities();
+  }, [currentPage, selectedCountry, searchTerm]);
 
   const clearFilters = () => {
     setSearchTerm('');
@@ -315,7 +268,7 @@ const TopUniversities = () => {
       <button
         key="prev"
         onClick={() => goToPage(currentPage - 1)}
-        disabled={currentPage === 1}
+        disabled={currentPage === 1 || loading}
         className="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-xl font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-sm hover:shadow-md"
       >
         <ChevronLeft className="w-4 h-4" />
@@ -336,7 +289,8 @@ const TopUniversities = () => {
         <button
           key={1}
           onClick={() => goToPage(1)}
-          className="w-12 h-12 rounded-xl font-bold text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-300"
+          disabled={loading}
+          className="w-12 h-12 rounded-xl font-bold text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-300 disabled:opacity-50"
         >
           1
         </button>
@@ -358,7 +312,8 @@ const TopUniversities = () => {
         <button
           key={i}
           onClick={() => goToPage(i)}
-          className={`w-12 h-12 rounded-xl font-bold transition-all duration-300 ${
+          disabled={loading}
+          className={`w-12 h-12 rounded-xl font-bold transition-all duration-300 disabled:opacity-50 ${
             currentPage === i
               ? 'bg-gradient-to-r from-sky-500 to-blue-500 text-white shadow-lg transform scale-110'
               : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
@@ -384,7 +339,8 @@ const TopUniversities = () => {
         <button
           key={totalPages}
           onClick={() => goToPage(totalPages)}
-          className="w-12 h-12 rounded-xl font-bold text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-300"
+          disabled={loading}
+          className="w-12 h-12 rounded-xl font-bold text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all duration-300 disabled:opacity-50"
         >
           {totalPages}
         </button>
@@ -396,7 +352,7 @@ const TopUniversities = () => {
       <button
         key="next"
         onClick={() => goToPage(currentPage + 1)}
-        disabled={currentPage === totalPages}
+        disabled={currentPage === totalPages || loading}
         className="flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-xl font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-sm hover:shadow-md"
       >
         Next
@@ -463,7 +419,8 @@ const TopUniversities = () => {
                       placeholder="Harvard, MIT, Oxford..."
                       value={searchTerm}
                       onChange={e => setSearchTerm(e.target.value)}
-                      className="w-full px-6 py-5 bg-white border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-sky-500/20 focus:border-sky-500 transition-all duration-300 placeholder:text-gray-400 font-medium shadow-lg text-lg"
+                      disabled={loading}
+                      className="w-full px-6 py-5 bg-white border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-sky-500/20 focus:border-sky-500 transition-all duration-300 placeholder:text-gray-400 font-medium shadow-lg text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                     <div className="absolute right-4 top-4 p-3 bg-gradient-to-r from-sky-500 to-blue-500 rounded-xl shadow-lg">
                       <Search className="h-5 w-5 text-white" />
@@ -480,7 +437,8 @@ const TopUniversities = () => {
                     <select
                       value={selectedCountry}
                       onChange={e => setSelectedCountry(e.target.value)}
-                      className="w-full px-6 py-5 bg-white border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-sky-500/20 focus:border-sky-500 transition-all duration-300 appearance-none font-medium shadow-lg text-lg"
+                      disabled={loading}
+                      className="w-full px-6 py-5 bg-white border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-sky-500/20 focus:border-sky-500 transition-all duration-300 appearance-none font-medium shadow-lg text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="">All Countries</option>
                       {countries.map(country => (
@@ -493,33 +451,24 @@ const TopUniversities = () => {
                   </div>
                 </div>
 
-                {/* View Mode */}
-                <div className="lg:col-span-2">
+                {/* Results Counter */}
+                {/* <div className="lg:col-span-2">
                   <label className="block text-sm font-bold text-gray-700 mb-4">
-                    Filter
+                    Results
                   </label>
                   <div className="flex bg-gray-100 rounded-2xl p-2 shadow-inner">
-                    {['all', 'featured'].map(mode => (
-                      <button
-                        key={mode}
-                        onClick={() => setViewMode(mode)}
-                        className={`flex-1 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
-                          viewMode === mode
-                            ? 'bg-gradient-to-r from-sky-500 to-blue-500 text-white shadow-lg transform scale-105'
-                            : 'text-gray-600 hover:text-gray-900 hover:bg-white/80'
-                        }`}
-                      >
-                        {mode === 'all' ? 'All' : 'Featured'}
-                      </button>
-                    ))}
+                    <div className="flex-1 px-4 py-3 rounded-xl text-sm font-bold text-center bg-gradient-to-r from-sky-500 to-blue-500 text-white shadow-lg">
+                      {totalUniversities} Found
+                    </div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Clear Filters */}
                 <div className="lg:col-span-1">
                   <button
                     onClick={clearFilters}
-                    className="w-full p-5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 rounded-2xl transition-all duration-300 group transform hover:scale-105 shadow-lg"
+                    disabled={loading}
+                    className="w-full p-5 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 rounded-2xl transition-all duration-300 group transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Filter className="h-5 w-5 text-gray-600 mx-auto group-hover:text-gray-900 transition-colors" />
                   </button>
@@ -550,23 +499,61 @@ const TopUniversities = () => {
             </div>
           </div>
 
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center py-24">
+              <div className="p-12 bg-white/90 backdrop-blur-xl rounded-3xl border border-white/50 shadow-2xl max-w-lg mx-auto">
+                <div className="p-8 rounded-3xl bg-gradient-to-br from-sky-100 to-blue-100 w-fit mx-auto mb-8">
+                  <Loader2 className="h-20 w-20 mx-auto text-sky-600 animate-spin" />
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                  Loading Universities...
+                </h3>
+                <p className="text-gray-600 text-lg leading-relaxed">
+                  Please wait while we fetch the latest data
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Error State */}
+          {!loading && error && (
+            <div className="text-center py-24">
+              <div className="p-12 bg-white/90 backdrop-blur-xl rounded-3xl border border-white/50 shadow-2xl max-w-lg mx-auto">
+                <div className="p-8 rounded-3xl bg-gradient-to-br from-red-100 to-orange-100 w-fit mx-auto mb-8">
+                  <AlertCircle className="h-20 w-20 mx-auto text-red-600" />
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                  Error Loading Data
+                </h3>
+                <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+                  {error}
+                </p>
+                <button
+                  onClick={loadUniversities}
+                  className="px-8 py-4 bg-gradient-to-r from-sky-500 to-blue-500 text-white rounded-2xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  Try Again
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Universities Grid */}
-          {currentUniversities.length > 0 ? (
+          {!loading && !error && universities.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-20">
-              {currentUniversities.map((university, index) => (
-                // <UniversityCard
-                //   key={university.id}
-                //   university={university}
-                //   index={index}
-                // />
+              {universities.map((university, index) => (
                 <UniversityCard1
-                  key={university.universitycode}
+                  key={university.universitycode || university._id}
                   university={university}
                   index={index}
                 />
               ))}
             </div>
-          ) : (
+          )}
+
+          {/* No Results */}
+          {!loading && !error && universities.length === 0 && (
             <div className="text-center py-24">
               <div className="p-12 bg-white/90 backdrop-blur-xl rounded-3xl border border-white/50 shadow-2xl max-w-lg mx-auto">
                 <div className="p-8 rounded-3xl bg-gradient-to-br from-sky-100 to-blue-100 w-fit mx-auto mb-8">
@@ -589,11 +576,22 @@ const TopUniversities = () => {
           )}
 
           {/* Enhanced Pagination */}
-          {totalPages > 1 && (
+          {!loading && !error && totalPages > 1 && (
             <div className="pb-10">
               <div className="p-8">
                 <div className="flex flex-col items-center gap-6">
-                  <div className="text-center"></div>
+                  {/* <div className="text-center">
+                    <p className="text-gray-600 font-medium text-lg">
+                      Page{' '}
+                      <span className="font-black text-gray-900 text-xl">
+                        {currentPage}
+                      </span>{' '}
+                      of{' '}
+                      <span className="font-black text-gray-900 text-xl">
+                        {totalPages}
+                      </span>
+                    </p>
+                  </div> */}
 
                   <div className="flex items-center gap-3 flex-wrap justify-center">
                     {renderPaginationButtons()}

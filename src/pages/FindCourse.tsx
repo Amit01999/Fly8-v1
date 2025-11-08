@@ -1,823 +1,7 @@
-// import { useState } from 'react';
-// import { motion } from 'framer-motion';
-// import { BookOpen, Filter, SlidersHorizontal } from 'lucide-react';
-// import { Button } from '@/components/ui/button';
-// import {
-//   Sheet,
-//   SheetTrigger,
-//   SheetContent,
-//   SheetHeader,
-//   SheetTitle,
-// } from '@/components/ui/sheet';
-// import { Checkbox } from '@/components/ui/checkbox';
-// import { Label } from '@/components/ui/label';
-// import { Slider } from '@/components/ui/slider';
-// import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-// import { Input } from '@/components/ui/input';
-// import PageHeader from '@/components/layout/PageHeader';
-// import PageContainer from '@/components/layout/PageContainer';
-// import CourseCard, { Course } from '@/components/cards/CourseCard';
-// import {
-//   Pagination,
-//   PaginationContent,
-//   PaginationItem,
-//   PaginationLink,
-//   PaginationNext,
-//   PaginationPrevious,
-// } from '@/components/ui/pagination';
-
-// // TypeScript interface for raw course data
-// interface mockCourse {
-//   id: string;
-//   country: string;
-//   universityName: string;
-//   location: string;
-//   programName: string;
-//   majors: string;
-//   programLevel: string;
-//   duration: string;
-//   intake: string;
-//   languageRequirement: {
-//     ielts: string;
-//     toefl: string;
-//   };
-//   programMode: string;
-//   scholarship: string;
-//   applicationFee: string;
-//   tuitionFee: string;
-//   totalCreditHours?: number;
-//   source: string;
-// }
-
-// // Transform mockCourse to Course type
-// const transformCourse = (course: mockCourse): Course => {
-//   // Calculate total fee
-//   let totalFee: number;
-//   if (course.programLevel === 'Undergraduate Program') {
-//     // For undergraduate, multiply yearly fee by duration (assuming 4 years)
-//     const yearlyFee =
-//       parseFloat(course.tuitionFee.replace(/[^0-9.]/g, '')) || 0;
-//     totalFee = yearlyFee * 4; // Assuming 4 years for undergraduate
-//   } else {
-//     // For postgraduate/PhD, multiply per credit hour by total credit hours
-//     const creditFeeMatch = course.tuitionFee.match(/USD (\d+,\d+)/);
-//     const creditFee = creditFeeMatch
-//       ? parseFloat(creditFeeMatch[1].replace(',', ''))
-//       : 0;
-//     totalFee = creditFee * (course.totalCreditHours || 30); // Default to 30 if not specified
-//   }
-
-//   return {
-//     id: course.id,
-//     name: course.programName,
-//     university: {
-//       id: course.universityName.toLowerCase().replace(/\s+/g, '-'),
-//       name: course.universityName,
-//       logo: `/${course.universityName
-//         .toLowerCase()
-//         .replace(/\s+/g, '-')}-logo.png`, // Placeholder logo
-//       country: course.country,
-//     },
-//     fee: totalFee,
-//     duration: course.duration,
-//     level: course.programLevel
-//       .replace(' Program', '')
-//       .replace('Doctoral', 'PhD') as 'Undergraduate' | 'Postgraduate' | 'PhD',
-//     field: course.majors,
-//     intakes: course.intake.split(', '),
-//     languageRequirements: [
-//       `IELTS: ${course.languageRequirement.ielts}`,
-//       `TOEFL: ${course.languageRequirement.toefl}`,
-//     ],
-//     programModes: course.programMode.split(' and '),
-//     applicationFee: course.applicationFee,
-//     totalSubjects: course.totalCreditHours,
-//     scholarshipNote: course.scholarship,
-//   };
-// };
-
-// // Course data
-// const mockCourses: mockCourse[] = [
-//   {
-//     id: '1',
-//     country: 'USA',
-//     universityName: 'Adelphi University',
-//     location: 'Garden City, New York, USA',
-//     programName: 'Bachelor of Science in Nursing',
-//     majors: 'Nursing',
-//     programLevel: 'Undergraduate Program',
-//     duration: '4 years full-time',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.5', toefl: '80+' },
-//     programMode: 'On-campus',
-//     scholarship: 'Available (merit-based)',
-//     applicationFee: 'USD 50',
-//     tuitionFee: 'Approximately USD 43,040 per year',
-//     source: 'Undergraduate Tuition and Fees – Adelphi University',
-//   },
-//   {
-//     id: '2',
-//     country: 'USA',
-//     universityName: 'Adelphi University',
-//     location: 'Garden City, New York, USA',
-//     programName: 'Bachelor of Business Administration in Accounting',
-//     majors: 'Accounting',
-//     programLevel: 'Undergraduate Program',
-//     duration: '4 years full-time',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.5', toefl: '80+' },
-//     programMode: 'On-campus',
-//     scholarship: 'Available (merit-based)',
-//     applicationFee: 'USD 50',
-//     tuitionFee: 'Approximately USD 43,040 per year',
-//     source: 'Undergraduate Tuition and Fees – Adelphi University',
-//   },
-//   {
-//     id: '3',
-//     country: 'USA',
-//     universityName: 'Adelphi University',
-//     location: 'Garden City, New York, USA',
-//     programName: 'Bachelor of Science in Computer Science',
-//     majors: 'Computer Science',
-//     programLevel: 'Undergraduate Program',
-//     duration: '4 years full-time',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.5', toefl: '80+' },
-//     programMode: 'On-campus',
-//     scholarship: 'Available (merit-based)',
-//     applicationFee: 'USD 50',
-//     tuitionFee: 'Approximately USD 43,040 per year',
-//     source: 'Undergraduate Tuition and Fees – Adelphi University',
-//   },
-//   {
-//     id: '4',
-//     country: 'USA',
-//     universityName: 'Adelphi University',
-//     location: 'Garden City, New York, USA',
-//     programName: 'Bachelor of Arts in Psychology',
-//     majors: 'Psychology',
-//     programLevel: 'Undergraduate Program',
-//     duration: '4 years full-time',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.5', toefl: '80+' },
-//     programMode: 'On-campus',
-//     scholarship: 'Available (merit-based)',
-//     applicationFee: 'USD 50',
-//     tuitionFee: 'Approximately USD 43,040 per year',
-//     source: 'Undergraduate Tuition and Fees – Adelphi University',
-//   },
-//   {
-//     id: '5',
-//     country: 'USA',
-//     universityName: 'Adelphi University',
-//     location: 'Garden City, New York, USA',
-//     programName: 'Bachelor of Fine Arts in Studio Art',
-//     majors: 'Studio Art',
-//     programLevel: 'Undergraduate Program',
-//     duration: '4 years full-time',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.5', toefl: '80+' },
-//     programMode: 'On-campus',
-//     scholarship: 'Available (merit-based)',
-//     applicationFee: 'USD 50',
-//     tuitionFee: 'Approximately USD 43,040 per year',
-//     source: 'Undergraduate Tuition and Fees – Adelphi University',
-//   },
-//   {
-//     id: '6',
-//     country: 'USA',
-//     universityName: 'Adelphi University',
-//     location: 'Garden City, New York, USA',
-//     programName: 'Master of Business Administration',
-//     majors: 'Business Administration',
-//     programLevel: 'Postgraduate Program',
-//     duration: '1.5 to 2 years',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.5', toefl: '80+' },
-//     programMode: 'On-campus',
-//     scholarship: 'Available',
-//     applicationFee: 'USD 60',
-//     tuitionFee: 'USD 1,645 per credit hour',
-//     totalCreditHours: 30,
-//     source: 'Graduate Tuition and Fees – Adelphi University',
-//   },
-//   {
-//     id: '7',
-//     country: 'USA',
-//     universityName: 'Adelphi University',
-//     location: 'Garden City, New York, USA',
-//     programName: 'Master of Science in Computer Science',
-//     majors: 'Computer Science',
-//     programLevel: 'Postgraduate Program',
-//     duration: '2 years',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.5', toefl: '80+' },
-//     programMode: 'On-campus and Online',
-//     scholarship: 'Available',
-//     applicationFee: 'USD 60',
-//     tuitionFee: 'USD 1,645 (On-campus), USD 990 (Online) per credit hour',
-//     totalCreditHours: 30,
-//     source: 'Graduate Tuition and Fees – Adelphi University',
-//   },
-//   {
-//     id: '8',
-//     country: 'USA',
-//     universityName: 'Adelphi University',
-//     location: 'Garden City, New York, USA',
-//     programName: 'Master of Public Health',
-//     majors: 'Public Health',
-//     programLevel: 'Postgraduate Program',
-//     duration: '2 years',
-//     intake: 'Fall',
-//     languageRequirement: { ielts: '6.5', toefl: '80+' },
-//     programMode: 'On-campus and Online',
-//     scholarship: 'Available',
-//     applicationFee: 'USD 60',
-//     tuitionFee: 'USD 1,605 (On-campus), USD 940 (Online) per credit hour',
-//     totalCreditHours: 42,
-//     source: 'Graduate Tuition and Fees – Adelphi University',
-//   },
-//   {
-//     id: '9',
-//     country: 'USA',
-//     universityName: 'Adelphi University',
-//     location: 'Garden City, New York, USA',
-//     programName:
-//       'Master of Science in Nursing (Adult Gerontology Primary Care Nurse Practitioner)',
-//     majors: 'Nursing',
-//     programLevel: 'Postgraduate Program',
-//     duration: '2 years',
-//     intake: 'Fall',
-//     languageRequirement: { ielts: '6.5', toefl: '80+' },
-//     programMode: 'On-campus and Online',
-//     scholarship: 'Available',
-//     applicationFee: 'USD 60',
-//     tuitionFee: 'USD 1,645 (On-campus), USD 940 (Online) per credit hour',
-//     totalCreditHours: 45,
-//     source: 'Graduate Tuition and Fees – Adelphi University',
-//   },
-//   {
-//     id: '10',
-//     country: 'USA',
-//     universityName: 'Adelphi University',
-//     location: 'Garden City, New York, USA',
-//     programName: 'Doctor of Philosophy in Clinical Psychology',
-//     majors: 'Clinical Psychology',
-//     programLevel: 'Doctoral Program',
-//     duration: '5 years',
-//     intake: 'Fall',
-//     languageRequirement: { ielts: '6.5', toefl: '80+' },
-//     programMode: 'On-campus',
-//     scholarship: 'Available',
-//     applicationFee: 'USD 60',
-//     tuitionFee: 'USD 1,645 per credit hour',
-//     totalCreditHours: 90,
-//     source: 'Graduate Tuition and Fees – Adelphi University',
-//   },
-//   {
-//     id: '11',
-//     country: 'USA',
-//     universityName: 'Berkeley College',
-//     location: 'New York, New York, USA',
-//     programName: 'Bachelor of Business Administration in Accounting',
-//     majors: 'Accounting',
-//     programLevel: 'Undergraduate Program',
-//     duration: '4 years full-time',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.0', toefl: '70+' },
-//     programMode: 'On-campus and Online',
-//     scholarship: 'Available (merit-based and need-based)',
-//     applicationFee: 'USD 50',
-//     tuitionFee: 'Approximately USD 24,000 per year',
-//     source: 'Berkeley College Undergraduate Programs',
-//   },
-//   {
-//     id: '12',
-//     country: 'USA',
-//     universityName: 'Berkeley College',
-//     location: 'New York, New York, USA',
-//     programName: 'Bachelor of Science in Information Technology',
-//     majors: 'Information Technology',
-//     programLevel: 'Undergraduate Program',
-//     duration: '4 years full-time',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.0', toefl: '70+' },
-//     programMode: 'On-campus and Online',
-//     scholarship: 'Available',
-//     applicationFee: 'USD 50',
-//     tuitionFee: 'Approximately USD 24,000 per year',
-//     source: 'Berkeley College Undergraduate Programs',
-//   },
-//   {
-//     id: '13',
-//     country: 'USA',
-//     universityName: 'Berkeley College',
-//     location: 'New York, New York, USA',
-//     programName: 'Bachelor of Science in Fashion Marketing',
-//     majors: 'Fashion Marketing',
-//     programLevel: 'Undergraduate Program',
-//     duration: '4 years full-time',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.0', toefl: '70+' },
-//     programMode: 'On-campus',
-//     scholarship: 'Available',
-//     applicationFee: 'USD 50',
-//     tuitionFee: 'Approximately USD 24,000 per year',
-//     source: 'Berkeley College Undergraduate Programs',
-//   },
-//   {
-//     id: '14',
-//     country: 'USA',
-//     universityName: 'Berkeley College',
-//     location: 'New York, New York, USA',
-//     programName: 'Master of Science in Accounting',
-//     majors: 'Accounting',
-//     programLevel: 'Postgraduate Program',
-//     duration: '1.5 to 2 years',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.5', toefl: '79+' },
-//     programMode: 'On-campus and Online',
-//     scholarship: 'Available',
-//     applicationFee: 'USD 50',
-//     tuitionFee: 'Approximately USD 750 per credit hour',
-//     totalCreditHours: 30,
-//     source: 'Berkeley College Graduate Programs',
-//   },
-//   {
-//     id: '15',
-//     country: 'USA',
-//     universityName: 'Berkeley College',
-//     location: 'New York, New York, USA',
-//     programName: 'Master of Science in Business Analytics',
-//     majors: 'Business Analytics',
-//     programLevel: 'Postgraduate Program',
-//     duration: '1.5 to 2 years',
-//     intake: 'Fall, Spring',
-//     languageRequirement: { ielts: '6.5', toefl: '79+' },
-//     programMode: 'On-campus and Online',
-//     scholarship: 'Available',
-//     applicationFee: 'USD 50',
-//     tuitionFee: 'Approximately USD 750 per credit hour',
-//     totalCreditHours: 30,
-//     source: 'Berkeley College Graduate Programs',
-//   },
-// ];
-
-// // Transform all mockCourses to Course type
-// const courses: Course[] = mockCourses.map(transformCourse);
-
-// // Extract unique filter options
-// const countries = Array.from(
-//   new Set(courses.map(course => course.university.country))
-// );
-// const fields = Array.from(new Set(courses.map(course => course.field)));
-// const levels = ['Undergraduate', 'Postgraduate', 'PhD'];
-
-// const FindCourses = () => {
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
-//   const [selectedFields, setSelectedFields] = useState<string[]>([]);
-//   const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
-//   const [feeRange, setFeeRange] = useState([0, 500000]); // Adjusted max to accommodate higher fees
-//   const [currentView, setCurrentView] = useState<'grid' | 'list'>('grid');
-//   const [sortBy, setSortBy] = useState<'name' | 'fee-low' | 'fee-high'>('name');
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const coursesPerPage = 6;
-
-//   // Filter courses based on filters
-//   const filteredCourses = courses.filter(course => {
-//     // Search term filter
-//     if (
-//       searchTerm &&
-//       !course.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-//       !course.university.name
-//         .toLowerCase()
-//         .includes(searchTerm.toLowerCase()) &&
-//       !course.field.toLowerCase().includes(searchTerm.toLowerCase())
-//     ) {
-//       return false;
-//     }
-
-//     // Country filter
-//     if (
-//       selectedCountries.length > 0 &&
-//       !selectedCountries.includes(course.university.country)
-//     ) {
-//       return false;
-//     }
-
-//     // Field filter
-//     if (selectedFields.length > 0 && !selectedFields.includes(course.field)) {
-//       return false;
-//     }
-
-//     // Level filter
-//     if (selectedLevels.length > 0 && !selectedLevels.includes(course.level)) {
-//       return false;
-//     }
-
-//     // Fee range filter
-//     if (course.fee < feeRange[0] || course.fee > feeRange[1]) {
-//       return false;
-//     }
-
-//     return true;
-//   });
-
-//   // Sort courses
-//   const sortedCourses = [...filteredCourses].sort((a, b) => {
-//     switch (sortBy) {
-//       case 'fee-low':
-//         return a.fee - b.fee;
-//       case 'fee-high':
-//         return b.fee - a.fee;
-//       default:
-//         return a.name.localeCompare(b.name);
-//     }
-//   });
-
-//   // Calculate pagination
-//   const indexOfLastCourse = currentPage * coursesPerPage;
-//   const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
-//   const currentCourses = sortedCourses.slice(
-//     indexOfFirstCourse,
-//     indexOfLastCourse
-//   );
-//   const totalPages = Math.ceil(sortedCourses.length / coursesPerPage);
-
-//   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-//   const toggleCountry = (country: string) => {
-//     setSelectedCountries(prev =>
-//       prev.includes(country)
-//         ? prev.filter(c => c !== country)
-//         : [...prev, country]
-//     );
-//   };
-
-//   const toggleField = (field: string) => {
-//     setSelectedFields(prev =>
-//       prev.includes(field) ? prev.filter(f => f !== field) : [...prev, field]
-//     );
-//   };
-
-//   const toggleLevel = (level: string) => {
-//     setSelectedLevels(prev =>
-//       prev.includes(level) ? prev.filter(l => l !== level) : [...prev, level]
-//     );
-//   };
-
-//   const clearFilters = () => {
-//     setSearchTerm('');
-//     setSelectedCountries([]);
-//     setSelectedFields([]);
-//     setSelectedLevels([]);
-//     setFeeRange([0, 500000]);
-//   };
-
-//   return (
-//     <>
-//       <PageHeader
-//         title="Course Directory"
-//         subtitle="Discover thousands of courses from top universities worldwide"
-//         background="gradient"
-//         centerText
-//       />
-
-//       <PageContainer>
-//         <div className="flex flex-col lg:flex-row gap-6">
-//           {/* Mobile filter sheet */}
-//           <div className="lg:hidden">
-//             <Sheet>
-//               <SheetTrigger asChild>
-//                 <Button variant="outline" className="w-full">
-//                   <Filter className="h-4 w-4 mr-2" />
-//                   Filters (
-//                   {selectedCountries.length +
-//                     selectedFields.length +
-//                     selectedLevels.length}
-//                   )
-//                 </Button>
-//               </SheetTrigger>
-//               <SheetContent side="left" className="w-[85%] sm:w-[385px]">
-//                 <SheetHeader>
-//                   <SheetTitle>Filter Courses</SheetTitle>
-//                 </SheetHeader>
-//                 <div className="py-4 space-y-6">
-//                   <div className="space-y-4">
-//                     <div className="font-medium">Study Level</div>
-//                     {levels.map(level => (
-//                       <div className="flex items-center space-x-2" key={level}>
-//                         <Checkbox
-//                           id={`level-mobile-${level}`}
-//                           checked={selectedLevels.includes(level)}
-//                           onCheckedChange={() => toggleLevel(level)}
-//                         />
-//                         <Label htmlFor={`level-mobile-${level}`}>{level}</Label>
-//                       </div>
-//                     ))}
-//                   </div>
-
-//                   <div className="space-y-4">
-//                     <div className="font-medium">Field of Study</div>
-//                     {fields.map(field => (
-//                       <div className="flex items-center space-x-2" key={field}>
-//                         <Checkbox
-//                           id={`field-mobile-${field}`}
-//                           checked={selectedFields.includes(field)}
-//                           onCheckedChange={() => toggleField(field)}
-//                         />
-//                         <Label htmlFor={`field-mobile-${field}`}>{field}</Label>
-//                       </div>
-//                     ))}
-//                   </div>
-
-//                   <div className="space-y-4">
-//                     <div className="font-medium">Country</div>
-//                     {countries.map(country => (
-//                       <div
-//                         className="flex items-center space-x-2"
-//                         key={country}
-//                       >
-//                         <Checkbox
-//                           id={`country-mobile-${country}`}
-//                           checked={selectedCountries.includes(country)}
-//                           onCheckedChange={() => toggleCountry(country)}
-//                         />
-//                         <Label htmlFor={`country-mobile-${country}`}>
-//                           {country}
-//                         </Label>
-//                       </div>
-//                     ))}
-//                   </div>
-
-//                   <div className="space-y-4">
-//                     <div className="font-medium">Tuition Fee Range</div>
-//                     <div className="px-2">
-//                       <Slider
-//                         value={feeRange}
-//                         min={0}
-//                         max={500000}
-//                         step={1000}
-//                         onValueChange={setFeeRange}
-//                       />
-//                       <div className="flex justify-between mt-2 text-sm text-muted-foreground">
-//                         <span>${feeRange[0].toLocaleString()}</span>
-//                         <span>${feeRange[1].toLocaleString()}</span>
-//                       </div>
-//                     </div>
-//                   </div>
-
-//                   <Button
-//                     variant="outline"
-//                     className="w-full mt-6"
-//                     onClick={clearFilters}
-//                   >
-//                     Clear All Filters
-//                   </Button>
-//                 </div>
-//               </SheetContent>
-//             </Sheet>
-//           </div>
-
-//           {/* Desktop sidebar filters */}
-//           <div className="hidden lg:block w-64 flex-shrink-0 border-r">
-//             <div className="pr-6 space-y-6">
-//               <Button
-//                 variant="outline"
-//                 className="w-full"
-//                 onClick={clearFilters}
-//               >
-//                 Clear All Filters
-//               </Button>
-
-//               <div className="space-y-4">
-//                 <div className="font-medium">Study Level</div>
-//                 {levels.map(level => (
-//                   <div className="flex items-center space-x-2" key={level}>
-//                     <Checkbox
-//                       id={`level-${level}`}
-//                       checked={selectedLevels.includes(level)}
-//                       onCheckedChange={() => toggleLevel(level)}
-//                     />
-//                     <Label htmlFor={`level-${level}`}>{level}</Label>
-//                   </div>
-//                 ))}
-//               </div>
-
-//               <div className="space-y-4">
-//                 <div className="font-medium">Field of Study</div>
-//                 {fields.map(field => (
-//                   <div className="flex items-center space-x-2" key={field}>
-//                     <Checkbox
-//                       id={`field-${field}`}
-//                       checked={selectedFields.includes(field)}
-//                       onCheckedChange={() => toggleField(field)}
-//                     />
-//                     <Label htmlFor={`field-${field}`}>{field}</Label>
-//                   </div>
-//                 ))}
-//               </div>
-
-//               <div className="space-y-4">
-//                 <div className="font-medium">Country</div>
-//                 {countries.map(country => (
-//                   <div className="flex items-center space-x-2" key={country}>
-//                     <Checkbox
-//                       id={`country-${country}`}
-//                       checked={selectedCountries.includes(country)}
-//                       onCheckedChange={() => toggleCountry(country)}
-//                     />
-//                     <Label htmlFor={`country-${country}`}>{country}</Label>
-//                   </div>
-//                 ))}
-//               </div>
-
-//               <div className="space-y-4">
-//                 <div className="font-medium">Tuition Fee Range</div>
-//                 <div className="px-2">
-//                   <Slider
-//                     value={feeRange}
-//                     min={0}
-//                     max={500000}
-//                     step={1000}
-//                     onValueChange={setFeeRange}
-//                   />
-//                   <div className="flex justify-between mt-2 text-sm text-muted-foreground">
-//                     <span>${feeRange[0].toLocaleString()}</span>
-//                     <span>${feeRange[1].toLocaleString()}</span>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Main content */}
-//           <div className="flex-grow">
-//             <div className="mb-6">
-//               <div className="relative">
-//                 <Input
-//                   type="text"
-//                   placeholder="Search courses, universities or fields..."
-//                   value={searchTerm}
-//                   onChange={e => setSearchTerm(e.target.value)}
-//                   className="pr-10"
-//                 />
-//                 <BookOpen className="absolute right-3 top-3 h-4 w-4 text-muted-foreground" />
-//               </div>
-//             </div>
-
-//             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-//               <div className="text-sm text-muted-foreground mb-4 sm:mb-0">
-//                 Found {filteredCourses.length} courses
-//               </div>
-//               <div className="flex flex-col sm:flex-row gap-3">
-//                 <div className="flex items-center">
-//                   <span className="text-sm text-muted-foreground mr-2">
-//                     Sort by:
-//                   </span>
-//                   <select
-//                     value={sortBy}
-//                     onChange={e =>
-//                       setSortBy(
-//                         e.target.value as 'name' | 'fee-low' | 'fee-high'
-//                       )
-//                     }
-//                     className="text-sm bg-background border rounded-md px-2 py-1"
-//                   >
-//                     <option value="name">Name</option>
-//                     <option value="fee-low">Fee: Low to High</option>
-//                     <option value="fee-high">Fee: High to Low</option>
-//                   </select>
-//                 </div>
-
-//                 <Tabs
-//                   value={currentView}
-//                   onValueChange={v => setCurrentView(v as 'grid' | 'list')}
-//                 >
-//                   <TabsList className="h-8">
-//                     <TabsTrigger value="grid" className="text-xs">
-//                       Grid
-//                     </TabsTrigger>
-//                     <TabsTrigger value="list" className="text-xs">
-//                       List
-//                     </TabsTrigger>
-//                   </TabsList>
-//                 </Tabs>
-//               </div>
-//             </div>
-
-//             {currentCourses.length > 0 ? (
-//               <motion.div
-//                 initial={{ opacity: 0 }}
-//                 animate={{ opacity: 1 }}
-//                 className={`grid ${
-//                   currentView === 'grid'
-//                     ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6'
-//                     : 'grid-cols-1 gap-4'
-//                 }`}
-//               >
-//                 {currentCourses.map((course, index) => (
-//                   <CourseCard key={course.id} {...course} index={index} />
-//                 ))}
-//               </motion.div>
-//             ) : (
-//               <div className="text-center py-12">
-//                 <BookOpen className="h-16 w-16 mx-auto text-muted-foreground/50" />
-//                 <h3 className="text-lg font-medium mt-4">
-//                   No courses match your filters
-//                 </h3>
-//                 <p className="text-muted-foreground mt-2">
-//                   Try adjusting your search criteria or filters
-//                 </p>
-//                 <Button
-//                   variant="outline"
-//                   className="mt-4"
-//                   onClick={clearFilters}
-//                 >
-//                   Clear all filters
-//                 </Button>
-//               </div>
-//             )}
-
-//             {totalPages > 1 && (
-//               <Pagination className="mt-8">
-//                 <PaginationContent>
-//                   <PaginationItem>
-//                     <PaginationPrevious
-//                       onClick={() => paginate(Math.max(currentPage - 1, 1))}
-//                       className={
-//                         currentPage === 1
-//                           ? 'pointer-events-none opacity-50'
-//                           : ''
-//                       }
-//                     />
-//                   </PaginationItem>
-
-//                   {Array.from({ length: Math.min(totalPages, 5) }).map(
-//                     (_, index) => {
-//                       let pageNumber = index + 1;
-
-//                       // Adjust page numbers for pagination with many pages
-//                       if (totalPages > 5 && currentPage > 3) {
-//                         if (index === 0) {
-//                           pageNumber = 1;
-//                         } else if (index === 1) {
-//                           return (
-//                             <PaginationItem key={index}>
-//                               <span className="flex h-9 w-9 items-center justify-center">
-//                                 ...
-//                               </span>
-//                             </PaginationItem>
-//                           );
-//                         } else {
-//                           pageNumber = Math.min(
-//                             currentPage + index - 2,
-//                             totalPages
-//                           );
-//                         }
-//                       }
-
-//                       return (
-//                         <PaginationItem key={index}>
-//                           <PaginationLink
-//                             onClick={() => paginate(pageNumber)}
-//                             isActive={currentPage === pageNumber}
-//                           >
-//                             {pageNumber}
-//                           </PaginationLink>
-//                         </PaginationItem>
-//                       );
-//                     }
-//                   )}
-
-//                   <PaginationItem>
-//                     <PaginationNext
-//                       onClick={() =>
-//                         paginate(Math.min(currentPage + 1, totalPages))
-//                       }
-//                       className={
-//                         currentPage === totalPages
-//                           ? 'pointer-events-none opacity-50'
-//                           : ''
-//                       }
-//                     />
-//                   </PaginationItem>
-//                 </PaginationContent>
-//               </Pagination>
-//             )}
-//           </div>
-//         </div>
-//       </PageContainer>
-//     </>
-//   );
-// };
-
-// export default FindCourses;
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BookOpen, Filter } from 'lucide-react';
+import { fetchAllPrograms } from '@/services/operations/programAPI';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -832,20 +16,11 @@ import { Slider } from '@/components/ui/slider';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import PageHeader from '@/components/layout/PageHeader';
-import PageContainer from '@/components/layout/PageContainer';
 import ProgramCard, { Program } from '@/components/cards/CourseCard';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
 
-// TypeScript interface for raw program data
-interface mockProgram {
-  id: string;
+// TypeScript interface for API program data
+interface APIProgram {
+  _id: string;
   country: string;
   universityName: string;
   location: string;
@@ -854,335 +29,157 @@ interface mockProgram {
   programLevel: string;
   duration: string;
   intake: string;
-  languageRequirement: {
-    ielts: string;
-    toefl: string;
+  languageRequirement?: {
+    ielts?: string;
+    toefl?: string;
+    pte?: string;
+    duolingo?: string;
   };
-  programMode: string;
-  scholarship: string;
-  applicationFee: string;
-  tuitionFee: string;
-  totalCreditHours?: number;
-  source: string;
+  programMode?: string;
+  scholarship?: string;
+  applicationFee?: string;
+  tuitionFee?: string;
+  source?: string;
 }
 
-// Transform mockProgram to Program type
-const transformProgram = (program: mockProgram): Program => {
-  // Calculate total fee
-  let totalFee: number;
-  if (program.programLevel === 'Undergraduate Program') {
-    const yearlyFee =
-      parseFloat(program.tuitionFee.replace(/[^0-9.]/g, '')) || 0;
-    totalFee = yearlyFee * 4; // Assuming 4 years for undergraduate
-  } else {
-    const creditFeeMatch =
-      program.tuitionFee.match(/USD (\d+,\d+)/) ||
-      program.tuitionFee.match(/USD (\d+)/);
-    const creditFee = creditFeeMatch
-      ? parseFloat(creditFeeMatch[1].replace(',', ''))
-      : 0;
-    totalFee = creditFee * (program.totalCreditHours || 30); // Default to 30 credits
+// Transform API program data to Program type
+const transformAPIProgram = (program: APIProgram): Program => {
+  // Calculate total fee from tuition fee string
+  let totalFee: number = 0;
+  if (program.tuitionFee) {
+    // Extract numbers from tuition fee string
+    const yearlyFeeMatch = program.tuitionFee.match(/(\d+,?\d*)/);
+    if (yearlyFeeMatch) {
+      const yearlyFee = parseFloat(yearlyFeeMatch[1].replace(',', '')) || 0;
+
+      // If it's per year, multiply by typical duration
+      if (program.programLevel === 'Undergraduate Program') {
+        totalFee = yearlyFee * 4;
+      } else if (
+        program.programLevel === 'Graduate Program' ||
+        program.programLevel === 'Postgraduate Program'
+      ) {
+        totalFee = yearlyFee * 2;
+      } else if (program.programLevel === 'Doctoral Program') {
+        totalFee = yearlyFee * 4;
+      } else {
+        totalFee = yearlyFee;
+      }
+    }
   }
 
+  // Transform program level
+  let level: 'Undergraduate' | 'Postgraduate' | 'PhD' = 'Undergraduate';
+  if (program.programLevel.includes('Undergraduate')) {
+    level = 'Undergraduate';
+  } else if (
+    program.programLevel.includes('Graduate') ||
+    program.programLevel.includes('Postgraduate')
+  ) {
+    level = 'Postgraduate';
+  } else if (
+    program.programLevel.includes('Doctoral') ||
+    program.programLevel.includes('PhD')
+  ) {
+    level = 'PhD';
+  }
+
+  // Transform language requirements
+  const languageRequirements: string[] = [];
+  if (program.languageRequirement) {
+    if (program.languageRequirement.ielts) {
+      languageRequirements.push(`IELTS: ${program.languageRequirement.ielts}`);
+    }
+    if (program.languageRequirement.toefl) {
+      languageRequirements.push(`TOEFL: ${program.languageRequirement.toefl}`);
+    }
+    if (program.languageRequirement.pte) {
+      languageRequirements.push(`PTE: ${program.languageRequirement.pte}`);
+    }
+    if (program.languageRequirement.duolingo) {
+      languageRequirements.push(
+        `Duolingo: ${program.languageRequirement.duolingo}`
+      );
+    }
+  }
+
+  // Transform intakes
+  const intakes = program.intake ? program.intake.split(/,\s*/) : [];
+
+  // Transform program modes
+  const programModes = program.programMode
+    ? program.programMode.split(/\s+and\s+/)
+    : ['On-campus'];
+
   return {
-    id: program.id,
+    id: program._id,
     name: program.programName,
     universityName: program.universityName,
     location: program.location,
-    level: program.programLevel
-      .replace(' Program', '')
-      .replace('Doctoral', 'PhD') as 'Undergraduate' | 'Postgraduate' | 'PhD',
+    level: level,
     duration: program.duration,
-    intakes: program.intake.split(', '),
-    languageRequirements: [
-      `IELTS: ${program.languageRequirement.ielts}`,
-      `TOEFL: ${program.languageRequirement.toefl}`,
-    ],
-    programModes: program.programMode.split(' and '),
-    scholarship: program.scholarship,
-    applicationFee: program.applicationFee,
+    intakes: intakes,
+    languageRequirements:
+      languageRequirements.length > 0
+        ? languageRequirements
+        : ['Contact university for requirements'],
+    programModes: programModes,
+    scholarship:
+      program.scholarship || 'Contact university for scholarship information',
+    applicationFee: program.applicationFee || 'Contact university',
     tuitionFee: totalFee,
     country: program.country,
     majors: program.majors,
   };
 };
 
-// Program data
-const mockPrograms: mockProgram[] = [
-  {
-    id: '1',
-    country: 'USA',
-    universityName: 'Adelphi University',
-    location: 'Garden City, New York, USA',
-    programName: 'Bachelor of Science in Nursing',
-    majors: 'Nursing',
-    programLevel: 'Undergraduate Program',
-    duration: '4 years full-time',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.5', toefl: '80+' },
-    programMode: 'On-campus',
-    scholarship: 'Available (merit-based)',
-    applicationFee: 'USD 50',
-    tuitionFee: 'Approximately USD 43040 per year',
-    source: 'Undergraduate Tuition and Fees – Adelphi University',
-  },
-  {
-    id: '2',
-    country: 'USA',
-    universityName: 'Adelphi University',
-    location: 'Garden City, New York, USA',
-    programName: 'Bachelor of Business Administration in Accounting',
-    majors: 'Accounting',
-    programLevel: 'Undergraduate Program',
-    duration: '4 years full-time',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.5', toefl: '80+' },
-    programMode: 'On-campus',
-    scholarship: 'Available (merit-based)',
-    applicationFee: 'USD 50',
-    tuitionFee: 'Approximately USD 43040 per year',
-    source: 'Undergraduate Tuition and Fees – Adelphi University',
-  },
-  {
-    id: '3',
-    country: 'USA',
-    universityName: 'Adelphi University',
-    location: 'Garden City, New York, USA',
-    programName: 'Bachelor of Science in Computer Science',
-    majors: 'Computer Science',
-    programLevel: 'Undergraduate Program',
-    duration: '4 years full-time',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.5', toefl: '80+' },
-    programMode: 'On-campus',
-    scholarship: 'Available (merit-based)',
-    applicationFee: 'USD 50',
-    tuitionFee: 'Approximately USD 43040 per year',
-    source: 'Undergraduate Tuition and Fees – Adelphi University',
-  },
-  {
-    id: '4',
-    country: 'USA',
-    universityName: 'Adelphi University',
-    location: 'Garden City, New York, USA',
-    programName: 'Bachelor of Arts in Psychology',
-    majors: 'Psychology',
-    programLevel: 'Undergraduate Program',
-    duration: '4 years full-time',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.5', toefl: '80+' },
-    programMode: 'On-campus',
-    scholarship: 'Available (merit-based)',
-    applicationFee: 'USD 50',
-    tuitionFee: 'Approximately USD 43040 per year',
-    source: 'Undergraduate Tuition and Fees – Adelphi University',
-  },
-  {
-    id: '5',
-    country: 'USA',
-    universityName: 'Adelphi University',
-    location: 'Garden City, New York, USA',
-    programName: 'Bachelor of Fine Arts in Studio Art',
-    majors: 'Studio Art',
-    programLevel: 'Undergraduate Program',
-    duration: '4 years full-time',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.5', toefl: '80+' },
-    programMode: 'On-campus',
-    scholarship: 'Available (merit-based)',
-    applicationFee: 'USD 50',
-    tuitionFee: 'Approximately USD 43040 per year',
-    source: 'Undergraduate Tuition and Fees – Adelphi University',
-  },
-  {
-    id: '6',
-    country: 'USA',
-    universityName: 'Adelphi University',
-    location: 'Garden City, New York, USA',
-    programName: 'Master of Business Administration',
-    majors: 'Business Administration',
-    programLevel: 'Postgraduate Program',
-    duration: '1.5 to 2 years',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.5', toefl: '80+' },
-    programMode: 'On-campus',
-    scholarship: 'Available',
-    applicationFee: 'USD 60',
-    tuitionFee: 'USD 1645 per credit hour',
-    totalCreditHours: 30,
-    source: 'Graduate Tuition and Fees – Adelphi University',
-  },
-  {
-    id: '7',
-    country: 'USA',
-    universityName: 'Adelphi University',
-    location: 'Garden City, New York, USA',
-    programName: 'Master of Science in Computer Science',
-    majors: 'Computer Science',
-    programLevel: 'Postgraduate Program',
-    duration: '2 years',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.5', toefl: '80+' },
-    programMode: 'On-campus and Online',
-    scholarship: 'Available',
-    applicationFee: 'USD 60',
-    tuitionFee: 'USD 1645 (On-campus), USD 990 (Online) per credit hour',
-    totalCreditHours: 30,
-    source: 'Graduate Tuition and Fees – Adelphi University',
-  },
-  {
-    id: '8',
-    country: 'USA',
-    universityName: 'Adelphi University',
-    location: 'Garden City, New York, USA',
-    programName: 'Master of Public Health',
-    majors: 'Public Health',
-    programLevel: 'Postgraduate Program',
-    duration: '2 years',
-    intake: 'Fall',
-    languageRequirement: { ielts: '6.5', toefl: '80+' },
-    programMode: 'On-campus and Online',
-    scholarship: 'Available',
-    applicationFee: 'USD 60',
-    tuitionFee: 'USD 1605 (On-campus), USD 940 (Online) per credit hour',
-    totalCreditHours: 42,
-    source: 'Graduate Tuition and Fees – Adelphi University',
-  },
-  {
-    id: '9',
-    country: 'USA',
-    universityName: 'Adelphi University',
-    location: 'Garden City, New York, USA',
-    programName:
-      'Master of Science in Nursing (Adult Gerontology Primary Care Nurse Practitioner)',
-    majors: 'Nursing',
-    programLevel: 'Postgraduate Program',
-    duration: '2 years',
-    intake: 'Fall',
-    languageRequirement: { ielts: '6.5', toefl: '80+' },
-    programMode: 'On-campus and Online',
-    scholarship: 'Available',
-    applicationFee: 'USD 60',
-    tuitionFee: 'USD 1645 (On-campus), USD 940 (Online) per credit hour',
-    totalCreditHours: 45,
-    source: 'Graduate Tuition and Fees – Adelphi University',
-  },
-  {
-    id: '10',
-    country: 'USA',
-    universityName: 'Adelphi University',
-    location: 'Garden City, New York, USA',
-    programName: 'Doctor of Philosophy in Clinical Psychology',
-    majors: 'Clinical Psychology',
-    programLevel: 'Doctoral Program',
-    duration: '5 years',
-    intake: 'Fall',
-    languageRequirement: { ielts: '6.5', toefl: '80+' },
-    programMode: 'On-campus',
-    scholarship: 'Available',
-    applicationFee: 'USD 60',
-    tuitionFee: 'USD 1645 per credit hour',
-    totalCreditHours: 90,
-    source: 'Graduate Tuition and Fees – Adelphi University',
-  },
-  {
-    id: '11',
-    country: 'USA',
-    universityName: 'Berkeley College',
-    location: 'New York, New York, USA',
-    programName: 'Bachelor of Business Administration in Accounting',
-    majors: 'Accounting',
-    programLevel: 'Undergraduate Program',
-    duration: '4 years full-time',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.0', toefl: '70+' },
-    programMode: 'On-campus and Online',
-    scholarship: 'Available (merit-based and need-based)',
-    applicationFee: 'USD 50',
-    tuitionFee: 'Approximately USD 24000 per year',
-    source: 'Berkeley College Undergraduate Programs',
-  },
-  {
-    id: '12',
-    country: 'USA',
-    universityName: 'Berkeley College',
-    location: 'New York, New York, USA',
-    programName: 'Bachelor of Science in Information Technology',
-    majors: 'Information Technology',
-    programLevel: 'Undergraduate Program',
-    duration: '4 years full-time',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.0', toefl: '70+' },
-    programMode: 'On-campus and Online',
-    scholarship: 'Available',
-    applicationFee: 'USD 50',
-    tuitionFee: 'Approximately USD 24000 per year',
-    source: 'Berkeley College Undergraduate Programs',
-  },
-  {
-    id: '13',
-    country: 'USA',
-    universityName: 'Berkeley College',
-    location: 'New York, New York, USA',
-    programName: 'Bachelor of Science in Fashion Marketing',
-    majors: 'Fashion Marketing',
-    programLevel: 'Undergraduate Program',
-    duration: '4 years full-time',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.0', toefl: '70+' },
-    programMode: 'On-campus',
-    scholarship: 'Available',
-    applicationFee: 'USD 50',
-    tuitionFee: 'Approximately USD 24000 per year',
-    source: 'Berkeley College Undergraduate Programs',
-  },
-  {
-    id: '14',
-    country: 'USA',
-    universityName: 'Berkeley College',
-    location: 'New York, New York, USA',
-    programName: 'Master of Science in Accounting',
-    majors: 'Accounting',
-    programLevel: 'Postgraduate Program',
-    duration: '1.5 to 2 years',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.5', toefl: '79+' },
-    programMode: 'On-campus and Online',
-    scholarship: 'Available',
-    applicationFee: 'USD 50',
-    tuitionFee: 'Approximately USD 750 per credit hour',
-    totalCreditHours: 30,
-    source: 'Berkeley College Graduate Programs',
-  },
-  {
-    id: '15',
-    country: 'USA',
-    universityName: 'Berkeley College',
-    location: 'New York, New York, USA',
-    programName: 'Master of Science in Business Analytics',
-    majors: 'Business Analytics',
-    programLevel: 'Postgraduate Program',
-    duration: '1.5 to 2 years',
-    intake: 'Fall, Spring',
-    languageRequirement: { ielts: '6.5', toefl: '79+' },
-    programMode: 'On-campus and Online',
-    scholarship: 'Available',
-    applicationFee: 'USD 50',
-    tuitionFee: 'Approximately USD 750 per credit hour',
-    totalCreditHours: 30,
-    source: 'Berkeley College Graduate Programs',
-  },
-];
-
-// Transform all mockPrograms to Program type
-const programs: Program[] = mockPrograms.map(transformProgram);
-
-// Extract unique filter options
-const countries = Array.from(new Set(programs.map(program => program.country)));
-const fields = Array.from(new Set(programs.map(program => program.majors)));
-const levels = ['Undergraduate', 'Postgraduate', 'PhD'];
-
 const FindCourses = () => {
+  // State for programs from API
+  const [programs, setPrograms] = useState<Program[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [countries, setCountries] = useState<string[]>([]);
+  const [fields, setFields] = useState<string[]>([]);
+  const levels = ['Undergraduate', 'Postgraduate', 'PhD'];
+
+  // Fetch programs from API on component mount
+  useEffect(() => {
+    const loadPrograms = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const response = await fetchAllPrograms({ limit: 1000 }); // Fetch all programs
+
+        if (response && response.success && response.data) {
+          // Transform API programs to Program type
+          const transformedPrograms = response.data.map(transformAPIProgram);
+          setPrograms(transformedPrograms);
+
+          // Extract unique countries and fields for filters
+          const uniqueCountries = Array.from(
+            new Set(transformedPrograms.map((p: Program) => p.country))
+          ) as string[];
+          const uniqueFields = Array.from(
+            new Set(transformedPrograms.map((p: Program) => p.majors))
+          ) as string[];
+
+          setCountries(uniqueCountries);
+          setFields(uniqueFields);
+        } else {
+          setError(response?.message || 'Failed to fetch programs');
+        }
+      } catch (err: any) {
+        console.error('Error loading programs:', err);
+        setError('Failed to load programs. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPrograms();
+  }, []);
+
   // State for filter inputs (not applied until "Apply Filter" is clicked)
   const [tempSearchTerm, setTempSearchTerm] = useState('');
   const [tempSelectedCountries, setTempSelectedCountries] = useState<string[]>(
@@ -1202,7 +199,8 @@ const FindCourses = () => {
   const [currentView, setCurrentView] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState<'name' | 'fee-low' | 'fee-high'>('name');
   const [currentPage, setCurrentPage] = useState(1);
-  const programsPerPage = 6;
+  const [programsPerPage, setProgramsPerPage] = useState(12);
+  const [jumpToPage, setJumpToPage] = useState('');
 
   // Apply filters when button is clicked
   const applyFilters = () => {
@@ -1285,7 +283,59 @@ const FindCourses = () => {
   );
   const totalPages = Math.ceil(sortedPrograms.length / programsPerPage);
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    setJumpToPage('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleItemsPerPageChange = (value: string) => {
+    setProgramsPerPage(Number(value));
+    setCurrentPage(1);
+  };
+
+  const handleJumpToPage = () => {
+    const page = Number(jumpToPage);
+    if (page >= 1 && page <= totalPages) {
+      paginate(page);
+    }
+  };
+
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    const maxVisiblePages = 7;
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 4) {
+        for (let i = 1; i <= 5; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 3) {
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 4; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push('...');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+
+    return pages;
+  };
 
   const toggleTempCountry = (country: string) => {
     setTempSelectedCountries(prev =>
@@ -1420,8 +470,8 @@ const FindCourses = () => {
           </motion.div>
         </div>
       </section>
-      <PageContainer>
-        <div className="flex flex-col lg:flex-row gap-6">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* Mobile filter sheet */}
           <div className="lg:hidden">
             <Sheet>
@@ -1548,8 +598,8 @@ const FindCourses = () => {
           </div>
 
           {/* Desktop sidebar filters */}
-          <div className="hidden lg:block w-72 flex-shrink-0 border-r border-gray-200 pr-6">
-            <div className="space-y-8">
+          <div className="hidden lg:block w-80 flex-shrink-0">
+            <div className="sticky top-8 max-h-[calc(100vh-8rem)] overflow-y-auto pr-6 border-r border-gray-200 space-y-8 pb-8">
               <div className="flex justify-between items-center">
                 <h3 className="font-semibold text-lg text-gray-900">Filters</h3>
                 <Button
@@ -1662,10 +712,85 @@ const FindCourses = () => {
               </div>
             </div>
 
+            {/* Results Summary Header */}
+            <div className="mb-6 bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-100 rounded-xl p-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                {/* <div>
+                  <h2 className="text-lg font-semibold text-gray-900">
+                    {sortedPrograms.length === programs.length
+                      ? `All Programs (${sortedPrograms.length})`
+                      : `Filtered Results (${sortedPrograms.length} of ${programs.length})`}
+                  </h2>
+                  {(searchTerm || selectedCountries.length > 0 || selectedFields.length > 0 || selectedLevels.length > 0) && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {searchTerm && (
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                          Search: "{searchTerm}"
+                          <button
+                            onClick={() => {
+                              setSearchTerm('');
+                              setTempSearchTerm('');
+                            }}
+                            className="ml-1 hover:text-indigo-900"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      )}
+                      {selectedCountries.map(country => (
+                        <span key={country} className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          {country}
+                          <button
+                            onClick={() => {
+                              setSelectedCountries(prev => prev.filter(c => c !== country));
+                              setTempSelectedCountries(prev => prev.filter(c => c !== country));
+                            }}
+                            className="ml-1 hover:text-blue-900"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                      {selectedFields.map(field => (
+                        <span key={field} className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          {field}
+                          <button
+                            onClick={() => {
+                              setSelectedFields(prev => prev.filter(f => f !== field));
+                              setTempSelectedFields(prev => prev.filter(f => f !== field));
+                            }}
+                            className="ml-1 hover:text-green-900"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                      {selectedLevels.map(level => (
+                        <span key={level} className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                          {level}
+                          <button
+                            onClick={() => {
+                              setSelectedLevels(prev => prev.filter(l => l !== level));
+                              setTempSelectedLevels(prev => prev.filter(l => l !== level));
+                            }}
+                            className="ml-1 hover:text-purple-900"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div> */}
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <span className="font-medium">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                </div>
+              </div>
+            </div>
+
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-              {/* <div className="text-sm text-gray-500 mb-4 sm:mb-0">
-                Found {filteredPrograms.length} programs
-              </div> */}
               <div className="flex flex-col sm:flex-row gap-3">
                 <div className="flex items-center">
                   <span className="text-sm text-gray-500 mr-2">Sort by:</span>
@@ -1700,14 +825,63 @@ const FindCourses = () => {
               </div>
             </div>
 
-            {currentPrograms.length > 0 ? (
+            {loading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(item => (
+                  <div
+                    key={item}
+                    className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm animate-pulse"
+                  >
+                    <div className="p-5 bg-gray-50 border-b border-gray-100">
+                      <div className="h-6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-shimmer rounded w-3/4" />
+                      <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-shimmer rounded w-1/2 mt-2" />
+                    </div>
+                    <div className="p-5 space-y-3">
+                      <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-shimmer rounded" />
+                      <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-shimmer rounded w-5/6" />
+                      <div className="h-4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-shimmer rounded w-4/6" />
+                      <div className="h-10 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 bg-[length:200%_100%] animate-shimmer rounded mt-4" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : error ? (
+              <div className="text-center py-12">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 mb-4">
+                  <svg
+                    className="w-8 h-8 text-red-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-medium text-gray-900">{error}</h3>
+                <p className="text-gray-500 mt-2">
+                  Please try refreshing the page
+                </p>
+                <Button
+                  variant="outline"
+                  className="mt-4 border-indigo-600 text-indigo-600 hover:bg-indigo-50"
+                  onClick={() => window.location.reload()}
+                >
+                  Refresh Page
+                </Button>
+              </div>
+            ) : currentPrograms.length > 0 ? (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
                 className={`grid ${
                   currentView === 'grid'
-                    ? 'grid-cols-1 md:grid-cols-2 gap-6'
+                    ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
                     : 'grid-cols-1 gap-4'
                 }`}
               >
@@ -1738,79 +912,168 @@ const FindCourses = () => {
               </div>
             )}
 
+            {/* Professional Pagination Controls */}
             {totalPages > 1 && (
-              <Pagination className="mt-8">
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      onClick={() => paginate(Math.max(currentPage - 1, 1))}
-                      className={
+              <div className="mt-12 border-t border-gray-200 pt-8">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+                  {/* Results Summary and Items Per Page */}
+                  <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-700">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">
+                        Showing {indexOfFirstProgram + 1}-
+                        {Math.min(indexOfLastProgram, sortedPrograms.length)} of{' '}
+                        {sortedPrograms.length} programs
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label
+                        htmlFor="items-per-page"
+                        className="whitespace-nowrap"
+                      >
+                        Items per page:
+                      </label>
+                      <select
+                        id="items-per-page"
+                        value={programsPerPage}
+                        onChange={e => handleItemsPerPageChange(e.target.value)}
+                        className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                      >
+                        <option value="6">6</option>
+                        <option value="12">12</option>
+                        <option value="24">24</option>
+                        <option value="48">48</option>
+                        <option value="100">100</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Pagination Buttons */}
+                  <div className="flex items-center gap-2">
+                    {/* First Page */}
+                    <button
+                      onClick={() => paginate(1)}
+                      disabled={currentPage === 1}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         currentPage === 1
-                          ? 'pointer-events-none opacity-50'
-                          : 'hover:bg-indigo-50'
-                      }
-                    />
-                  </PaginationItem>
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-300 text-gray-700 hover:bg-indigo-50 hover:border-indigo-300'
+                      }`}
+                      title="First page"
+                    >
+                      &laquo;
+                    </button>
 
-                  {Array.from({ length: Math.min(totalPages, 5) }).map(
-                    (_, index) => {
-                      let pageNumber = index + 1;
+                    {/* Previous Page */}
+                    <button
+                      onClick={() => paginate(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        currentPage === 1
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-300 text-gray-700 hover:bg-indigo-50 hover:border-indigo-300'
+                      }`}
+                      title="Previous page"
+                    >
+                      &lsaquo;
+                    </button>
 
-                      if (totalPages > 5 && currentPage > 3) {
-                        if (index === 0) {
-                          pageNumber = 1;
-                        } else if (index === 1) {
+                    {/* Page Numbers */}
+                    <div className="hidden sm:flex items-center gap-1">
+                      {getPageNumbers().map((page, index) => {
+                        if (page === '...') {
                           return (
-                            <PaginationItem key={index}>
-                              <span className="flex h-9 w-9 items-center justify-center text-gray-500">
-                                ...
-                              </span>
-                            </PaginationItem>
-                          );
-                        } else {
-                          pageNumber = Math.min(
-                            currentPage + index - 2,
-                            totalPages
+                            <span
+                              key={index}
+                              className="px-3 py-2 text-gray-500"
+                            >
+                              ...
+                            </span>
                           );
                         }
-                      }
-
-                      return (
-                        <PaginationItem key={index}>
-                          <PaginationLink
-                            onClick={() => paginate(pageNumber)}
-                            isActive={currentPage === pageNumber}
-                            className={
-                              currentPage === pageNumber
-                                ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                                : 'hover:bg-indigo-50'
-                            }
+                        return (
+                          <button
+                            key={index}
+                            onClick={() => paginate(page as number)}
+                            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                              currentPage === page
+                                ? 'bg-indigo-600 text-white shadow-md'
+                                : 'bg-white border border-gray-300 text-gray-700 hover:bg-indigo-50 hover:border-indigo-300'
+                            }`}
                           >
-                            {pageNumber}
-                          </PaginationLink>
-                        </PaginationItem>
-                      );
-                    }
-                  )}
+                            {page}
+                          </button>
+                        );
+                      })}
+                    </div>
 
-                  <PaginationItem>
-                    <PaginationNext
-                      onClick={() =>
-                        paginate(Math.min(currentPage + 1, totalPages))
-                      }
-                      className={
+                    {/* Mobile: Current Page Display */}
+                    <div className="sm:hidden px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium">
+                      {currentPage} / {totalPages}
+                    </div>
+
+                    {/* Next Page */}
+                    <button
+                      onClick={() => paginate(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         currentPage === totalPages
-                          ? 'pointer-events-none opacity-50'
-                          : 'hover:bg-indigo-50'
-                      }
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-300 text-gray-700 hover:bg-indigo-50 hover:border-indigo-300'
+                      }`}
+                      title="Next page"
+                    >
+                      &rsaquo;
+                    </button>
+
+                    {/* Last Page */}
+                    <button
+                      onClick={() => paginate(totalPages)}
+                      disabled={currentPage === totalPages}
+                      className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                        currentPage === totalPages
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-300 text-gray-700 hover:bg-indigo-50 hover:border-indigo-300'
+                      }`}
+                      title="Last page"
+                    >
+                      &raquo;
+                    </button>
+                  </div>
+
+                  {/* Jump to Page */}
+                  <div className="flex items-center gap-2 text-sm">
+                    <label
+                      htmlFor="jump-to-page"
+                      className="whitespace-nowrap text-gray-700"
+                    >
+                      Go to:
+                    </label>
+                    <input
+                      id="jump-to-page"
+                      type="number"
+                      min="1"
+                      max={totalPages}
+                      value={jumpToPage}
+                      onChange={e => setJumpToPage(e.target.value)}
+                      onKeyPress={e => {
+                        if (e.key === 'Enter') handleJumpToPage();
+                      }}
+                      placeholder="Page"
+                      className="w-20 px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
+                    <button
+                      onClick={handleJumpToPage}
+                      className="px-4 py-1.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                    >
+                      Go
+                    </button>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>
-      </PageContainer>
+      </div>
     </>
   );
 };

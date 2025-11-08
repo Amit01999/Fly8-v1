@@ -63,3 +63,28 @@ export const settingsEndpoints = {
   DEACTIVATE_ACCOUNT_API: BASE_URL + '/student/deactivate',
   GET_ACCOUNT_INFO_API: BASE_URL + '/student/account-info',
 };
+
+// UNIVERSITY ENDPOINTS
+export const universityEndpoints = {
+  GET_ALL_UNIVERSITIES_API: BASE_URL + '/universities',
+  GET_UNIVERSITY_BY_ID_API: BASE_URL + '/universities',
+  GET_UNIVERSITY_BY_CODE_API: BASE_URL + '/universities/code',
+  GET_UNIVERSITIES_BY_COUNTRY_API: BASE_URL + '/universities/country',
+  GET_UNIVERSITY_STATS_API: BASE_URL + '/universities/stats',
+  CREATE_UNIVERSITY_API: BASE_URL + '/universities',
+  UPDATE_UNIVERSITY_API: BASE_URL + '/universities',
+  DELETE_UNIVERSITY_API: BASE_URL + '/universities',
+};
+
+// PROGRAM ENDPOINTS
+export const programEndpoints = {
+  GET_ALL_PROGRAMS_API: BASE_URL + '/programs',
+  GET_PROGRAM_BY_ID_API: BASE_URL + '/programs',
+  GET_PROGRAMS_BY_COUNTRY_API: BASE_URL + '/programs/country',
+  GET_PROGRAMS_BY_UNIVERSITY_API: BASE_URL + '/programs/university',
+  GET_PROGRAMS_BY_LEVEL_API: BASE_URL + '/programs/level',
+  GET_PROGRAM_STATS_API: BASE_URL + '/programs/stats',
+  CREATE_PROGRAM_API: BASE_URL + '/programs',
+  UPDATE_PROGRAM_API: BASE_URL + '/programs',
+  DELETE_PROGRAM_API: BASE_URL + '/programs',
+};

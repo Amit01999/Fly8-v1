@@ -24,6 +24,7 @@ import SectionHeader from '@/components/CountryDetailes/CountrySectionHeader';
 import CountryQuickFacts from '@/components/CountryDetailes/CountryQuickFacts';
 import StudentForm from '@/components/Froms/StudentContactForm';
 import { fetchCountryDetails } from '@/services/operations/countryDetailsAPI';
+import { fetchUniversitiesByCountry } from '@/services/operations/universityAPI';
 
 // Define interfaces based on provided data format
 interface Course {
@@ -230,7 +231,7 @@ interface Country {
   scholarships: Scholarship[];
   financialSupports: FinancialSupport[];
   TipsforScholarship: string[];
-  ukVisaData: VisaData;
+  VisaData: VisaData;
   visaStepsData: VisaStep[];
   workOpportunitiesData: WorkOpportunity[];
   jobMarketData: JobMarketData;
@@ -298,6 +299,8 @@ const CountryDetails: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>('overview');
   const [country, setCountry] = useState<Country | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [universities, setUniversities] = useState<any[]>([]);
+  const [universitiesLoading, setUniversitiesLoading] = useState(false);
   const { countryname } = useParams<{ countryname: string }>();
 
   useEffect(() => {
@@ -343,10 +346,10 @@ const CountryDetails: React.FC = () => {
           delete res.data.admissionnotes;
         }
 
-        // Map spainVisaData to ukVisaData if country is not Spain
-        if (res.data.spainVisaData && !res.data.ukVisaData) {
-          console.log('Mapping spainVisaData to ukVisaData');
-          res.data.ukVisaData = res.data.spainVisaData;
+        // Map spainVisaData to VisaData if country is not Spain
+        if (res.data.VisaData && !res.data.VisaData) {
+          console.log('Mapping VisaData to VisaData');
+          res.data.VisaData = res.data.spainVisaData;
           delete res.data.spainVisaData;
         }
 
@@ -372,7 +375,7 @@ const CountryDetails: React.FC = () => {
           'scholarships',
           'financialSupports',
           'TipsforScholarship',
-          'ukVisaData',
+          'VisaData',
           'visaStepsData',
           'workOpportunitiesData',
           'jobMarketData',
@@ -424,7 +427,7 @@ const CountryDetails: React.FC = () => {
           res.data.scholarships = res.data.scholarships ?? [];
           res.data.financialSupports = res.data.financialSupports ?? [];
           res.data.TipsforScholarship = res.data.TipsforScholarship ?? [];
-          res.data.ukVisaData = res.data.ukVisaData ?? {
+          res.data.VisaData = res.data.VisaData ?? {
             title: '',
             intro: '',
             sections: [],
@@ -474,6 +477,31 @@ const CountryDetails: React.FC = () => {
   }, [countryname]);
 
   console.log('Country Details set in state:', country);
+
+  // Fetch universities by country from database
+  useEffect(() => {
+    const loadUniversities = async () => {
+      if (!country?.name) return;
+
+      setUniversitiesLoading(true);
+      try {
+        const response = await fetchUniversitiesByCountry(country.name);
+        if (response && response.success) {
+          setUniversities(response.data || []);
+        } else {
+          console.error('Failed to fetch universities:', response?.message);
+          setUniversities([]);
+        }
+      } catch (error) {
+        console.error('Error fetching universities:', error);
+        setUniversities([]);
+      } finally {
+        setUniversitiesLoading(false);
+      }
+    };
+
+    loadUniversities();
+  }, [country?.name]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -550,7 +578,7 @@ const CountryDetails: React.FC = () => {
     !Array.isArray(country.deadlines) ||
     !Array.isArray(country.addmissionnotes) ||
     !Array.isArray(country.requirementsData) ||
-    !country.ukVisaData ||
+    !country.VisaData ||
     !Array.isArray(country.overviewSections) ||
     !Array.isArray(country.tuitionData) ||
     !Array.isArray(country.expenses) ||
@@ -704,6 +732,8 @@ const CountryDetails: React.FC = () => {
             notes={country.addmissionnotes}
             requirementsData={country.requirementsData}
             countryNote={country.CountrySpecificRequirements}
+            universities={universities}
+            universitiesLoading={universitiesLoading}
           />
         </motion.div>
 
@@ -739,7 +769,7 @@ const CountryDetails: React.FC = () => {
           <CountryVisaSection
             containerVariants={containerVariants}
             itemVariants={itemVariants}
-            ukVisaData={country.ukVisaData}
+            VisaData={country.VisaData}
             visaStepsData={country.visaStepsData}
             workOpportunitiesData={country.workOpportunitiesData}
             jobMarketData={country.jobMarketData}
