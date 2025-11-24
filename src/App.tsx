@@ -9,7 +9,6 @@ import NotFound from './pages/NotFound';
 import CourseFinder from './pages/CourseFinder';
 import Countries from './pages/Countries';
 import CountryDetails from './pages/Countrydetailes';
-import Courses from './pages/Courses';
 import TopUniversities from './pages/TopUniversities';
 import Layout from './components/Layout';
 import Contact from './pages/Contact';
@@ -57,7 +56,6 @@ import VisaInterview from './pages/CareerServices/VisaInterview';
 import JobPlacement from './pages/CareerServices/JobPlacement';
 import GlobalEvents from './pages/CareerServices/GlobalEvents';
 import UniversityProfile from './pages/UniversityProfile';
-// import ProfileAssessment from './pages/student-dashboard/services/ProfileAssessment1';
 import StudentInternFrom from './components/StudentInternFrom';
 import PrivateRoute from './components/auth/PrivateRoute';
 import PreparationSupport from './pages/student-dashboard/StudentdashboadPage/PreparationSupport';
@@ -80,9 +78,6 @@ import ScrollToTop from './components/ScrollToTop';
 import GstuAdminPanel from './components/Temporary/GstuAdminPanel';
 import RegistrationLookup from './components/Temporary/RegistrationLookup';
 import CoursesPage from './components/Temporary/CoursesPage';
-// import Blogs from './pages/Blog/Blogs';
-// import BlogDetail from './pages/Blog/BlogDetail';
-// import BlogsAdmin from './pages/Blog/BlogsAdmin';
 import CreateBlog from './pages/Blogs/CreateBlog';
 import BlogsAdmin from './pages/Blogs/BlogsAdmin';
 import Blogs from './pages/Blogs/Blogs';
@@ -115,7 +110,6 @@ const App = () => (
             <Route path="AiMatch" element={<AMatch />} />
             <Route path="countries" element={<Countries />} />
             <Route path="countries/:countryname" element={<CountryDetails />} />
-            {/* <Route path="programs" element={<Courses />} /> */}
             <Route path="programs" element={<FindCourses />} />
             <Route path="universities" element={<TopUniversities />} />
             <Route
@@ -129,9 +123,6 @@ const App = () => (
 
             {/* Blog routes */}
 
-            {/* <Route path="/blogs" element={<Blogs />} />
-            <Route path="/blogs/:id" element={<BlogDetail />} />
-            <Route path="/admin/blogs" element={<BlogsAdmin />} /> */}
             <Route path="/create-blog" element={<CreateBlog />} />
             <Route path="/admin/blogs" element={<BlogsAdmin />} />
             <Route path="/blogs" element={<Blogs />} />
@@ -139,6 +130,7 @@ const App = () => (
 
             {/* Events */}
             <Route path="past-event" element={<PastEventsPage />} />
+
             {/* Temporary  */}
             <Route
               path="student-profile-assignment"
@@ -171,11 +163,12 @@ const App = () => (
               }
             />
             <Route path="referral" element={<ReferralSearch />} />
-            {/*<Route path="gstu" element={<EducationFairRegistration />} />
-            <Route path="/lookup" element={<RegistrationLookup />} /> */}
-            {/* Public lookup page */}
-            {/* <Route path="/gstu-admin" element={<GstuAdminPanel />} /> */}
-            {/* Combined admin panel with tabs */}
+
+            {/*GSTU Proggrame */}
+
+            {/* <Route path="gstu" element={<EducationFairRegistration />} />
+            <Route path="/lookup" element={<RegistrationLookup />} />
+             <Route path="/gstu-admin" element={<GstuAdminPanel />} /> */}
 
             {/* Student Services */}
             <Route

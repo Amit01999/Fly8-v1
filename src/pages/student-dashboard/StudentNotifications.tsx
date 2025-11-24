@@ -23,7 +23,7 @@ import {
   useNotificationStats,
 } from '@/hooks/useStudentNotifications';
 import { formatDistanceToNow } from 'date-fns';
-import type { NotificationStatus, NotificationType } from '../../../shared-types';
+import type { NotificationStatus, NotificationType } from '@/types';
 
 const NotificationIcon = ({ type }: { type: NotificationType }) => {
   switch (type) {

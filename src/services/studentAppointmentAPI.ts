@@ -18,7 +18,7 @@ import type {
   GetAppointmentStatsResponse,
   GetAvailableSlotsRequest,
   GetAvailableSlotsResponse,
-} from '../../../shared-types';
+} from '@/types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 const BASE_PATH = '/api/v1/student/appointments';

@@ -9,8 +9,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import * as messageAPI from '../services/studentMessageAPI';
 import { socketService } from '../services/socket';
-import type { SendMessageRequest, PopulatedMessage } from '../../../shared-types';
-import { QUERY_KEYS } from '../../../shared-types';
+import type { SendMessageRequest, PopulatedMessage } from '@/types';
+import { QUERY_KEYS } from '@/types';
 
 /**
  * Hook to get all conversations

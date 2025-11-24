@@ -12,8 +12,8 @@ import { socketService } from '../services/socket';
 import type {
   GetNotificationsRequest,
   PopulatedNotification,
-} from '../../../shared-types';
-import { QUERY_KEYS } from '../../../shared-types';
+} from '@/types';
+import { QUERY_KEYS } from '@/types';
 
 /**
  * Hook to get all notifications

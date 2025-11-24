@@ -21,7 +21,7 @@ import {
   useAppointmentStats,
 } from '@/hooks/useStudentAppointments';
 import { formatDistanceToNow } from 'date-fns';
-import type { AppointmentType } from '../../../shared-types';
+import type { AppointmentType } from '@/types';
 
 export default function StudentBookAppointment() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
