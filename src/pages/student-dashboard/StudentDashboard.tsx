@@ -1,18 +1,62 @@
-import { Outlet, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import DashboardSidebar from '@/components/StrudentDashbord/DashboardSidebar';
 import DashboardHeader from '@/components/StrudentDashbord/DashboardHeader';
 import DashboardTabs from '@/components/StrudentDashbord/DashboardTabs';
 import RightSidebar from '@/components/StrudentDashbord/RightSidebar';
+import { socketService } from '@/services/socket';
+import { useNotificationRealtime } from '@/hooks/useStudentNotifications';
+import { useAppointmentRealtime } from '@/hooks/useStudentAppointments';
 
 export default function StudentDashboard() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isHomeDashboard =
     location.pathname === '/dashboard' || location.pathname === '/dashboard/';
 
   const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+
+  // Initialize Socket.io connection
+  useEffect(() => {
+    // Get student info from localStorage
+    const studentData = localStorage.getItem('user');
+
+    if (!studentData) {
+      console.warn('No user data found, redirecting to login');
+      navigate('/signin/student');
+      return;
+    }
+
+    try {
+      const user = JSON.parse(studentData);
+      const studentId = user._id || user.id;
+
+      if (!studentId) {
+        console.error('No student ID found');
+        navigate('/signin/student');
+        return;
+      }
+
+      // Connect to Socket.io server
+      console.log('🔌 Initializing Socket.io connection for student:', studentId);
+      socketService.connect(studentId, 'student');
+
+      // Cleanup on unmount
+      return () => {
+        console.log('🔌 Disconnecting Socket.io');
+        socketService.disconnect();
+      };
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      navigate('/signin/student');
+    }
+  }, [navigate]);
+
+  // Initialize real-time listeners for notifications and appointments
+  useNotificationRealtime();
+  useAppointmentRealtime();
 
   return (
     <SidebarProvider>

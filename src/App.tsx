@@ -91,6 +91,11 @@ import StudentProfileAssignment from './components/Temporary/StudentProfileAssig
 import MyProfile from './pages/student-dashboard/MyProfile';
 import AccountSettings from './pages/student-dashboard/AccountSettings';
 import ProfileAssessment from './pages/student-dashboard/services/ProfileAssessment';
+import StudentMessages from './pages/student-dashboard/StudentMessages';
+import StudentNotifications from './pages/student-dashboard/StudentNotifications';
+import StudentBookAppointmentNew from './pages/student-dashboard/StudentBookAppointment';
+import GermanCourseRegistration from './pages/GermanCourseRegistration';
+import GermanCourseAdmin from './pages/GermanCourseAdmin';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -123,6 +128,7 @@ const App = () => (
             <Route path="institution" element={<InstitutionPartners />} />
 
             {/* Blog routes */}
+
             {/* <Route path="/blogs" element={<Blogs />} />
             <Route path="/blogs/:id" element={<BlogDetail />} />
             <Route path="/admin/blogs" element={<BlogsAdmin />} /> */}
@@ -138,6 +144,8 @@ const App = () => (
               path="student-profile-assignment"
               element={<StudentProfileAssignment />}
             />
+
+            {/* Offers  */}
             <Route
               path="free-ielts-registration"
               element={
@@ -146,8 +154,24 @@ const App = () => (
                 </PrivateRoute>
               }
             />
+            <Route
+              path="german-course-registration"
+              element={
+                <PrivateRoute>
+                  <GermanCourseRegistration />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="admin/german-course"
+              element={
+                <PrivateRoute>
+                  <GermanCourseAdmin />
+                </PrivateRoute>
+              }
+            />
             <Route path="referral" element={<ReferralSearch />} />
-             {/*<Route path="gstu" element={<EducationFairRegistration />} />
+            {/*<Route path="gstu" element={<EducationFairRegistration />} />
             <Route path="/lookup" element={<RegistrationLookup />} /> */}
             {/* Public lookup page */}
             {/* <Route path="/gstu-admin" element={<GstuAdminPanel />} /> */}
@@ -212,7 +236,9 @@ const App = () => (
             <Route path="services/visa-interview" element={<VisaInterview />} />
             <Route path="services/job-placement" element={<JobPlacement />} />
             <Route path="services/global-events" element={<GlobalEvents />} />
+
             {/* Auth */}
+
             <Route path="signin/student" element={<SignInStudent />} />
             <Route path="signin/partner" element={<SignInAgency />} />
             <Route path="signin/institution" element={<SignInUniversity />} />
@@ -237,15 +263,16 @@ const App = () => (
             <Route path="my-profile" element={<MyProfile />} />
             <Route path="account-settings" element={<AccountSettings />} />
             <Route path="ai-assistance" element={<StudentAIAssistance />} />
+            <Route path="messages" element={<StudentMessages />} />
+            <Route path="notifications" element={<StudentNotifications />} />
             <Route
               path="book-appointment"
-              element={<StudentBookAppointment />}
+              element={<StudentBookAppointmentNew />}
             />
             <Route path="updates" element={<StudentUpdates />} />
 
             {/* fly8 student dashboard 8 services*/}
 
-            {/* <Route path="profile-assessment" element={<ProfileAssessment />} /> */}
             <Route path="profile-assessment" element={<ProfileAssessment />} />
             <Route
               path="preparation-support"

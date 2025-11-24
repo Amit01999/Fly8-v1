@@ -130,7 +130,7 @@ const AuthLayout = ({ children }) => {
               </div>
 
               {/* October Special Offer - Moved to Top */}
-              <motion.div
+              {/* <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
@@ -138,7 +138,6 @@ const AuthLayout = ({ children }) => {
               >
                 <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-400 to-amber-400 rounded-t-3xl"></div>
 
-                {/* Decorative elements */}
                 <div className=" pericarditisabsolute top-4 right-4 w-8 h-8 bg-orange-200/40 rounded-full blur-sm"></div>
                 <div className="absolute bottom-4 left-4 w-6 h-6 bg-amber-200/40 rounded-full blur-sm"></div>
 
@@ -184,7 +183,7 @@ const AuthLayout = ({ children }) => {
                     </motion.div>
                   ))}
                 </div>
-              </motion.div>
+              </motion.div> */}
 
               {/* Fly8 8 Services Grid */}
               <motion.div
@@ -370,57 +369,146 @@ const AuthLayout = ({ children }) => {
           ) : (
             // Enhanced Default left side for other pages
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-center relative z-10 max-w-xl mx-auto w-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+              className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-blue-50"
             >
+              {/* Subtle floating background orbs – light version */}
+              <div className="absolute inset-0 overflow-hidden">
+                <motion.div
+                  animate={{
+                    y: [0, -40, 0],
+                    x: [0, 30, 0],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 22,
+                    ease: 'linear',
+                  }}
+                  className="absolute top-10 -left-32 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20"
+                />
+                <motion.div
+                  animate={{
+                    y: [0, 40, 0],
+                    x: [0, -40, 0],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 28,
+                    ease: 'linear',
+                  }}
+                  className="absolute -bottom-40 right-0 w-80 h-80 bg-cyan-300 rounded-full mix-blend-multiply filter blur-3xl opacity-15"
+                />
+              </div>
+
               <motion.div
-                className="w-24 h-24 bg-white/20 backdrop-blur-lg rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl border border-white/30"
-                variants={floatingVariants}
-                animate="animate"
-                whileHover={{ scale: 1.1, rotate: 5 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.9, ease: 'easeOut' }}
+                className="relative z-10 text-center max-w-4xl mx-auto px-6"
               >
-                <GraduationCap className="w-12 h-12 text-gray-700" />
-              </motion.div>
+                {/* Icon – floating card with soft blue glow */}
+                <motion.div
+                  variants={{
+                    animate: {
+                      y: [0, -14, 0],
+                      rotate: [0, 4, -4, 0],
+                    },
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 14,
+                    ease: 'easeInOut',
+                  }}
+                  animate="animate"
+                  whileHover={{ scale: 1.15, rotate: 10 }}
+                  className="relative w-28 h-28 mx-auto mb-12 rounded-3xl bg-white shadow-xl border border-blue-100 flex items-center justify-center overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-400/10 blur-xl" />
+                  <GraduationCap className="relative w-14 h-14 text-[#0070F0]" />
+                </motion.div>
 
-              <h1 className="text-5xl sm:text-6xl font-black mb-6 leading-tight">
-                Welcome to
-                <br />
-                <span className="text-yellow-300 relative">
-                  Fly8
-                  <motion.div
-                    className="absolute -bottom-2 left-0 h-1.5 bg-yellow-300 rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: '100%' }}
-                    transition={{ delay: 1, duration: 0.8 }}
-                  />
-                </span>
-              </h1>
+                {/* Main title */}
+                <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight text-gray-900 mb-6">
+                  Welcome to
+                  <br />
+                  <span className="relative inline-block">
+                    <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-[#0070F0] via-blue-600 to-cyan-600">
+                      Fly8
+                    </span>
 
-              <p className="text-lg sm:text-xl text-gray-700 max-w-md mx-auto leading-relaxed mb-8 font-medium">
-                Your trusted partner for global education success 🚀
-              </p>
-
-              <motion.div
-                className="flex items-center justify-center space-x-3 bg-white/60 backdrop-blur-sm rounded-2xl px-6 py-4 border border-white/20"
-                whileHover={{ scale: 1.05 }}
-              >
-                <div className="flex items-center space-x-1">
-                  {[...Array(5)].map((_, i) => (
+                    {/* Animated double underline */}
                     <motion.div
-                      key={i}
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.8 + i * 0.1, duration: 0.3 }}
-                    >
-                      <Star className="w-5 h-5 fill-yellow-300 text-yellow-300" />
-                    </motion.div>
-                  ))}
-                </div>
-                <span className="text-gray-700 font-bold">
-                  Trusted by 5000+ students
-                </span>
+                      className="absolute -bottom-3 left-0 right-0 h-2 bg-gradient-to-r from-[#0070F0]/70 to-cyan-500/70 rounded-full"
+                      initial={{ scaleX: 0, originX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{
+                        delay: 0.7,
+                        duration: 1.2,
+                        ease: 'easeOut',
+                      }}
+                    />
+                    <motion.div
+                      className="absolute -bottom-3 left-0 right-0 h-px bg-[#0070F0]/50"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ delay: 0.9, duration: 1.4 }}
+                    />
+                  </span>
+                </h1>
+
+                {/* Subtitle */}
+                <p className="text-xl sm:text-2xl text-gray-600 font-light tracking-wide max-w-2xl mx-auto mb-12">
+                  Your trusted partner for{' '}
+                  <span className="font-semibold text-[#0070F0]">
+                    global education success
+                  </span>{' '}
+                  — turning aspirations into achievements
+                </p>
+
+                {/* Trust badge – clean glass card */}
+                <motion.div
+                  whileHover={{
+                    y: -6,
+                    shadow: '0 25px 50px -12px rgba(0, 112, 240, 0.2)',
+                  }}
+                  className="inline-flex items-center gap-5 px-9 py-6 bg-white/80 backdrop-blur-xl rounded-3xl border border-blue-100 shadow-lg mx-auto"
+                >
+                  <div className="flex -space-x-1">
+                    {[...Array(5)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, rotate: -180 }}
+                        animate={{ opacity: 1, rotate: 0 }}
+                        transition={{ delay: 1 + i * 0.1, duration: 0.5 }}
+                      >
+                        <Star className="w-8 h-8 fill-[#0070F0] text-[#0070F0] drop-shadow-sm" />
+                      </motion.div>
+                    ))}
+                  </div>
+                  <span className="text-gray-800 font-semibold text-lg">
+                    Trusted by{' '}
+                    <span className="font-bold text-[#0070F0]">1200+</span>{' '}
+                    students
+                  </span>
+                </motion.div>
+
+                {/* CTA Button */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2 }}
+                  className="mt-14"
+                >
+                  <motion.button
+                    whileHover={{ scale: 1.06 }}
+                    whileTap={{ scale: 0.96 }}
+                    className="px-12 py-5 bg-[#0070F0] hover:bg-blue-700 text-white font-bold text-lg rounded-full shadow-xl hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300"
+                  >
+                    Start Your Journey Today
+                  </motion.button>
+                </motion.div>
               </motion.div>
             </motion.div>
           )}

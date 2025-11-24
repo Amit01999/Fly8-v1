@@ -15,10 +15,14 @@ import ieltsdesktop from '@/assets/temporary/ielts/2.png';
 import ieltsmobile from '@/assets/temporary/ielts/3.png';
 import japan from '@/assets/offers/japan.jpg';
 import japan1 from '@/assets/offers/japan1.jpg';
+import german from '@/assets/offers/12.png';
+import german1 from '@/assets/offers/13.png';
 
 const OffersCarousel = () => {
   const registrationUrl = 'https://www.fly8.global/free-ielts-registration';
   const whatsappGroupUrl = 'https://chat.whatsapp.com/Kv3Hz7B7cBO3mJiDfopOD8';
+  const germanCourseUrl = 'https://www.fly8.global/german-course-registration';
+  // const germanCourseUrl = 'http://localhost:8080/german-course-registration';
 
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -27,6 +31,12 @@ const OffersCarousel = () => {
   const plugin = useRef(Autoplay({ delay: 4000, stopOnInteraction: true }));
 
   const offers = [
+    {
+      desktopImage: german,
+      mobileImage: german1,
+      url: germanCourseUrl,
+      altText: 'Germany Opportunity',
+    },
     {
       desktopImage: japan,
       mobileImage: japan1,
