@@ -20,7 +20,6 @@ interface FormData {
   otherAcademicLevel: string;
   previousFly8Course: string;
   fly8Relation: string;
-  otherFly8Relation: string;
 }
 
 interface FormErrors {
@@ -36,7 +35,6 @@ const GermanCourseRegistration: React.FC = () => {
     otherAcademicLevel: '',
     previousFly8Course: '',
     fly8Relation: '',
-    otherFly8Relation: '',
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -108,11 +106,6 @@ const GermanCourseRegistration: React.FC = () => {
     // Fly8 Relation validation
     if (!formData.fly8Relation) {
       newErrors.fly8Relation = 'Please select your relation with Fly8';
-    } else if (
-      formData.fly8Relation === 'Other' &&
-      !formData.otherFly8Relation.trim()
-    ) {
-      newErrors.otherFly8Relation = 'Please specify your relation';
     }
 
     setErrors(newErrors);
@@ -157,7 +150,6 @@ const GermanCourseRegistration: React.FC = () => {
           otherAcademicLevel: '',
           previousFly8Course: '',
           fly8Relation: '',
-          otherFly8Relation: '',
         });
 
         // Scroll to top to show success message
@@ -427,7 +419,7 @@ const GermanCourseRegistration: React.FC = () => {
                 <span className="text-red-500">*</span>
               </label>
               <div className="space-y-2">
-                {['Member', 'Intern', 'Other'].map(option => (
+                {['Member', 'Intern', 'None of the above'].map(option => (
                   <label
                     key={option}
                     className="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition"
@@ -448,29 +440,6 @@ const GermanCourseRegistration: React.FC = () => {
                 <p className="mt-1 text-sm text-red-600">
                   {errors.fly8Relation}
                 </p>
-              )}
-
-              {/* Other Fly8 Relation */}
-              {formData.fly8Relation === 'Other' && (
-                <div className="mt-3">
-                  <input
-                    type="text"
-                    name="otherFly8Relation"
-                    value={formData.otherFly8Relation}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition ${
-                      errors.otherFly8Relation
-                        ? 'border-red-500'
-                        : 'border-gray-300'
-                    }`}
-                    placeholder="Please specify your relation"
-                  />
-                  {errors.otherFly8Relation && (
-                    <p className="mt-1 text-sm text-red-600">
-                      {errors.otherFly8Relation}
-                    </p>
-                  )}
-                </div>
               )}
             </div>
 
