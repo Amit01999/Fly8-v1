@@ -78,23 +78,23 @@ The platform is built using the **MERN stack** with modern UI/UX practices and s
 
 ## 📁 Project Structure
 Fly8/
+Fly8/
 │
-├── client/ # Frontend (React / Next.js)
-│ ├── components/
-│ ├── pages/
-│ ├── hooks/
-│ └── utils/
+├── client/                 # Frontend (React / Next.js)
+│   ├── components/
+│   ├── pages/
+│   ├── hooks/
+│   └── utils/
 │
-├── server/ # Backend (Node.js / Express)
-│ ├── controllers/
-│ ├── models/
-│ ├── routes/
-│ └── middleware/
+├── server/                 # Backend (Node.js / Express)
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   └── middleware/
 │
-├── config/ # Environment & DB configs
-├── public/ # Static assets
+├── config/                 # Environment & DB configs
+├── public/                 # Static assets
 └── README.md
-
 
 ---
 
@@ -102,10 +102,10 @@ Fly8/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/fly8.git
-cd fly8
-2. Install Dependencies
-Client
+## 2. Install Dependencies
+
+### Client
+```bash
 cd client
 npm install
 Server
