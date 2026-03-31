@@ -1,73 +1,159 @@
-# Welcome to your Lovable project
+# 🚀 Fly8 – International Student Platform
 
-## Project info
+## 🌐 Overview
 
-**URL**: https://lovable.dev/projects/52089bb0-0849-4e88-8680-68ead98a8a89
+**Fly8** is a full-stack international student support platform designed to connect **students**, **agencies**, and **institutions** in a unified ecosystem. Inspired by platforms like ApplyBoard and MSM Unify, Fly8 simplifies the global education journey—from discovering programs to managing applications.
 
-## How can I edit this code?
+The platform is built using the **MERN stack** with modern UI/UX practices and scalable architecture, targeting real-world production readiness.
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## 🔗 Live Links
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/52089bb0-0849-4e88-8680-68ead98a8a89) and start prompting.
+- 🌍 Client Website: https://www.fly8.global/
+- 🧑‍💻 Dashboard (App): https://app.fly8.global/login
+- 📧 Contact: amit.fullstack.webdev@gmail.com
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## 🏗️ Tech Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
+### Frontend
+- React.js / Next.js
 - TypeScript
-- React
-- shadcn-ui
 - Tailwind CSS
+- Framer Motion
+- GSAP (Scroll Animations)
 
-## How can I deploy this project?
+### Backend
+- Node.js
+- Express.js
+- MongoDB (Mongoose ORM)
 
-Simply open [Lovable](https://lovable.dev/projects/52089bb0-0849-4e88-8680-68ead98a8a89) and click on Share -> Publish.
+### Authentication & Security
+- JWT-based authentication
+- Role-based access control (Student, Agency, University, Admin)
 
-## Can I connect a custom domain to my Lovable project?
+### DevOps & Deployment
+- Cloud hosting (Vercel / VPS)
+- CI/CD pipelines (planned)
 
-Yes it is!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 🎯 Core Features
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### 👨‍🎓 Student Module
+- Search & filter programs globally
+- Explore universities and countries
+- Apply to programs
+- Track application status (Visa Tracker)
+- Personalized dashboard
+
+### 🏢 Agency Module
+- Manage student applications
+- Partner with institutions
+- Track commissions and performance
+
+### 🎓 Institution Module
+- Add and manage programs
+- View incoming applications
+- Collaborate with agencies
+
+### 🛠️ Admin Dashboard
+- Manage users (Students, Agencies, Universities)
+- Program & university moderation
+- Analytics and reporting
+- System monitoring
+
+---
+
+## 🧩 Key Functional Components
+
+- Course Finder Engine (advanced filtering)
+- Dynamic Program Management (1400+ programs)
+- Unified Authentication System (multi-role user model)
+- Modern UI/UX (glassmorphism, animations, responsive design)
+
+---
+
+## 📁 Project Structure
+Fly8/
+│
+├── client/ # Frontend (React / Next.js)
+│ ├── components/
+│ ├── pages/
+│ ├── hooks/
+│ └── utils/
+│
+├── server/ # Backend (Node.js / Express)
+│ ├── controllers/
+│ ├── models/
+│ ├── routes/
+│ └── middleware/
+│
+├── config/ # Environment & DB configs
+├── public/ # Static assets
+└── README.md
+
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/fly8.git
+cd fly8
+2. Install Dependencies
+Client
+cd client
+npm install
+Server
+cd ../server
+npm install
+3. Environment Variables
+
+Create a .env file inside the server/ directory:
+
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_super_secret_key
+CLIENT_URL=http://localhost:3000
+4. Run the Application
+Start Backend
+npm run dev
+Start Frontend
+cd client
+npm run dev
+📊 Scalability & Architecture
+Modular MVC architecture
+MongoDB indexing for large-scale queries
+Role-based multi-user system (single model with sub-schemas)
+API-first backend design
+Ready for microservices evolution
+🔒 Security
+JWT authentication
+Protected API routes
+Role-based authorization
+Input validation & sanitization
+Secure environment configuration
+🚀 Future Roadmap
+🤖 AI-powered course recommendations
+📊 Advanced analytics dashboard
+🌍 Multi-language support
+🐳 Docker & Kubernetes deployment
+📱 Mobile application (React Native)
+👨‍💻 Author
+
+Amit Kumar
+Full Stack MERN Developer
+
+📧 amit.fullstack.webdev@gmail.com
+
+📄 License
+
+This project is licensed under the MIT License.
+
+⭐ Final Note
+
+Fly8 is a production-grade platform in progress, built with scalability, performance, and real-world usability in mind. It aims to streamline the international education ecosystem through modern engineering practices.
